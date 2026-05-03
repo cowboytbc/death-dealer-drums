@@ -1,0 +1,1696 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<DDDState>
+  <DDDParams>
+    <PARAM id="bleed_amount" value="3.0"/>
+    <PARAM id="bleed_solo"/>
+    <PARAM id="comp_makeup" value="2.0"/>
+    <PARAM id="comp_mute"/>
+    <PARAM id="comp_output"/>
+    <PARAM id="comp_output_mode"/>
+    <PARAM id="comp_solo"/>
+    <PARAM id="comp_threshold" value="-18.0"/>
+    <PARAM id="master_volume" value="0.85"/>
+    <PARAM id="room_gain" value="-12.0"/>
+    <PARAM id="room_mute"/>
+    <PARAM id="room_output"/>
+    <PARAM id="room_output_mode"/>
+    <PARAM id="room_solo"/>
+    <PARAM id="sat_drive" value="6.0"/>
+    <PARAM id="sat_gain" value="-2.0"/>
+    <PARAM id="sat_mute"/>
+    <PARAM id="sat_output"/>
+    <PARAM id="sat_output_mode"/>
+    <PARAM id="sat_solo"/>
+    <PARAM id="track_0_attack" value="0.0"/>
+    <PARAM id="track_0_bleed_enable" value="1.0"/>
+    <PARAM id="track_0_bleed_send" value="0.3"/>
+    <PARAM id="track_0_choke"/>
+    <PARAM id="track_0_comp_send" value="0.4"/>
+    <PARAM id="track_0_decay" value="0.5"/>
+    <PARAM id="track_0_eq_high" value="0.0"/>
+    <PARAM id="track_0_eq_low" value="0.0"/>
+    <PARAM id="track_0_eq_mid" value="0.0"/>
+    <PARAM id="track_0_eq8_b0_freq" value="30.0"/>
+    <PARAM id="track_0_eq8_b0_gain"/>
+    <PARAM id="track_0_eq8_b0_q" value="0.707"/>
+    <PARAM id="track_0_eq8_b1_freq" value="80.0"/>
+    <PARAM id="track_0_eq8_b1_gain" value="5.0"/>
+    <PARAM id="track_0_eq8_b1_q" value="0.707"/>
+    <PARAM id="track_0_eq8_b2_freq" value="600.0"/>
+    <PARAM id="track_0_eq8_b2_gain" value="-2.0"/>
+    <PARAM id="track_0_eq8_b2_q" value="2.0"/>
+    <PARAM id="track_0_eq8_b3_freq" value="350.0"/>
+    <PARAM id="track_0_eq8_b3_gain" value="-4.5"/>
+    <PARAM id="track_0_eq8_b3_q" value="2.5"/>
+    <PARAM id="track_0_eq8_b4_freq" value="1200.0"/>
+    <PARAM id="track_0_eq8_b4_gain" value="-2.5"/>
+    <PARAM id="track_0_eq8_b4_q" value="2.5"/>
+    <PARAM id="track_0_eq8_b5_freq" value="4000.0"/>
+    <PARAM id="track_0_eq8_b5_gain" value="3.5"/>
+    <PARAM id="track_0_eq8_b5_q" value="2.0"/>
+    <PARAM id="track_0_eq8_b6_freq" value="10000.0"/>
+    <PARAM id="track_0_eq8_b6_gain" value="-2.5"/>
+    <PARAM id="track_0_eq8_b6_q" value="0.707"/>
+    <PARAM id="track_0_eq8_b7_freq" value="18000.0"/>
+    <PARAM id="track_0_eq8_b7_gain"/>
+    <PARAM id="track_0_eq8_b7_q" value="0.707"/>
+    <PARAM id="track_0_eq8_on" value="1.0"/>
+    <PARAM id="track_0_midi_note" value="36.0"/>
+    <PARAM id="track_0_mute"/>
+    <PARAM id="track_0_output" value="0.0"/>
+    <PARAM id="track_0_output_mode" value="1.0"/>
+    <PARAM id="track_0_pan" value="0.0"/>
+    <PARAM id="track_0_phase"/>
+    <PARAM id="track_0_reverb_send" value="0.04"/>
+    <PARAM id="track_0_sat_send" value="0.3"/>
+    <PARAM id="track_0_solo"/>
+    <PARAM id="track_0_trk_comp_atk" value="2.5"/>
+    <PARAM id="track_0_trk_comp_mkp" value="3.0"/>
+    <PARAM id="track_0_trk_comp_on" value="1.0"/>
+    <PARAM id="track_0_trk_comp_rat" value="8.0"/>
+    <PARAM id="track_0_trk_comp_rel" value="50.0"/>
+    <PARAM id="track_0_trk_comp_thr" value="-16.0"/>
+    <PARAM id="track_0_tune" value="1.5"/>
+    <PARAM id="track_0_volume" value="0.95"/>
+    <PARAM id="track_1_attack" value="0.0"/>
+    <PARAM id="track_1_bleed_enable" value="1.0"/>
+    <PARAM id="track_1_bleed_send" value="0.2"/>
+    <PARAM id="track_1_choke"/>
+    <PARAM id="track_1_comp_send" value="0.35"/>
+    <PARAM id="track_1_decay" value="0.4"/>
+    <PARAM id="track_1_eq_high" value="0.0"/>
+    <PARAM id="track_1_eq_low" value="0.0"/>
+    <PARAM id="track_1_eq_mid" value="0.0"/>
+    <PARAM id="track_1_eq8_b0_freq" value="30.0"/>
+    <PARAM id="track_1_eq8_b0_gain"/>
+    <PARAM id="track_1_eq8_b0_q" value="0.707"/>
+    <PARAM id="track_1_eq8_b1_freq" value="80.0"/>
+    <PARAM id="track_1_eq8_b1_gain" value="1.5"/>
+    <PARAM id="track_1_eq8_b1_q" value="0.707"/>
+    <PARAM id="track_1_eq8_b2_freq" value="600.0"/>
+    <PARAM id="track_1_eq8_b2_gain" value="-2.0"/>
+    <PARAM id="track_1_eq8_b2_q" value="2.0"/>
+    <PARAM id="track_1_eq8_b3_freq" value="350.0"/>
+    <PARAM id="track_1_eq8_b3_gain" value="-3.0"/>
+    <PARAM id="track_1_eq8_b3_q" value="2.5"/>
+    <PARAM id="track_1_eq8_b4_freq" value="1500.0"/>
+    <PARAM id="track_1_eq8_b4_gain" value="-2.0"/>
+    <PARAM id="track_1_eq8_b4_q" value="2.0"/>
+    <PARAM id="track_1_eq8_b5_freq" value="5000.0"/>
+    <PARAM id="track_1_eq8_b5_gain" value="4.0"/>
+    <PARAM id="track_1_eq8_b5_q" value="2.0"/>
+    <PARAM id="track_1_eq8_b6_freq" value="10000.0"/>
+    <PARAM id="track_1_eq8_b6_gain" value="-1.5"/>
+    <PARAM id="track_1_eq8_b6_q" value="0.707"/>
+    <PARAM id="track_1_eq8_b7_freq" value="18000.0"/>
+    <PARAM id="track_1_eq8_b7_gain"/>
+    <PARAM id="track_1_eq8_b7_q" value="0.707"/>
+    <PARAM id="track_1_eq8_on" value="1.0"/>
+    <PARAM id="track_1_midi_note" value="36.0"/>
+    <PARAM id="track_1_mute"/>
+    <PARAM id="track_1_output" value="0.0"/>
+    <PARAM id="track_1_output_mode" value="1.0"/>
+    <PARAM id="track_1_pan" value="0.0"/>
+    <PARAM id="track_1_phase"/>
+    <PARAM id="track_1_reverb_send" value="0.03"/>
+    <PARAM id="track_1_sat_send" value="0.2"/>
+    <PARAM id="track_1_solo"/>
+    <PARAM id="track_1_trk_comp_atk" value="2.0"/>
+    <PARAM id="track_1_trk_comp_mkp" value="2.0"/>
+    <PARAM id="track_1_trk_comp_on" value="1.0"/>
+    <PARAM id="track_1_trk_comp_rat" value="6.0"/>
+    <PARAM id="track_1_trk_comp_rel" value="40.0"/>
+    <PARAM id="track_1_trk_comp_thr" value="-20.0"/>
+    <PARAM id="track_1_tune" value="0.0"/>
+    <PARAM id="track_1_volume" value="0.8"/>
+    <PARAM id="track_10_attack" value="0.0"/>
+    <PARAM id="track_10_bleed_enable"/>
+    <PARAM id="track_10_bleed_send" value="1.0"/>
+    <PARAM id="track_10_choke"/>
+    <PARAM id="track_10_comp_send" value="0.1"/>
+    <PARAM id="track_10_decay" value="0.6"/>
+    <PARAM id="track_10_eq_high" value="0.0"/>
+    <PARAM id="track_10_eq_low" value="0.0"/>
+    <PARAM id="track_10_eq_mid" value="0.0"/>
+    <PARAM id="track_10_eq8_b0_freq" value="200.0"/>
+    <PARAM id="track_10_eq8_b0_gain" value="-7.0"/>
+    <PARAM id="track_10_eq8_b0_q" value="0.5"/>
+    <PARAM id="track_10_eq8_b1_freq" value="500.0"/>
+    <PARAM id="track_10_eq8_b1_gain" value="-3.0"/>
+    <PARAM id="track_10_eq8_b1_q" value="1.0"/>
+    <PARAM id="track_10_eq8_b2_freq" value="200.0"/>
+    <PARAM id="track_10_eq8_b2_gain"/>
+    <PARAM id="track_10_eq8_b2_q" value="1.0"/>
+    <PARAM id="track_10_eq8_b3_freq" value="800.0"/>
+    <PARAM id="track_10_eq8_b3_gain"/>
+    <PARAM id="track_10_eq8_b3_q" value="1.0"/>
+    <PARAM id="track_10_eq8_b4_freq" value="7000.0"/>
+    <PARAM id="track_10_eq8_b4_gain" value="2.0"/>
+    <PARAM id="track_10_eq8_b4_q" value="1.0"/>
+    <PARAM id="track_10_eq8_b5_freq" value="10000.0"/>
+    <PARAM id="track_10_eq8_b5_gain" value="2.5"/>
+    <PARAM id="track_10_eq8_b5_q" value="0.9"/>
+    <PARAM id="track_10_eq8_b6_freq" value="14000.0"/>
+    <PARAM id="track_10_eq8_b6_gain" value="2.0"/>
+    <PARAM id="track_10_eq8_b6_q" value="0.707"/>
+    <PARAM id="track_10_eq8_b7_freq" value="22000.0"/>
+    <PARAM id="track_10_eq8_b7_gain"/>
+    <PARAM id="track_10_eq8_b7_q" value="0.707"/>
+    <PARAM id="track_10_eq8_on" value="1.0"/>
+    <PARAM id="track_10_midi_note" value="26.0"/>
+    <PARAM id="track_10_mute"/>
+    <PARAM id="track_10_output" value="0.0"/>
+    <PARAM id="track_10_output_mode" value="0.0"/>
+    <PARAM id="track_10_pan" value="-0.5"/>
+    <PARAM id="track_10_phase"/>
+    <PARAM id="track_10_reverb_send" value="0.05"/>
+    <PARAM id="track_10_sat_send" value="0.15"/>
+    <PARAM id="track_10_solo"/>
+    <PARAM id="track_10_trk_comp_atk" value="5.0"/>
+    <PARAM id="track_10_trk_comp_mkp" value="0.0"/>
+    <PARAM id="track_10_trk_comp_on"/>
+    <PARAM id="track_10_trk_comp_rat" value="4.0"/>
+    <PARAM id="track_10_trk_comp_rel" value="80.0"/>
+    <PARAM id="track_10_trk_comp_thr" value="-20.0"/>
+    <PARAM id="track_10_tune" value="0.0"/>
+    <PARAM id="track_10_volume" value="0.55"/>
+    <PARAM id="track_11_attack" value="0.0"/>
+    <PARAM id="track_11_bleed_enable"/>
+    <PARAM id="track_11_bleed_send" value="1.0"/>
+    <PARAM id="track_11_choke"/>
+    <PARAM id="track_11_comp_send" value="0.1"/>
+    <PARAM id="track_11_decay" value="1.0"/>
+    <PARAM id="track_11_eq_high" value="0.0"/>
+    <PARAM id="track_11_eq_low" value="0.0"/>
+    <PARAM id="track_11_eq_mid" value="0.0"/>
+    <PARAM id="track_11_eq8_b0_freq" value="200.0"/>
+    <PARAM id="track_11_eq8_b0_gain" value="-6.0"/>
+    <PARAM id="track_11_eq8_b0_q" value="0.5"/>
+    <PARAM id="track_11_eq8_b1_freq" value="400.0"/>
+    <PARAM id="track_11_eq8_b1_gain" value="-3.0"/>
+    <PARAM id="track_11_eq8_b1_q" value="1.0"/>
+    <PARAM id="track_11_eq8_b2_freq" value="200.0"/>
+    <PARAM id="track_11_eq8_b2_gain"/>
+    <PARAM id="track_11_eq8_b2_q" value="1.0"/>
+    <PARAM id="track_11_eq8_b3_freq" value="800.0"/>
+    <PARAM id="track_11_eq8_b3_gain"/>
+    <PARAM id="track_11_eq8_b3_q" value="1.0"/>
+    <PARAM id="track_11_eq8_b4_freq" value="6000.0"/>
+    <PARAM id="track_11_eq8_b4_gain" value="2.0"/>
+    <PARAM id="track_11_eq8_b4_q" value="1.0"/>
+    <PARAM id="track_11_eq8_b5_freq" value="10000.0"/>
+    <PARAM id="track_11_eq8_b5_gain" value="2.0"/>
+    <PARAM id="track_11_eq8_b5_q" value="0.9"/>
+    <PARAM id="track_11_eq8_b6_freq" value="16000.0"/>
+    <PARAM id="track_11_eq8_b6_gain" value="1.5"/>
+    <PARAM id="track_11_eq8_b6_q" value="0.707"/>
+    <PARAM id="track_11_eq8_b7_freq" value="22000.0"/>
+    <PARAM id="track_11_eq8_b7_gain"/>
+    <PARAM id="track_11_eq8_b7_q" value="0.707"/>
+    <PARAM id="track_11_eq8_on" value="1.0"/>
+    <PARAM id="track_11_midi_note" value="46.0"/>
+    <PARAM id="track_11_mute"/>
+    <PARAM id="track_11_output" value="0.0"/>
+    <PARAM id="track_11_output_mode" value="0.0"/>
+    <PARAM id="track_11_pan" value="-0.5"/>
+    <PARAM id="track_11_phase"/>
+    <PARAM id="track_11_reverb_send" value="0.07"/>
+    <PARAM id="track_11_sat_send" value="0.15"/>
+    <PARAM id="track_11_solo"/>
+    <PARAM id="track_11_trk_comp_atk" value="5.0"/>
+    <PARAM id="track_11_trk_comp_mkp" value="0.0"/>
+    <PARAM id="track_11_trk_comp_on"/>
+    <PARAM id="track_11_trk_comp_rat" value="4.0"/>
+    <PARAM id="track_11_trk_comp_rel" value="80.0"/>
+    <PARAM id="track_11_trk_comp_thr" value="-20.0"/>
+    <PARAM id="track_11_tune" value="-0.8"/>
+    <PARAM id="track_11_volume" value="0.65"/>
+    <PARAM id="track_12_attack" value="0.0"/>
+    <PARAM id="track_12_bleed_enable"/>
+    <PARAM id="track_12_bleed_send" value="1.0"/>
+    <PARAM id="track_12_choke"/>
+    <PARAM id="track_12_comp_send" value="0.1"/>
+    <PARAM id="track_12_decay" value="1.0"/>
+    <PARAM id="track_12_eq_high" value="0.0"/>
+    <PARAM id="track_12_eq_low" value="0.0"/>
+    <PARAM id="track_12_eq_mid" value="0.0"/>
+    <PARAM id="track_12_eq8_b0_freq" value="200.0"/>
+    <PARAM id="track_12_eq8_b0_gain" value="-7.0"/>
+    <PARAM id="track_12_eq8_b0_q" value="0.5"/>
+    <PARAM id="track_12_eq8_b1_freq" value="400.0"/>
+    <PARAM id="track_12_eq8_b1_gain" value="-3.0"/>
+    <PARAM id="track_12_eq8_b1_q" value="1.0"/>
+    <PARAM id="track_12_eq8_b2_freq" value="200.0"/>
+    <PARAM id="track_12_eq8_b2_gain"/>
+    <PARAM id="track_12_eq8_b2_q" value="1.0"/>
+    <PARAM id="track_12_eq8_b3_freq" value="800.0"/>
+    <PARAM id="track_12_eq8_b3_gain"/>
+    <PARAM id="track_12_eq8_b3_q" value="1.0"/>
+    <PARAM id="track_12_eq8_b4_freq" value="6000.0"/>
+    <PARAM id="track_12_eq8_b4_gain" value="2.5"/>
+    <PARAM id="track_12_eq8_b4_q" value="1.0"/>
+    <PARAM id="track_12_eq8_b5_freq" value="10000.0"/>
+    <PARAM id="track_12_eq8_b5_gain" value="3.0"/>
+    <PARAM id="track_12_eq8_b5_q" value="0.9"/>
+    <PARAM id="track_12_eq8_b6_freq" value="18000.0"/>
+    <PARAM id="track_12_eq8_b6_gain" value="2.0"/>
+    <PARAM id="track_12_eq8_b6_q" value="0.707"/>
+    <PARAM id="track_12_eq8_b7_freq" value="22000.0"/>
+    <PARAM id="track_12_eq8_b7_gain"/>
+    <PARAM id="track_12_eq8_b7_q" value="0.707"/>
+    <PARAM id="track_12_eq8_on" value="1.0"/>
+    <PARAM id="track_12_midi_note" value="49.0"/>
+    <PARAM id="track_12_mute"/>
+    <PARAM id="track_12_output" value="0.0"/>
+    <PARAM id="track_12_output_mode" value="0.0"/>
+    <PARAM id="track_12_pan" value="0.75"/>
+    <PARAM id="track_12_phase"/>
+    <PARAM id="track_12_reverb_send" value="0.2"/>
+    <PARAM id="track_12_sat_send" value="0.1"/>
+    <PARAM id="track_12_solo"/>
+    <PARAM id="track_12_trk_comp_atk" value="5.0"/>
+    <PARAM id="track_12_trk_comp_mkp" value="0.0"/>
+    <PARAM id="track_12_trk_comp_on"/>
+    <PARAM id="track_12_trk_comp_rat" value="4.0"/>
+    <PARAM id="track_12_trk_comp_rel" value="80.0"/>
+    <PARAM id="track_12_trk_comp_thr" value="-20.0"/>
+    <PARAM id="track_12_tune" value="0.0"/>
+    <PARAM id="track_12_volume" value="0.6"/>
+    <PARAM id="track_13_attack" value="0.0"/>
+    <PARAM id="track_13_bleed_enable"/>
+    <PARAM id="track_13_bleed_send" value="1.0"/>
+    <PARAM id="track_13_choke"/>
+    <PARAM id="track_13_comp_send" value="0.1"/>
+    <PARAM id="track_13_decay" value="1.0"/>
+    <PARAM id="track_13_eq_high" value="0.0"/>
+    <PARAM id="track_13_eq_low" value="0.0"/>
+    <PARAM id="track_13_eq_mid" value="0.0"/>
+    <PARAM id="track_13_eq8_b0_freq" value="200.0"/>
+    <PARAM id="track_13_eq8_b0_gain" value="-7.0"/>
+    <PARAM id="track_13_eq8_b0_q" value="0.5"/>
+    <PARAM id="track_13_eq8_b1_freq" value="400.0"/>
+    <PARAM id="track_13_eq8_b1_gain" value="-3.0"/>
+    <PARAM id="track_13_eq8_b1_q" value="1.0"/>
+    <PARAM id="track_13_eq8_b2_freq" value="200.0"/>
+    <PARAM id="track_13_eq8_b2_gain"/>
+    <PARAM id="track_13_eq8_b2_q" value="1.0"/>
+    <PARAM id="track_13_eq8_b3_freq" value="800.0"/>
+    <PARAM id="track_13_eq8_b3_gain"/>
+    <PARAM id="track_13_eq8_b3_q" value="1.0"/>
+    <PARAM id="track_13_eq8_b4_freq" value="6000.0"/>
+    <PARAM id="track_13_eq8_b4_gain" value="2.5"/>
+    <PARAM id="track_13_eq8_b4_q" value="1.0"/>
+    <PARAM id="track_13_eq8_b5_freq" value="10000.0"/>
+    <PARAM id="track_13_eq8_b5_gain" value="3.0"/>
+    <PARAM id="track_13_eq8_b5_q" value="0.9"/>
+    <PARAM id="track_13_eq8_b6_freq" value="18000.0"/>
+    <PARAM id="track_13_eq8_b6_gain" value="2.0"/>
+    <PARAM id="track_13_eq8_b6_q" value="0.707"/>
+    <PARAM id="track_13_eq8_b7_freq" value="22000.0"/>
+    <PARAM id="track_13_eq8_b7_gain"/>
+    <PARAM id="track_13_eq8_b7_q" value="0.707"/>
+    <PARAM id="track_13_eq8_on" value="1.0"/>
+    <PARAM id="track_13_midi_note" value="57.0"/>
+    <PARAM id="track_13_mute"/>
+    <PARAM id="track_13_output" value="0.0"/>
+    <PARAM id="track_13_output_mode" value="0.0"/>
+    <PARAM id="track_13_pan" value="-0.65"/>
+    <PARAM id="track_13_phase"/>
+    <PARAM id="track_13_reverb_send" value="0.2"/>
+    <PARAM id="track_13_sat_send" value="0.1"/>
+    <PARAM id="track_13_solo"/>
+    <PARAM id="track_13_trk_comp_atk" value="5.0"/>
+    <PARAM id="track_13_trk_comp_mkp" value="0.0"/>
+    <PARAM id="track_13_trk_comp_on"/>
+    <PARAM id="track_13_trk_comp_rat" value="4.0"/>
+    <PARAM id="track_13_trk_comp_rel" value="80.0"/>
+    <PARAM id="track_13_trk_comp_thr" value="-20.0"/>
+    <PARAM id="track_13_tune" value="0.0"/>
+    <PARAM id="track_13_volume" value="0.6"/>
+    <PARAM id="track_14_attack" value="0.0"/>
+    <PARAM id="track_14_bleed_enable"/>
+    <PARAM id="track_14_bleed_send" value="1.0"/>
+    <PARAM id="track_14_choke"/>
+    <PARAM id="track_14_comp_send" value="0.1"/>
+    <PARAM id="track_14_decay" value="1.0"/>
+    <PARAM id="track_14_eq_high" value="0.0"/>
+    <PARAM id="track_14_eq_low" value="0.0"/>
+    <PARAM id="track_14_eq_mid" value="0.0"/>
+    <PARAM id="track_14_eq8_b0_freq" value="200.0"/>
+    <PARAM id="track_14_eq8_b0_gain" value="-5.0"/>
+    <PARAM id="track_14_eq8_b0_q" value="0.5"/>
+    <PARAM id="track_14_eq8_b1_freq" value="400.0"/>
+    <PARAM id="track_14_eq8_b1_gain" value="-2.5"/>
+    <PARAM id="track_14_eq8_b1_q" value="1.0"/>
+    <PARAM id="track_14_eq8_b2_freq" value="200.0"/>
+    <PARAM id="track_14_eq8_b2_gain"/>
+    <PARAM id="track_14_eq8_b2_q" value="1.0"/>
+    <PARAM id="track_14_eq8_b3_freq" value="800.0"/>
+    <PARAM id="track_14_eq8_b3_gain"/>
+    <PARAM id="track_14_eq8_b3_q" value="1.0"/>
+    <PARAM id="track_14_eq8_b4_freq" value="5000.0"/>
+    <PARAM id="track_14_eq8_b4_gain" value="1.5"/>
+    <PARAM id="track_14_eq8_b4_q" value="1.5"/>
+    <PARAM id="track_14_eq8_b5_freq" value="5000.0"/>
+    <PARAM id="track_14_eq8_b5_gain" value="2.0"/>
+    <PARAM id="track_14_eq8_b5_q" value="2.0"/>
+    <PARAM id="track_14_eq8_b6_freq" value="10000.0"/>
+    <PARAM id="track_14_eq8_b6_gain" value="2.0"/>
+    <PARAM id="track_14_eq8_b6_q" value="0.707"/>
+    <PARAM id="track_14_eq8_b7_freq" value="22000.0"/>
+    <PARAM id="track_14_eq8_b7_gain"/>
+    <PARAM id="track_14_eq8_b7_q" value="0.707"/>
+    <PARAM id="track_14_eq8_on" value="1.0"/>
+    <PARAM id="track_14_midi_note" value="51.0"/>
+    <PARAM id="track_14_mute"/>
+    <PARAM id="track_14_output" value="0.0"/>
+    <PARAM id="track_14_output_mode" value="0.0"/>
+    <PARAM id="track_14_pan" value="0.6"/>
+    <PARAM id="track_14_phase"/>
+    <PARAM id="track_14_reverb_send" value="0.1"/>
+    <PARAM id="track_14_sat_send" value="0.05"/>
+    <PARAM id="track_14_solo"/>
+    <PARAM id="track_14_trk_comp_atk" value="5.0"/>
+    <PARAM id="track_14_trk_comp_mkp" value="0.0"/>
+    <PARAM id="track_14_trk_comp_on"/>
+    <PARAM id="track_14_trk_comp_rat" value="4.0"/>
+    <PARAM id="track_14_trk_comp_rel" value="80.0"/>
+    <PARAM id="track_14_trk_comp_thr" value="-20.0"/>
+    <PARAM id="track_14_tune" value="0.0"/>
+    <PARAM id="track_14_volume" value="0.55"/>
+    <PARAM id="track_15_attack" value="0.0"/>
+    <PARAM id="track_15_bleed_enable"/>
+    <PARAM id="track_15_bleed_send" value="1.0"/>
+    <PARAM id="track_15_choke"/>
+    <PARAM id="track_15_comp_send" value="0.08"/>
+    <PARAM id="track_15_decay" value="1.0"/>
+    <PARAM id="track_15_eq_high" value="0.0"/>
+    <PARAM id="track_15_eq_low" value="0.0"/>
+    <PARAM id="track_15_eq_mid" value="0.0"/>
+    <PARAM id="track_15_eq8_b0_freq" value="200.0"/>
+    <PARAM id="track_15_eq8_b0_gain" value="-8.0"/>
+    <PARAM id="track_15_eq8_b0_q" value="0.5"/>
+    <PARAM id="track_15_eq8_b1_freq" value="500.0"/>
+    <PARAM id="track_15_eq8_b1_gain" value="-4.0"/>
+    <PARAM id="track_15_eq8_b1_q" value="1.0"/>
+    <PARAM id="track_15_eq8_b2_freq" value="200.0"/>
+    <PARAM id="track_15_eq8_b2_gain"/>
+    <PARAM id="track_15_eq8_b2_q" value="1.0"/>
+    <PARAM id="track_15_eq8_b3_freq" value="800.0"/>
+    <PARAM id="track_15_eq8_b3_gain"/>
+    <PARAM id="track_15_eq8_b3_q" value="1.0"/>
+    <PARAM id="track_15_eq8_b4_freq" value="6000.0"/>
+    <PARAM id="track_15_eq8_b4_gain" value="3.0"/>
+    <PARAM id="track_15_eq8_b4_q" value="1.0"/>
+    <PARAM id="track_15_eq8_b5_freq" value="10000.0"/>
+    <PARAM id="track_15_eq8_b5_gain" value="3.5"/>
+    <PARAM id="track_15_eq8_b5_q" value="0.9"/>
+    <PARAM id="track_15_eq8_b6_freq" value="16000.0"/>
+    <PARAM id="track_15_eq8_b6_gain" value="2.0"/>
+    <PARAM id="track_15_eq8_b6_q" value="0.707"/>
+    <PARAM id="track_15_eq8_b7_freq" value="22000.0"/>
+    <PARAM id="track_15_eq8_b7_gain"/>
+    <PARAM id="track_15_eq8_b7_q" value="0.707"/>
+    <PARAM id="track_15_eq8_on" value="1.0"/>
+    <PARAM id="track_15_midi_note" value="52.0"/>
+    <PARAM id="track_15_mute"/>
+    <PARAM id="track_15_output" value="0.0"/>
+    <PARAM id="track_15_output_mode" value="0.0"/>
+    <PARAM id="track_15_pan" value="-0.8"/>
+    <PARAM id="track_15_phase"/>
+    <PARAM id="track_15_reverb_send" value="0.15"/>
+    <PARAM id="track_15_sat_send" value="0.1"/>
+    <PARAM id="track_15_solo"/>
+    <PARAM id="track_15_trk_comp_atk" value="5.0"/>
+    <PARAM id="track_15_trk_comp_mkp" value="0.0"/>
+    <PARAM id="track_15_trk_comp_on"/>
+    <PARAM id="track_15_trk_comp_rat" value="4.0"/>
+    <PARAM id="track_15_trk_comp_rel" value="80.0"/>
+    <PARAM id="track_15_trk_comp_thr" value="-20.0"/>
+    <PARAM id="track_15_tune" value="0.0"/>
+    <PARAM id="track_15_volume" value="0.6"/>
+    <PARAM id="track_16_attack" value="0.0"/>
+    <PARAM id="track_16_bleed_enable"/>
+    <PARAM id="track_16_bleed_send" value="1.0"/>
+    <PARAM id="track_16_choke"/>
+    <PARAM id="track_16_comp_send" value="0.08"/>
+    <PARAM id="track_16_decay" value="0.85"/>
+    <PARAM id="track_16_eq_high" value="0.0"/>
+    <PARAM id="track_16_eq_low" value="0.0"/>
+    <PARAM id="track_16_eq_mid" value="0.0"/>
+    <PARAM id="track_16_eq8_b0_freq" value="200.0"/>
+    <PARAM id="track_16_eq8_b0_gain" value="-7.0"/>
+    <PARAM id="track_16_eq8_b0_q" value="0.5"/>
+    <PARAM id="track_16_eq8_b1_freq" value="400.0"/>
+    <PARAM id="track_16_eq8_b1_gain" value="-2.5"/>
+    <PARAM id="track_16_eq8_b1_q" value="1.0"/>
+    <PARAM id="track_16_eq8_b2_freq" value="200.0"/>
+    <PARAM id="track_16_eq8_b2_gain"/>
+    <PARAM id="track_16_eq8_b2_q" value="1.0"/>
+    <PARAM id="track_16_eq8_b3_freq" value="800.0"/>
+    <PARAM id="track_16_eq8_b3_gain"/>
+    <PARAM id="track_16_eq8_b3_q" value="1.0"/>
+    <PARAM id="track_16_eq8_b4_freq" value="7000.0"/>
+    <PARAM id="track_16_eq8_b4_gain" value="2.5"/>
+    <PARAM id="track_16_eq8_b4_q" value="1.0"/>
+    <PARAM id="track_16_eq8_b5_freq" value="11000.0"/>
+    <PARAM id="track_16_eq8_b5_gain" value="3.0"/>
+    <PARAM id="track_16_eq8_b5_q" value="0.9"/>
+    <PARAM id="track_16_eq8_b6_freq" value="18000.0"/>
+    <PARAM id="track_16_eq8_b6_gain" value="1.5"/>
+    <PARAM id="track_16_eq8_b6_q" value="0.707"/>
+    <PARAM id="track_16_eq8_b7_freq" value="22000.0"/>
+    <PARAM id="track_16_eq8_b7_gain"/>
+    <PARAM id="track_16_eq8_b7_q" value="0.707"/>
+    <PARAM id="track_16_eq8_on" value="1.0"/>
+    <PARAM id="track_16_midi_note" value="55.0"/>
+    <PARAM id="track_16_mute"/>
+    <PARAM id="track_16_output" value="0.0"/>
+    <PARAM id="track_16_output_mode" value="0.0"/>
+    <PARAM id="track_16_pan" value="0.2"/>
+    <PARAM id="track_16_phase"/>
+    <PARAM id="track_16_reverb_send" value="0.15"/>
+    <PARAM id="track_16_sat_send" value="0.1"/>
+    <PARAM id="track_16_solo"/>
+    <PARAM id="track_16_trk_comp_atk" value="5.0"/>
+    <PARAM id="track_16_trk_comp_mkp" value="0.0"/>
+    <PARAM id="track_16_trk_comp_on"/>
+    <PARAM id="track_16_trk_comp_rat" value="4.0"/>
+    <PARAM id="track_16_trk_comp_rel" value="80.0"/>
+    <PARAM id="track_16_trk_comp_thr" value="-20.0"/>
+    <PARAM id="track_16_tune" value="0.0"/>
+    <PARAM id="track_16_volume" value="0.5"/>
+    <PARAM id="track_17_attack" value="0.0"/>
+    <PARAM id="track_17_bleed_enable"/>
+    <PARAM id="track_17_bleed_send" value="1.0"/>
+    <PARAM id="track_17_choke"/>
+    <PARAM id="track_17_comp_send" value="0.1"/>
+    <PARAM id="track_17_decay" value="1.0"/>
+    <PARAM id="track_17_eq_high" value="0.0"/>
+    <PARAM id="track_17_eq_low" value="0.0"/>
+    <PARAM id="track_17_eq_mid" value="0.0"/>
+    <PARAM id="track_17_eq8_b0_freq" value="200.0"/>
+    <PARAM id="track_17_eq8_b0_gain" value="-5.0"/>
+    <PARAM id="track_17_eq8_b0_q" value="0.5"/>
+    <PARAM id="track_17_eq8_b1_freq" value="80.0"/>
+    <PARAM id="track_17_eq8_b1_gain"/>
+    <PARAM id="track_17_eq8_b1_q" value="0.707"/>
+    <PARAM id="track_17_eq8_b2_freq" value="200.0"/>
+    <PARAM id="track_17_eq8_b2_gain"/>
+    <PARAM id="track_17_eq8_b2_q" value="1.0"/>
+    <PARAM id="track_17_eq8_b3_freq" value="800.0"/>
+    <PARAM id="track_17_eq8_b3_gain"/>
+    <PARAM id="track_17_eq8_b3_q" value="1.0"/>
+    <PARAM id="track_17_eq8_b4_freq" value="3500.0"/>
+    <PARAM id="track_17_eq8_b4_gain" value="1.0"/>
+    <PARAM id="track_17_eq8_b4_q" value="1.5"/>
+    <PARAM id="track_17_eq8_b5_freq" value="4000.0"/>
+    <PARAM id="track_17_eq8_b5_gain" value="3.0"/>
+    <PARAM id="track_17_eq8_b5_q" value="2.0"/>
+    <PARAM id="track_17_eq8_b6_freq" value="8000.0"/>
+    <PARAM id="track_17_eq8_b6_gain" value="2.0"/>
+    <PARAM id="track_17_eq8_b6_q" value="0.707"/>
+    <PARAM id="track_17_eq8_b7_freq" value="22000.0"/>
+    <PARAM id="track_17_eq8_b7_gain"/>
+    <PARAM id="track_17_eq8_b7_q" value="0.707"/>
+    <PARAM id="track_17_eq8_on" value="1.0"/>
+    <PARAM id="track_17_midi_note" value="53.0"/>
+    <PARAM id="track_17_mute"/>
+    <PARAM id="track_17_output" value="0.0"/>
+    <PARAM id="track_17_output_mode" value="0.0"/>
+    <PARAM id="track_17_pan" value="0.55"/>
+    <PARAM id="track_17_phase"/>
+    <PARAM id="track_17_reverb_send" value="0.07"/>
+    <PARAM id="track_17_sat_send" value="0.08"/>
+    <PARAM id="track_17_solo"/>
+    <PARAM id="track_17_trk_comp_atk" value="5.0"/>
+    <PARAM id="track_17_trk_comp_mkp" value="0.0"/>
+    <PARAM id="track_17_trk_comp_on"/>
+    <PARAM id="track_17_trk_comp_rat" value="4.0"/>
+    <PARAM id="track_17_trk_comp_rel" value="80.0"/>
+    <PARAM id="track_17_trk_comp_thr" value="-20.0"/>
+    <PARAM id="track_17_tune" value="0.0"/>
+    <PARAM id="track_17_volume" value="0.6"/>
+    <PARAM id="track_18_attack"/>
+    <PARAM id="track_18_bleed_enable"/>
+    <PARAM id="track_18_bleed_send"/>
+    <PARAM id="track_18_choke"/>
+    <PARAM id="track_18_comp_send"/>
+    <PARAM id="track_18_decay"/>
+    <PARAM id="track_18_eq_high"/>
+    <PARAM id="track_18_eq_low"/>
+    <PARAM id="track_18_eq_mid"/>
+    <PARAM id="track_18_eq8_b0_freq"/>
+    <PARAM id="track_18_eq8_b0_gain"/>
+    <PARAM id="track_18_eq8_b0_q"/>
+    <PARAM id="track_18_eq8_b1_freq"/>
+    <PARAM id="track_18_eq8_b1_gain"/>
+    <PARAM id="track_18_eq8_b1_q"/>
+    <PARAM id="track_18_eq8_b2_freq"/>
+    <PARAM id="track_18_eq8_b2_gain"/>
+    <PARAM id="track_18_eq8_b2_q"/>
+    <PARAM id="track_18_eq8_b3_freq"/>
+    <PARAM id="track_18_eq8_b3_gain"/>
+    <PARAM id="track_18_eq8_b3_q"/>
+    <PARAM id="track_18_eq8_b4_freq"/>
+    <PARAM id="track_18_eq8_b4_gain"/>
+    <PARAM id="track_18_eq8_b4_q"/>
+    <PARAM id="track_18_eq8_b5_freq"/>
+    <PARAM id="track_18_eq8_b5_gain"/>
+    <PARAM id="track_18_eq8_b5_q"/>
+    <PARAM id="track_18_eq8_b6_freq"/>
+    <PARAM id="track_18_eq8_b6_gain"/>
+    <PARAM id="track_18_eq8_b6_q"/>
+    <PARAM id="track_18_eq8_b7_freq"/>
+    <PARAM id="track_18_eq8_b7_gain"/>
+    <PARAM id="track_18_eq8_b7_q"/>
+    <PARAM id="track_18_eq8_on"/>
+    <PARAM id="track_18_midi_note" value="60.0"/>
+    <PARAM id="track_18_mute"/>
+    <PARAM id="track_18_output"/>
+    <PARAM id="track_18_output_mode"/>
+    <PARAM id="track_18_pan"/>
+    <PARAM id="track_18_phase"/>
+    <PARAM id="track_18_reverb_send"/>
+    <PARAM id="track_18_sat_send"/>
+    <PARAM id="track_18_solo"/>
+    <PARAM id="track_18_trk_comp_atk"/>
+    <PARAM id="track_18_trk_comp_mkp"/>
+    <PARAM id="track_18_trk_comp_on"/>
+    <PARAM id="track_18_trk_comp_rat"/>
+    <PARAM id="track_18_trk_comp_rel"/>
+    <PARAM id="track_18_trk_comp_thr"/>
+    <PARAM id="track_18_tune"/>
+    <PARAM id="track_18_volume" value="1.0"/>
+    <PARAM id="track_19_attack"/>
+    <PARAM id="track_19_bleed_enable"/>
+    <PARAM id="track_19_bleed_send"/>
+    <PARAM id="track_19_choke"/>
+    <PARAM id="track_19_comp_send"/>
+    <PARAM id="track_19_decay"/>
+    <PARAM id="track_19_eq_high"/>
+    <PARAM id="track_19_eq_low"/>
+    <PARAM id="track_19_eq_mid"/>
+    <PARAM id="track_19_eq8_b0_freq"/>
+    <PARAM id="track_19_eq8_b0_gain"/>
+    <PARAM id="track_19_eq8_b0_q"/>
+    <PARAM id="track_19_eq8_b1_freq"/>
+    <PARAM id="track_19_eq8_b1_gain"/>
+    <PARAM id="track_19_eq8_b1_q"/>
+    <PARAM id="track_19_eq8_b2_freq"/>
+    <PARAM id="track_19_eq8_b2_gain"/>
+    <PARAM id="track_19_eq8_b2_q"/>
+    <PARAM id="track_19_eq8_b3_freq"/>
+    <PARAM id="track_19_eq8_b3_gain"/>
+    <PARAM id="track_19_eq8_b3_q"/>
+    <PARAM id="track_19_eq8_b4_freq"/>
+    <PARAM id="track_19_eq8_b4_gain"/>
+    <PARAM id="track_19_eq8_b4_q"/>
+    <PARAM id="track_19_eq8_b5_freq"/>
+    <PARAM id="track_19_eq8_b5_gain"/>
+    <PARAM id="track_19_eq8_b5_q"/>
+    <PARAM id="track_19_eq8_b6_freq"/>
+    <PARAM id="track_19_eq8_b6_gain"/>
+    <PARAM id="track_19_eq8_b6_q"/>
+    <PARAM id="track_19_eq8_b7_freq"/>
+    <PARAM id="track_19_eq8_b7_gain"/>
+    <PARAM id="track_19_eq8_b7_q"/>
+    <PARAM id="track_19_eq8_on"/>
+    <PARAM id="track_19_midi_note" value="60.0"/>
+    <PARAM id="track_19_mute"/>
+    <PARAM id="track_19_output"/>
+    <PARAM id="track_19_output_mode"/>
+    <PARAM id="track_19_pan"/>
+    <PARAM id="track_19_phase"/>
+    <PARAM id="track_19_reverb_send"/>
+    <PARAM id="track_19_sat_send"/>
+    <PARAM id="track_19_solo"/>
+    <PARAM id="track_19_trk_comp_atk"/>
+    <PARAM id="track_19_trk_comp_mkp"/>
+    <PARAM id="track_19_trk_comp_on"/>
+    <PARAM id="track_19_trk_comp_rat"/>
+    <PARAM id="track_19_trk_comp_rel"/>
+    <PARAM id="track_19_trk_comp_thr"/>
+    <PARAM id="track_19_tune"/>
+    <PARAM id="track_19_volume" value="1.0"/>
+    <PARAM id="track_2_attack" value="0.0"/>
+    <PARAM id="track_2_bleed_enable" value="1.0"/>
+    <PARAM id="track_2_bleed_send" value="0.4"/>
+    <PARAM id="track_2_choke"/>
+    <PARAM id="track_2_comp_send" value="0.45"/>
+    <PARAM id="track_2_decay" value="0.75"/>
+    <PARAM id="track_2_eq_high" value="0.0"/>
+    <PARAM id="track_2_eq_low" value="0.0"/>
+    <PARAM id="track_2_eq_mid" value="0.0"/>
+    <PARAM id="track_2_eq8_b0_freq" value="120.0"/>
+    <PARAM id="track_2_eq8_b0_gain"/>
+    <PARAM id="track_2_eq8_b0_q" value="0.707"/>
+    <PARAM id="track_2_eq8_b1_freq" value="150.0"/>
+    <PARAM id="track_2_eq8_b1_gain" value="3.5"/>
+    <PARAM id="track_2_eq8_b1_q" value="0.9"/>
+    <PARAM id="track_2_eq8_b2_freq" value="1000.0"/>
+    <PARAM id="track_2_eq8_b2_gain" value="-2.5"/>
+    <PARAM id="track_2_eq8_b2_q" value="2.0"/>
+    <PARAM id="track_2_eq8_b3_freq" value="450.0"/>
+    <PARAM id="track_2_eq8_b3_gain" value="-5.0"/>
+    <PARAM id="track_2_eq8_b3_q" value="2.0"/>
+    <PARAM id="track_2_eq8_b4_freq" value="3500.0"/>
+    <PARAM id="track_2_eq8_b4_gain" value="1.5"/>
+    <PARAM id="track_2_eq8_b4_q" value="1.5"/>
+    <PARAM id="track_2_eq8_b5_freq" value="5000.0"/>
+    <PARAM id="track_2_eq8_b5_gain" value="6.0"/>
+    <PARAM id="track_2_eq8_b5_q" value="1.8"/>
+    <PARAM id="track_2_eq8_b6_freq" value="10000.0"/>
+    <PARAM id="track_2_eq8_b6_gain" value="1.5"/>
+    <PARAM id="track_2_eq8_b6_q" value="0.707"/>
+    <PARAM id="track_2_eq8_b7_freq" value="22000.0"/>
+    <PARAM id="track_2_eq8_b7_gain"/>
+    <PARAM id="track_2_eq8_b7_q" value="0.707"/>
+    <PARAM id="track_2_eq8_on" value="1.0"/>
+    <PARAM id="track_2_midi_note" value="38.0"/>
+    <PARAM id="track_2_mute"/>
+    <PARAM id="track_2_output" value="0.0"/>
+    <PARAM id="track_2_output_mode" value="1.0"/>
+    <PARAM id="track_2_pan" value="0.0"/>
+    <PARAM id="track_2_phase"/>
+    <PARAM id="track_2_reverb_send" value="0.15"/>
+    <PARAM id="track_2_sat_send" value="0.25"/>
+    <PARAM id="track_2_solo"/>
+    <PARAM id="track_2_trk_comp_atk" value="5.0"/>
+    <PARAM id="track_2_trk_comp_mkp" value="3.0"/>
+    <PARAM id="track_2_trk_comp_on" value="1.0"/>
+    <PARAM id="track_2_trk_comp_rat" value="5.0"/>
+    <PARAM id="track_2_trk_comp_rel" value="80.0"/>
+    <PARAM id="track_2_trk_comp_thr" value="-20.0"/>
+    <PARAM id="track_2_tune" value="0.0"/>
+    <PARAM id="track_2_volume" value="0.85"/>
+    <PARAM id="track_20_attack"/>
+    <PARAM id="track_20_bleed_enable"/>
+    <PARAM id="track_20_bleed_send"/>
+    <PARAM id="track_20_choke"/>
+    <PARAM id="track_20_comp_send"/>
+    <PARAM id="track_20_decay"/>
+    <PARAM id="track_20_eq_high"/>
+    <PARAM id="track_20_eq_low"/>
+    <PARAM id="track_20_eq_mid"/>
+    <PARAM id="track_20_eq8_b0_freq"/>
+    <PARAM id="track_20_eq8_b0_gain"/>
+    <PARAM id="track_20_eq8_b0_q"/>
+    <PARAM id="track_20_eq8_b1_freq"/>
+    <PARAM id="track_20_eq8_b1_gain"/>
+    <PARAM id="track_20_eq8_b1_q"/>
+    <PARAM id="track_20_eq8_b2_freq"/>
+    <PARAM id="track_20_eq8_b2_gain"/>
+    <PARAM id="track_20_eq8_b2_q"/>
+    <PARAM id="track_20_eq8_b3_freq"/>
+    <PARAM id="track_20_eq8_b3_gain"/>
+    <PARAM id="track_20_eq8_b3_q"/>
+    <PARAM id="track_20_eq8_b4_freq"/>
+    <PARAM id="track_20_eq8_b4_gain"/>
+    <PARAM id="track_20_eq8_b4_q"/>
+    <PARAM id="track_20_eq8_b5_freq"/>
+    <PARAM id="track_20_eq8_b5_gain"/>
+    <PARAM id="track_20_eq8_b5_q"/>
+    <PARAM id="track_20_eq8_b6_freq"/>
+    <PARAM id="track_20_eq8_b6_gain"/>
+    <PARAM id="track_20_eq8_b6_q"/>
+    <PARAM id="track_20_eq8_b7_freq"/>
+    <PARAM id="track_20_eq8_b7_gain"/>
+    <PARAM id="track_20_eq8_b7_q"/>
+    <PARAM id="track_20_eq8_on"/>
+    <PARAM id="track_20_midi_note" value="60.0"/>
+    <PARAM id="track_20_mute"/>
+    <PARAM id="track_20_output"/>
+    <PARAM id="track_20_output_mode"/>
+    <PARAM id="track_20_pan"/>
+    <PARAM id="track_20_phase"/>
+    <PARAM id="track_20_reverb_send"/>
+    <PARAM id="track_20_sat_send"/>
+    <PARAM id="track_20_solo"/>
+    <PARAM id="track_20_trk_comp_atk"/>
+    <PARAM id="track_20_trk_comp_mkp"/>
+    <PARAM id="track_20_trk_comp_on"/>
+    <PARAM id="track_20_trk_comp_rat"/>
+    <PARAM id="track_20_trk_comp_rel"/>
+    <PARAM id="track_20_trk_comp_thr"/>
+    <PARAM id="track_20_tune"/>
+    <PARAM id="track_20_volume" value="1.0"/>
+    <PARAM id="track_21_attack"/>
+    <PARAM id="track_21_bleed_enable"/>
+    <PARAM id="track_21_bleed_send"/>
+    <PARAM id="track_21_choke"/>
+    <PARAM id="track_21_comp_send"/>
+    <PARAM id="track_21_decay"/>
+    <PARAM id="track_21_eq_high"/>
+    <PARAM id="track_21_eq_low"/>
+    <PARAM id="track_21_eq_mid"/>
+    <PARAM id="track_21_eq8_b0_freq"/>
+    <PARAM id="track_21_eq8_b0_gain"/>
+    <PARAM id="track_21_eq8_b0_q"/>
+    <PARAM id="track_21_eq8_b1_freq"/>
+    <PARAM id="track_21_eq8_b1_gain"/>
+    <PARAM id="track_21_eq8_b1_q"/>
+    <PARAM id="track_21_eq8_b2_freq"/>
+    <PARAM id="track_21_eq8_b2_gain"/>
+    <PARAM id="track_21_eq8_b2_q"/>
+    <PARAM id="track_21_eq8_b3_freq"/>
+    <PARAM id="track_21_eq8_b3_gain"/>
+    <PARAM id="track_21_eq8_b3_q"/>
+    <PARAM id="track_21_eq8_b4_freq"/>
+    <PARAM id="track_21_eq8_b4_gain"/>
+    <PARAM id="track_21_eq8_b4_q"/>
+    <PARAM id="track_21_eq8_b5_freq"/>
+    <PARAM id="track_21_eq8_b5_gain"/>
+    <PARAM id="track_21_eq8_b5_q"/>
+    <PARAM id="track_21_eq8_b6_freq"/>
+    <PARAM id="track_21_eq8_b6_gain"/>
+    <PARAM id="track_21_eq8_b6_q"/>
+    <PARAM id="track_21_eq8_b7_freq"/>
+    <PARAM id="track_21_eq8_b7_gain"/>
+    <PARAM id="track_21_eq8_b7_q"/>
+    <PARAM id="track_21_eq8_on"/>
+    <PARAM id="track_21_midi_note" value="60.0"/>
+    <PARAM id="track_21_mute"/>
+    <PARAM id="track_21_output"/>
+    <PARAM id="track_21_output_mode"/>
+    <PARAM id="track_21_pan"/>
+    <PARAM id="track_21_phase"/>
+    <PARAM id="track_21_reverb_send"/>
+    <PARAM id="track_21_sat_send"/>
+    <PARAM id="track_21_solo"/>
+    <PARAM id="track_21_trk_comp_atk"/>
+    <PARAM id="track_21_trk_comp_mkp"/>
+    <PARAM id="track_21_trk_comp_on"/>
+    <PARAM id="track_21_trk_comp_rat"/>
+    <PARAM id="track_21_trk_comp_rel"/>
+    <PARAM id="track_21_trk_comp_thr"/>
+    <PARAM id="track_21_tune"/>
+    <PARAM id="track_21_volume" value="1.0"/>
+    <PARAM id="track_22_attack"/>
+    <PARAM id="track_22_bleed_enable"/>
+    <PARAM id="track_22_bleed_send"/>
+    <PARAM id="track_22_choke"/>
+    <PARAM id="track_22_comp_send"/>
+    <PARAM id="track_22_decay"/>
+    <PARAM id="track_22_eq_high"/>
+    <PARAM id="track_22_eq_low"/>
+    <PARAM id="track_22_eq_mid"/>
+    <PARAM id="track_22_eq8_b0_freq"/>
+    <PARAM id="track_22_eq8_b0_gain"/>
+    <PARAM id="track_22_eq8_b0_q"/>
+    <PARAM id="track_22_eq8_b1_freq"/>
+    <PARAM id="track_22_eq8_b1_gain"/>
+    <PARAM id="track_22_eq8_b1_q"/>
+    <PARAM id="track_22_eq8_b2_freq"/>
+    <PARAM id="track_22_eq8_b2_gain"/>
+    <PARAM id="track_22_eq8_b2_q"/>
+    <PARAM id="track_22_eq8_b3_freq"/>
+    <PARAM id="track_22_eq8_b3_gain"/>
+    <PARAM id="track_22_eq8_b3_q"/>
+    <PARAM id="track_22_eq8_b4_freq"/>
+    <PARAM id="track_22_eq8_b4_gain"/>
+    <PARAM id="track_22_eq8_b4_q"/>
+    <PARAM id="track_22_eq8_b5_freq"/>
+    <PARAM id="track_22_eq8_b5_gain"/>
+    <PARAM id="track_22_eq8_b5_q"/>
+    <PARAM id="track_22_eq8_b6_freq"/>
+    <PARAM id="track_22_eq8_b6_gain"/>
+    <PARAM id="track_22_eq8_b6_q"/>
+    <PARAM id="track_22_eq8_b7_freq"/>
+    <PARAM id="track_22_eq8_b7_gain"/>
+    <PARAM id="track_22_eq8_b7_q"/>
+    <PARAM id="track_22_eq8_on"/>
+    <PARAM id="track_22_midi_note" value="60.0"/>
+    <PARAM id="track_22_mute"/>
+    <PARAM id="track_22_output"/>
+    <PARAM id="track_22_output_mode"/>
+    <PARAM id="track_22_pan"/>
+    <PARAM id="track_22_phase"/>
+    <PARAM id="track_22_reverb_send"/>
+    <PARAM id="track_22_sat_send"/>
+    <PARAM id="track_22_solo"/>
+    <PARAM id="track_22_trk_comp_atk"/>
+    <PARAM id="track_22_trk_comp_mkp"/>
+    <PARAM id="track_22_trk_comp_on"/>
+    <PARAM id="track_22_trk_comp_rat"/>
+    <PARAM id="track_22_trk_comp_rel"/>
+    <PARAM id="track_22_trk_comp_thr"/>
+    <PARAM id="track_22_tune"/>
+    <PARAM id="track_22_volume" value="1.0"/>
+    <PARAM id="track_23_attack"/>
+    <PARAM id="track_23_bleed_enable"/>
+    <PARAM id="track_23_bleed_send"/>
+    <PARAM id="track_23_choke"/>
+    <PARAM id="track_23_comp_send"/>
+    <PARAM id="track_23_decay"/>
+    <PARAM id="track_23_eq_high"/>
+    <PARAM id="track_23_eq_low"/>
+    <PARAM id="track_23_eq_mid"/>
+    <PARAM id="track_23_eq8_b0_freq"/>
+    <PARAM id="track_23_eq8_b0_gain"/>
+    <PARAM id="track_23_eq8_b0_q"/>
+    <PARAM id="track_23_eq8_b1_freq"/>
+    <PARAM id="track_23_eq8_b1_gain"/>
+    <PARAM id="track_23_eq8_b1_q"/>
+    <PARAM id="track_23_eq8_b2_freq"/>
+    <PARAM id="track_23_eq8_b2_gain"/>
+    <PARAM id="track_23_eq8_b2_q"/>
+    <PARAM id="track_23_eq8_b3_freq"/>
+    <PARAM id="track_23_eq8_b3_gain"/>
+    <PARAM id="track_23_eq8_b3_q"/>
+    <PARAM id="track_23_eq8_b4_freq"/>
+    <PARAM id="track_23_eq8_b4_gain"/>
+    <PARAM id="track_23_eq8_b4_q"/>
+    <PARAM id="track_23_eq8_b5_freq"/>
+    <PARAM id="track_23_eq8_b5_gain"/>
+    <PARAM id="track_23_eq8_b5_q"/>
+    <PARAM id="track_23_eq8_b6_freq"/>
+    <PARAM id="track_23_eq8_b6_gain"/>
+    <PARAM id="track_23_eq8_b6_q"/>
+    <PARAM id="track_23_eq8_b7_freq"/>
+    <PARAM id="track_23_eq8_b7_gain"/>
+    <PARAM id="track_23_eq8_b7_q"/>
+    <PARAM id="track_23_eq8_on"/>
+    <PARAM id="track_23_midi_note" value="60.0"/>
+    <PARAM id="track_23_mute"/>
+    <PARAM id="track_23_output"/>
+    <PARAM id="track_23_output_mode"/>
+    <PARAM id="track_23_pan"/>
+    <PARAM id="track_23_phase"/>
+    <PARAM id="track_23_reverb_send"/>
+    <PARAM id="track_23_sat_send"/>
+    <PARAM id="track_23_solo"/>
+    <PARAM id="track_23_trk_comp_atk"/>
+    <PARAM id="track_23_trk_comp_mkp"/>
+    <PARAM id="track_23_trk_comp_on"/>
+    <PARAM id="track_23_trk_comp_rat"/>
+    <PARAM id="track_23_trk_comp_rel"/>
+    <PARAM id="track_23_trk_comp_thr"/>
+    <PARAM id="track_23_tune"/>
+    <PARAM id="track_23_volume" value="1.0"/>
+    <PARAM id="track_24_attack"/>
+    <PARAM id="track_24_bleed_enable"/>
+    <PARAM id="track_24_bleed_send"/>
+    <PARAM id="track_24_choke"/>
+    <PARAM id="track_24_comp_send"/>
+    <PARAM id="track_24_decay"/>
+    <PARAM id="track_24_eq_high"/>
+    <PARAM id="track_24_eq_low"/>
+    <PARAM id="track_24_eq_mid"/>
+    <PARAM id="track_24_eq8_b0_freq"/>
+    <PARAM id="track_24_eq8_b0_gain"/>
+    <PARAM id="track_24_eq8_b0_q"/>
+    <PARAM id="track_24_eq8_b1_freq"/>
+    <PARAM id="track_24_eq8_b1_gain"/>
+    <PARAM id="track_24_eq8_b1_q"/>
+    <PARAM id="track_24_eq8_b2_freq"/>
+    <PARAM id="track_24_eq8_b2_gain"/>
+    <PARAM id="track_24_eq8_b2_q"/>
+    <PARAM id="track_24_eq8_b3_freq"/>
+    <PARAM id="track_24_eq8_b3_gain"/>
+    <PARAM id="track_24_eq8_b3_q"/>
+    <PARAM id="track_24_eq8_b4_freq"/>
+    <PARAM id="track_24_eq8_b4_gain"/>
+    <PARAM id="track_24_eq8_b4_q"/>
+    <PARAM id="track_24_eq8_b5_freq"/>
+    <PARAM id="track_24_eq8_b5_gain"/>
+    <PARAM id="track_24_eq8_b5_q"/>
+    <PARAM id="track_24_eq8_b6_freq"/>
+    <PARAM id="track_24_eq8_b6_gain"/>
+    <PARAM id="track_24_eq8_b6_q"/>
+    <PARAM id="track_24_eq8_b7_freq"/>
+    <PARAM id="track_24_eq8_b7_gain"/>
+    <PARAM id="track_24_eq8_b7_q"/>
+    <PARAM id="track_24_eq8_on"/>
+    <PARAM id="track_24_midi_note" value="60.0"/>
+    <PARAM id="track_24_mute"/>
+    <PARAM id="track_24_output"/>
+    <PARAM id="track_24_output_mode"/>
+    <PARAM id="track_24_pan"/>
+    <PARAM id="track_24_phase"/>
+    <PARAM id="track_24_reverb_send"/>
+    <PARAM id="track_24_sat_send"/>
+    <PARAM id="track_24_solo"/>
+    <PARAM id="track_24_trk_comp_atk"/>
+    <PARAM id="track_24_trk_comp_mkp"/>
+    <PARAM id="track_24_trk_comp_on"/>
+    <PARAM id="track_24_trk_comp_rat"/>
+    <PARAM id="track_24_trk_comp_rel"/>
+    <PARAM id="track_24_trk_comp_thr"/>
+    <PARAM id="track_24_tune"/>
+    <PARAM id="track_24_volume" value="1.0"/>
+    <PARAM id="track_25_attack"/>
+    <PARAM id="track_25_bleed_enable"/>
+    <PARAM id="track_25_bleed_send"/>
+    <PARAM id="track_25_choke"/>
+    <PARAM id="track_25_comp_send"/>
+    <PARAM id="track_25_decay"/>
+    <PARAM id="track_25_eq_high"/>
+    <PARAM id="track_25_eq_low"/>
+    <PARAM id="track_25_eq_mid"/>
+    <PARAM id="track_25_eq8_b0_freq"/>
+    <PARAM id="track_25_eq8_b0_gain"/>
+    <PARAM id="track_25_eq8_b0_q"/>
+    <PARAM id="track_25_eq8_b1_freq"/>
+    <PARAM id="track_25_eq8_b1_gain"/>
+    <PARAM id="track_25_eq8_b1_q"/>
+    <PARAM id="track_25_eq8_b2_freq"/>
+    <PARAM id="track_25_eq8_b2_gain"/>
+    <PARAM id="track_25_eq8_b2_q"/>
+    <PARAM id="track_25_eq8_b3_freq"/>
+    <PARAM id="track_25_eq8_b3_gain"/>
+    <PARAM id="track_25_eq8_b3_q"/>
+    <PARAM id="track_25_eq8_b4_freq"/>
+    <PARAM id="track_25_eq8_b4_gain"/>
+    <PARAM id="track_25_eq8_b4_q"/>
+    <PARAM id="track_25_eq8_b5_freq"/>
+    <PARAM id="track_25_eq8_b5_gain"/>
+    <PARAM id="track_25_eq8_b5_q"/>
+    <PARAM id="track_25_eq8_b6_freq"/>
+    <PARAM id="track_25_eq8_b6_gain"/>
+    <PARAM id="track_25_eq8_b6_q"/>
+    <PARAM id="track_25_eq8_b7_freq"/>
+    <PARAM id="track_25_eq8_b7_gain"/>
+    <PARAM id="track_25_eq8_b7_q"/>
+    <PARAM id="track_25_eq8_on"/>
+    <PARAM id="track_25_midi_note" value="60.0"/>
+    <PARAM id="track_25_mute"/>
+    <PARAM id="track_25_output"/>
+    <PARAM id="track_25_output_mode"/>
+    <PARAM id="track_25_pan"/>
+    <PARAM id="track_25_phase"/>
+    <PARAM id="track_25_reverb_send"/>
+    <PARAM id="track_25_sat_send"/>
+    <PARAM id="track_25_solo"/>
+    <PARAM id="track_25_trk_comp_atk"/>
+    <PARAM id="track_25_trk_comp_mkp"/>
+    <PARAM id="track_25_trk_comp_on"/>
+    <PARAM id="track_25_trk_comp_rat"/>
+    <PARAM id="track_25_trk_comp_rel"/>
+    <PARAM id="track_25_trk_comp_thr"/>
+    <PARAM id="track_25_tune"/>
+    <PARAM id="track_25_volume" value="1.0"/>
+    <PARAM id="track_26_attack"/>
+    <PARAM id="track_26_bleed_enable"/>
+    <PARAM id="track_26_bleed_send"/>
+    <PARAM id="track_26_choke"/>
+    <PARAM id="track_26_comp_send"/>
+    <PARAM id="track_26_decay"/>
+    <PARAM id="track_26_eq_high"/>
+    <PARAM id="track_26_eq_low"/>
+    <PARAM id="track_26_eq_mid"/>
+    <PARAM id="track_26_eq8_b0_freq"/>
+    <PARAM id="track_26_eq8_b0_gain"/>
+    <PARAM id="track_26_eq8_b0_q"/>
+    <PARAM id="track_26_eq8_b1_freq"/>
+    <PARAM id="track_26_eq8_b1_gain"/>
+    <PARAM id="track_26_eq8_b1_q"/>
+    <PARAM id="track_26_eq8_b2_freq"/>
+    <PARAM id="track_26_eq8_b2_gain"/>
+    <PARAM id="track_26_eq8_b2_q"/>
+    <PARAM id="track_26_eq8_b3_freq"/>
+    <PARAM id="track_26_eq8_b3_gain"/>
+    <PARAM id="track_26_eq8_b3_q"/>
+    <PARAM id="track_26_eq8_b4_freq"/>
+    <PARAM id="track_26_eq8_b4_gain"/>
+    <PARAM id="track_26_eq8_b4_q"/>
+    <PARAM id="track_26_eq8_b5_freq"/>
+    <PARAM id="track_26_eq8_b5_gain"/>
+    <PARAM id="track_26_eq8_b5_q"/>
+    <PARAM id="track_26_eq8_b6_freq"/>
+    <PARAM id="track_26_eq8_b6_gain"/>
+    <PARAM id="track_26_eq8_b6_q"/>
+    <PARAM id="track_26_eq8_b7_freq"/>
+    <PARAM id="track_26_eq8_b7_gain"/>
+    <PARAM id="track_26_eq8_b7_q"/>
+    <PARAM id="track_26_eq8_on"/>
+    <PARAM id="track_26_midi_note" value="60.0"/>
+    <PARAM id="track_26_mute"/>
+    <PARAM id="track_26_output"/>
+    <PARAM id="track_26_output_mode"/>
+    <PARAM id="track_26_pan"/>
+    <PARAM id="track_26_phase"/>
+    <PARAM id="track_26_reverb_send"/>
+    <PARAM id="track_26_sat_send"/>
+    <PARAM id="track_26_solo"/>
+    <PARAM id="track_26_trk_comp_atk"/>
+    <PARAM id="track_26_trk_comp_mkp"/>
+    <PARAM id="track_26_trk_comp_on"/>
+    <PARAM id="track_26_trk_comp_rat"/>
+    <PARAM id="track_26_trk_comp_rel"/>
+    <PARAM id="track_26_trk_comp_thr"/>
+    <PARAM id="track_26_tune"/>
+    <PARAM id="track_26_volume" value="1.0"/>
+    <PARAM id="track_27_attack"/>
+    <PARAM id="track_27_bleed_enable"/>
+    <PARAM id="track_27_bleed_send"/>
+    <PARAM id="track_27_choke"/>
+    <PARAM id="track_27_comp_send"/>
+    <PARAM id="track_27_decay"/>
+    <PARAM id="track_27_eq_high"/>
+    <PARAM id="track_27_eq_low"/>
+    <PARAM id="track_27_eq_mid"/>
+    <PARAM id="track_27_eq8_b0_freq"/>
+    <PARAM id="track_27_eq8_b0_gain"/>
+    <PARAM id="track_27_eq8_b0_q"/>
+    <PARAM id="track_27_eq8_b1_freq"/>
+    <PARAM id="track_27_eq8_b1_gain"/>
+    <PARAM id="track_27_eq8_b1_q"/>
+    <PARAM id="track_27_eq8_b2_freq"/>
+    <PARAM id="track_27_eq8_b2_gain"/>
+    <PARAM id="track_27_eq8_b2_q"/>
+    <PARAM id="track_27_eq8_b3_freq"/>
+    <PARAM id="track_27_eq8_b3_gain"/>
+    <PARAM id="track_27_eq8_b3_q"/>
+    <PARAM id="track_27_eq8_b4_freq"/>
+    <PARAM id="track_27_eq8_b4_gain"/>
+    <PARAM id="track_27_eq8_b4_q"/>
+    <PARAM id="track_27_eq8_b5_freq"/>
+    <PARAM id="track_27_eq8_b5_gain"/>
+    <PARAM id="track_27_eq8_b5_q"/>
+    <PARAM id="track_27_eq8_b6_freq"/>
+    <PARAM id="track_27_eq8_b6_gain"/>
+    <PARAM id="track_27_eq8_b6_q"/>
+    <PARAM id="track_27_eq8_b7_freq"/>
+    <PARAM id="track_27_eq8_b7_gain"/>
+    <PARAM id="track_27_eq8_b7_q"/>
+    <PARAM id="track_27_eq8_on"/>
+    <PARAM id="track_27_midi_note" value="60.0"/>
+    <PARAM id="track_27_mute"/>
+    <PARAM id="track_27_output"/>
+    <PARAM id="track_27_output_mode"/>
+    <PARAM id="track_27_pan"/>
+    <PARAM id="track_27_phase"/>
+    <PARAM id="track_27_reverb_send"/>
+    <PARAM id="track_27_sat_send"/>
+    <PARAM id="track_27_solo"/>
+    <PARAM id="track_27_trk_comp_atk"/>
+    <PARAM id="track_27_trk_comp_mkp"/>
+    <PARAM id="track_27_trk_comp_on"/>
+    <PARAM id="track_27_trk_comp_rat"/>
+    <PARAM id="track_27_trk_comp_rel"/>
+    <PARAM id="track_27_trk_comp_thr"/>
+    <PARAM id="track_27_tune"/>
+    <PARAM id="track_27_volume" value="1.0"/>
+    <PARAM id="track_28_attack"/>
+    <PARAM id="track_28_bleed_enable"/>
+    <PARAM id="track_28_bleed_send"/>
+    <PARAM id="track_28_choke"/>
+    <PARAM id="track_28_comp_send"/>
+    <PARAM id="track_28_decay"/>
+    <PARAM id="track_28_eq_high"/>
+    <PARAM id="track_28_eq_low"/>
+    <PARAM id="track_28_eq_mid"/>
+    <PARAM id="track_28_eq8_b0_freq"/>
+    <PARAM id="track_28_eq8_b0_gain"/>
+    <PARAM id="track_28_eq8_b0_q"/>
+    <PARAM id="track_28_eq8_b1_freq"/>
+    <PARAM id="track_28_eq8_b1_gain"/>
+    <PARAM id="track_28_eq8_b1_q"/>
+    <PARAM id="track_28_eq8_b2_freq"/>
+    <PARAM id="track_28_eq8_b2_gain"/>
+    <PARAM id="track_28_eq8_b2_q"/>
+    <PARAM id="track_28_eq8_b3_freq"/>
+    <PARAM id="track_28_eq8_b3_gain"/>
+    <PARAM id="track_28_eq8_b3_q"/>
+    <PARAM id="track_28_eq8_b4_freq"/>
+    <PARAM id="track_28_eq8_b4_gain"/>
+    <PARAM id="track_28_eq8_b4_q"/>
+    <PARAM id="track_28_eq8_b5_freq"/>
+    <PARAM id="track_28_eq8_b5_gain"/>
+    <PARAM id="track_28_eq8_b5_q"/>
+    <PARAM id="track_28_eq8_b6_freq"/>
+    <PARAM id="track_28_eq8_b6_gain"/>
+    <PARAM id="track_28_eq8_b6_q"/>
+    <PARAM id="track_28_eq8_b7_freq"/>
+    <PARAM id="track_28_eq8_b7_gain"/>
+    <PARAM id="track_28_eq8_b7_q"/>
+    <PARAM id="track_28_eq8_on"/>
+    <PARAM id="track_28_midi_note" value="60.0"/>
+    <PARAM id="track_28_mute"/>
+    <PARAM id="track_28_output"/>
+    <PARAM id="track_28_output_mode"/>
+    <PARAM id="track_28_pan"/>
+    <PARAM id="track_28_phase"/>
+    <PARAM id="track_28_reverb_send"/>
+    <PARAM id="track_28_sat_send"/>
+    <PARAM id="track_28_solo"/>
+    <PARAM id="track_28_trk_comp_atk"/>
+    <PARAM id="track_28_trk_comp_mkp"/>
+    <PARAM id="track_28_trk_comp_on"/>
+    <PARAM id="track_28_trk_comp_rat"/>
+    <PARAM id="track_28_trk_comp_rel"/>
+    <PARAM id="track_28_trk_comp_thr"/>
+    <PARAM id="track_28_tune"/>
+    <PARAM id="track_28_volume" value="1.0"/>
+    <PARAM id="track_29_attack"/>
+    <PARAM id="track_29_bleed_enable"/>
+    <PARAM id="track_29_bleed_send"/>
+    <PARAM id="track_29_choke"/>
+    <PARAM id="track_29_comp_send"/>
+    <PARAM id="track_29_decay"/>
+    <PARAM id="track_29_eq_high"/>
+    <PARAM id="track_29_eq_low"/>
+    <PARAM id="track_29_eq_mid"/>
+    <PARAM id="track_29_eq8_b0_freq"/>
+    <PARAM id="track_29_eq8_b0_gain"/>
+    <PARAM id="track_29_eq8_b0_q"/>
+    <PARAM id="track_29_eq8_b1_freq"/>
+    <PARAM id="track_29_eq8_b1_gain"/>
+    <PARAM id="track_29_eq8_b1_q"/>
+    <PARAM id="track_29_eq8_b2_freq"/>
+    <PARAM id="track_29_eq8_b2_gain"/>
+    <PARAM id="track_29_eq8_b2_q"/>
+    <PARAM id="track_29_eq8_b3_freq"/>
+    <PARAM id="track_29_eq8_b3_gain"/>
+    <PARAM id="track_29_eq8_b3_q"/>
+    <PARAM id="track_29_eq8_b4_freq"/>
+    <PARAM id="track_29_eq8_b4_gain"/>
+    <PARAM id="track_29_eq8_b4_q"/>
+    <PARAM id="track_29_eq8_b5_freq"/>
+    <PARAM id="track_29_eq8_b5_gain"/>
+    <PARAM id="track_29_eq8_b5_q"/>
+    <PARAM id="track_29_eq8_b6_freq"/>
+    <PARAM id="track_29_eq8_b6_gain"/>
+    <PARAM id="track_29_eq8_b6_q"/>
+    <PARAM id="track_29_eq8_b7_freq"/>
+    <PARAM id="track_29_eq8_b7_gain"/>
+    <PARAM id="track_29_eq8_b7_q"/>
+    <PARAM id="track_29_eq8_on"/>
+    <PARAM id="track_29_midi_note" value="60.0"/>
+    <PARAM id="track_29_mute"/>
+    <PARAM id="track_29_output"/>
+    <PARAM id="track_29_output_mode"/>
+    <PARAM id="track_29_pan"/>
+    <PARAM id="track_29_phase"/>
+    <PARAM id="track_29_reverb_send"/>
+    <PARAM id="track_29_sat_send"/>
+    <PARAM id="track_29_solo"/>
+    <PARAM id="track_29_trk_comp_atk"/>
+    <PARAM id="track_29_trk_comp_mkp"/>
+    <PARAM id="track_29_trk_comp_on"/>
+    <PARAM id="track_29_trk_comp_rat"/>
+    <PARAM id="track_29_trk_comp_rel"/>
+    <PARAM id="track_29_trk_comp_thr"/>
+    <PARAM id="track_29_tune"/>
+    <PARAM id="track_29_volume" value="1.0"/>
+    <PARAM id="track_3_attack" value="0.0"/>
+    <PARAM id="track_3_bleed_enable"/>
+    <PARAM id="track_3_bleed_send" value="1.0"/>
+    <PARAM id="track_3_choke"/>
+    <PARAM id="track_3_comp_send" value="0.3"/>
+    <PARAM id="track_3_decay" value="0.65"/>
+    <PARAM id="track_3_eq_high" value="0.0"/>
+    <PARAM id="track_3_eq_low" value="0.0"/>
+    <PARAM id="track_3_eq_mid" value="0.0"/>
+    <PARAM id="track_3_eq8_b0_freq" value="200.0"/>
+    <PARAM id="track_3_eq8_b0_gain" value="-5.0"/>
+    <PARAM id="track_3_eq8_b0_q" value="0.5"/>
+    <PARAM id="track_3_eq8_b1_freq" value="80.0"/>
+    <PARAM id="track_3_eq8_b1_gain"/>
+    <PARAM id="track_3_eq8_b1_q" value="0.707"/>
+    <PARAM id="track_3_eq8_b2_freq" value="200.0"/>
+    <PARAM id="track_3_eq8_b2_gain"/>
+    <PARAM id="track_3_eq8_b2_q" value="1.0"/>
+    <PARAM id="track_3_eq8_b3_freq" value="400.0"/>
+    <PARAM id="track_3_eq8_b3_gain" value="-3.0"/>
+    <PARAM id="track_3_eq8_b3_q" value="2.0"/>
+    <PARAM id="track_3_eq8_b4_freq" value="2500.0"/>
+    <PARAM id="track_3_eq8_b4_gain" value="2.5"/>
+    <PARAM id="track_3_eq8_b4_q" value="1.5"/>
+    <PARAM id="track_3_eq8_b5_freq" value="3000.0"/>
+    <PARAM id="track_3_eq8_b5_gain" value="3.0"/>
+    <PARAM id="track_3_eq8_b5_q" value="2.0"/>
+    <PARAM id="track_3_eq8_b6_freq" value="10000.0"/>
+    <PARAM id="track_3_eq8_b6_gain" value="1.5"/>
+    <PARAM id="track_3_eq8_b6_q" value="0.707"/>
+    <PARAM id="track_3_eq8_b7_freq" value="22000.0"/>
+    <PARAM id="track_3_eq8_b7_gain"/>
+    <PARAM id="track_3_eq8_b7_q" value="0.707"/>
+    <PARAM id="track_3_eq8_on" value="1.0"/>
+    <PARAM id="track_3_midi_note" value="40.0"/>
+    <PARAM id="track_3_mute"/>
+    <PARAM id="track_3_output" value="0.0"/>
+    <PARAM id="track_3_output_mode" value="0.0"/>
+    <PARAM id="track_3_pan" value="0.0"/>
+    <PARAM id="track_3_phase"/>
+    <PARAM id="track_3_reverb_send" value="0.1"/>
+    <PARAM id="track_3_sat_send" value="0.15"/>
+    <PARAM id="track_3_solo"/>
+    <PARAM id="track_3_trk_comp_atk" value="5.0"/>
+    <PARAM id="track_3_trk_comp_mkp" value="0.0"/>
+    <PARAM id="track_3_trk_comp_on"/>
+    <PARAM id="track_3_trk_comp_rat" value="4.0"/>
+    <PARAM id="track_3_trk_comp_rel" value="80.0"/>
+    <PARAM id="track_3_trk_comp_thr" value="-20.0"/>
+    <PARAM id="track_3_tune" value="0.0"/>
+    <PARAM id="track_3_volume" value="0.8"/>
+    <PARAM id="track_30_attack"/>
+    <PARAM id="track_30_bleed_enable"/>
+    <PARAM id="track_30_bleed_send"/>
+    <PARAM id="track_30_choke"/>
+    <PARAM id="track_30_comp_send"/>
+    <PARAM id="track_30_decay"/>
+    <PARAM id="track_30_eq_high"/>
+    <PARAM id="track_30_eq_low"/>
+    <PARAM id="track_30_eq_mid"/>
+    <PARAM id="track_30_eq8_b0_freq"/>
+    <PARAM id="track_30_eq8_b0_gain"/>
+    <PARAM id="track_30_eq8_b0_q"/>
+    <PARAM id="track_30_eq8_b1_freq"/>
+    <PARAM id="track_30_eq8_b1_gain"/>
+    <PARAM id="track_30_eq8_b1_q"/>
+    <PARAM id="track_30_eq8_b2_freq"/>
+    <PARAM id="track_30_eq8_b2_gain"/>
+    <PARAM id="track_30_eq8_b2_q"/>
+    <PARAM id="track_30_eq8_b3_freq"/>
+    <PARAM id="track_30_eq8_b3_gain"/>
+    <PARAM id="track_30_eq8_b3_q"/>
+    <PARAM id="track_30_eq8_b4_freq"/>
+    <PARAM id="track_30_eq8_b4_gain"/>
+    <PARAM id="track_30_eq8_b4_q"/>
+    <PARAM id="track_30_eq8_b5_freq"/>
+    <PARAM id="track_30_eq8_b5_gain"/>
+    <PARAM id="track_30_eq8_b5_q"/>
+    <PARAM id="track_30_eq8_b6_freq"/>
+    <PARAM id="track_30_eq8_b6_gain"/>
+    <PARAM id="track_30_eq8_b6_q"/>
+    <PARAM id="track_30_eq8_b7_freq"/>
+    <PARAM id="track_30_eq8_b7_gain"/>
+    <PARAM id="track_30_eq8_b7_q"/>
+    <PARAM id="track_30_eq8_on"/>
+    <PARAM id="track_30_midi_note" value="60.0"/>
+    <PARAM id="track_30_mute"/>
+    <PARAM id="track_30_output"/>
+    <PARAM id="track_30_output_mode"/>
+    <PARAM id="track_30_pan"/>
+    <PARAM id="track_30_phase"/>
+    <PARAM id="track_30_reverb_send"/>
+    <PARAM id="track_30_sat_send"/>
+    <PARAM id="track_30_solo"/>
+    <PARAM id="track_30_trk_comp_atk"/>
+    <PARAM id="track_30_trk_comp_mkp"/>
+    <PARAM id="track_30_trk_comp_on"/>
+    <PARAM id="track_30_trk_comp_rat"/>
+    <PARAM id="track_30_trk_comp_rel"/>
+    <PARAM id="track_30_trk_comp_thr"/>
+    <PARAM id="track_30_tune"/>
+    <PARAM id="track_30_volume" value="1.0"/>
+    <PARAM id="track_31_attack"/>
+    <PARAM id="track_31_bleed_enable"/>
+    <PARAM id="track_31_bleed_send"/>
+    <PARAM id="track_31_choke"/>
+    <PARAM id="track_31_comp_send"/>
+    <PARAM id="track_31_decay"/>
+    <PARAM id="track_31_eq_high"/>
+    <PARAM id="track_31_eq_low"/>
+    <PARAM id="track_31_eq_mid"/>
+    <PARAM id="track_31_eq8_b0_freq"/>
+    <PARAM id="track_31_eq8_b0_gain"/>
+    <PARAM id="track_31_eq8_b0_q"/>
+    <PARAM id="track_31_eq8_b1_freq"/>
+    <PARAM id="track_31_eq8_b1_gain"/>
+    <PARAM id="track_31_eq8_b1_q"/>
+    <PARAM id="track_31_eq8_b2_freq"/>
+    <PARAM id="track_31_eq8_b2_gain"/>
+    <PARAM id="track_31_eq8_b2_q"/>
+    <PARAM id="track_31_eq8_b3_freq"/>
+    <PARAM id="track_31_eq8_b3_gain"/>
+    <PARAM id="track_31_eq8_b3_q"/>
+    <PARAM id="track_31_eq8_b4_freq"/>
+    <PARAM id="track_31_eq8_b4_gain"/>
+    <PARAM id="track_31_eq8_b4_q"/>
+    <PARAM id="track_31_eq8_b5_freq"/>
+    <PARAM id="track_31_eq8_b5_gain"/>
+    <PARAM id="track_31_eq8_b5_q"/>
+    <PARAM id="track_31_eq8_b6_freq"/>
+    <PARAM id="track_31_eq8_b6_gain"/>
+    <PARAM id="track_31_eq8_b6_q"/>
+    <PARAM id="track_31_eq8_b7_freq"/>
+    <PARAM id="track_31_eq8_b7_gain"/>
+    <PARAM id="track_31_eq8_b7_q"/>
+    <PARAM id="track_31_eq8_on"/>
+    <PARAM id="track_31_midi_note" value="60.0"/>
+    <PARAM id="track_31_mute"/>
+    <PARAM id="track_31_output"/>
+    <PARAM id="track_31_output_mode"/>
+    <PARAM id="track_31_pan"/>
+    <PARAM id="track_31_phase"/>
+    <PARAM id="track_31_reverb_send"/>
+    <PARAM id="track_31_sat_send"/>
+    <PARAM id="track_31_solo"/>
+    <PARAM id="track_31_trk_comp_atk"/>
+    <PARAM id="track_31_trk_comp_mkp"/>
+    <PARAM id="track_31_trk_comp_on"/>
+    <PARAM id="track_31_trk_comp_rat"/>
+    <PARAM id="track_31_trk_comp_rel"/>
+    <PARAM id="track_31_trk_comp_thr"/>
+    <PARAM id="track_31_tune"/>
+    <PARAM id="track_31_volume" value="1.0"/>
+    <PARAM id="track_4_attack" value="0.0"/>
+    <PARAM id="track_4_bleed_enable" value="1.0"/>
+    <PARAM id="track_4_bleed_send" value="0.2"/>
+    <PARAM id="track_4_choke"/>
+    <PARAM id="track_4_comp_send" value="0.3"/>
+    <PARAM id="track_4_decay" value="0.65"/>
+    <PARAM id="track_4_eq_high" value="0.0"/>
+    <PARAM id="track_4_eq_low" value="0.0"/>
+    <PARAM id="track_4_eq_mid" value="0.0"/>
+    <PARAM id="track_4_eq8_b0_freq" value="70.0"/>
+    <PARAM id="track_4_eq8_b0_gain" value="-4.0"/>
+    <PARAM id="track_4_eq8_b0_q" value="0.707"/>
+    <PARAM id="track_4_eq8_b1_freq" value="100.0"/>
+    <PARAM id="track_4_eq8_b1_gain" value="3.0"/>
+    <PARAM id="track_4_eq8_b1_q" value="0.8"/>
+    <PARAM id="track_4_eq8_b2_freq" value="200.0"/>
+    <PARAM id="track_4_eq8_b2_gain"/>
+    <PARAM id="track_4_eq8_b2_q" value="1.0"/>
+    <PARAM id="track_4_eq8_b3_freq" value="350.0"/>
+    <PARAM id="track_4_eq8_b3_gain" value="-5.0"/>
+    <PARAM id="track_4_eq8_b3_q" value="2.5"/>
+    <PARAM id="track_4_eq8_b4_freq" value="2500.0"/>
+    <PARAM id="track_4_eq8_b4_gain"/>
+    <PARAM id="track_4_eq8_b4_q" value="1.0"/>
+    <PARAM id="track_4_eq8_b5_freq" value="4000.0"/>
+    <PARAM id="track_4_eq8_b5_gain" value="3.0"/>
+    <PARAM id="track_4_eq8_b5_q" value="2.0"/>
+    <PARAM id="track_4_eq8_b6_freq" value="10000.0"/>
+    <PARAM id="track_4_eq8_b6_gain"/>
+    <PARAM id="track_4_eq8_b6_q" value="0.707"/>
+    <PARAM id="track_4_eq8_b7_freq" value="22000.0"/>
+    <PARAM id="track_4_eq8_b7_gain"/>
+    <PARAM id="track_4_eq8_b7_q" value="0.707"/>
+    <PARAM id="track_4_eq8_on" value="1.0"/>
+    <PARAM id="track_4_midi_note" value="47.0"/>
+    <PARAM id="track_4_mute"/>
+    <PARAM id="track_4_output" value="0.0"/>
+    <PARAM id="track_4_output_mode" value="0.0"/>
+    <PARAM id="track_4_pan" value="-0.5"/>
+    <PARAM id="track_4_phase"/>
+    <PARAM id="track_4_reverb_send" value="0.16"/>
+    <PARAM id="track_4_sat_send" value="0.2"/>
+    <PARAM id="track_4_solo"/>
+    <PARAM id="track_4_trk_comp_atk" value="5.0"/>
+    <PARAM id="track_4_trk_comp_mkp" value="0.0"/>
+    <PARAM id="track_4_trk_comp_on"/>
+    <PARAM id="track_4_trk_comp_rat" value="4.0"/>
+    <PARAM id="track_4_trk_comp_rel" value="80.0"/>
+    <PARAM id="track_4_trk_comp_thr" value="-20.0"/>
+    <PARAM id="track_4_tune" value="-5.0"/>
+    <PARAM id="track_4_volume" value="0.85"/>
+    <PARAM id="track_5_attack" value="0.0"/>
+    <PARAM id="track_5_bleed_enable" value="1.0"/>
+    <PARAM id="track_5_bleed_send" value="0.2"/>
+    <PARAM id="track_5_choke"/>
+    <PARAM id="track_5_comp_send" value="0.3"/>
+    <PARAM id="track_5_decay" value="0.7"/>
+    <PARAM id="track_5_eq_high" value="0.0"/>
+    <PARAM id="track_5_eq_low" value="0.0"/>
+    <PARAM id="track_5_eq_mid" value="0.0"/>
+    <PARAM id="track_5_eq8_b0_freq" value="60.0"/>
+    <PARAM id="track_5_eq8_b0_gain" value="-2.0"/>
+    <PARAM id="track_5_eq8_b0_q" value="0.707"/>
+    <PARAM id="track_5_eq8_b1_freq" value="90.0"/>
+    <PARAM id="track_5_eq8_b1_gain" value="3.5"/>
+    <PARAM id="track_5_eq8_b1_q" value="0.8"/>
+    <PARAM id="track_5_eq8_b2_freq" value="200.0"/>
+    <PARAM id="track_5_eq8_b2_gain"/>
+    <PARAM id="track_5_eq8_b2_q" value="1.0"/>
+    <PARAM id="track_5_eq8_b3_freq" value="300.0"/>
+    <PARAM id="track_5_eq8_b3_gain" value="-5.0"/>
+    <PARAM id="track_5_eq8_b3_q" value="2.0"/>
+    <PARAM id="track_5_eq8_b4_freq" value="2500.0"/>
+    <PARAM id="track_5_eq8_b4_gain"/>
+    <PARAM id="track_5_eq8_b4_q" value="1.0"/>
+    <PARAM id="track_5_eq8_b5_freq" value="4000.0"/>
+    <PARAM id="track_5_eq8_b5_gain" value="2.5"/>
+    <PARAM id="track_5_eq8_b5_q" value="1.5"/>
+    <PARAM id="track_5_eq8_b6_freq" value="10000.0"/>
+    <PARAM id="track_5_eq8_b6_gain"/>
+    <PARAM id="track_5_eq8_b6_q" value="0.707"/>
+    <PARAM id="track_5_eq8_b7_freq" value="22000.0"/>
+    <PARAM id="track_5_eq8_b7_gain"/>
+    <PARAM id="track_5_eq8_b7_q" value="0.707"/>
+    <PARAM id="track_5_eq8_on" value="1.0"/>
+    <PARAM id="track_5_midi_note" value="45.0"/>
+    <PARAM id="track_5_mute"/>
+    <PARAM id="track_5_output" value="0.0"/>
+    <PARAM id="track_5_output_mode" value="0.0"/>
+    <PARAM id="track_5_pan" value="-0.25"/>
+    <PARAM id="track_5_phase"/>
+    <PARAM id="track_5_reverb_send" value="0.16"/>
+    <PARAM id="track_5_sat_send" value="0.2"/>
+    <PARAM id="track_5_solo"/>
+    <PARAM id="track_5_trk_comp_atk" value="5.0"/>
+    <PARAM id="track_5_trk_comp_mkp" value="0.0"/>
+    <PARAM id="track_5_trk_comp_on"/>
+    <PARAM id="track_5_trk_comp_rat" value="4.0"/>
+    <PARAM id="track_5_trk_comp_rel" value="80.0"/>
+    <PARAM id="track_5_trk_comp_thr" value="-20.0"/>
+    <PARAM id="track_5_tune" value="-3.0"/>
+    <PARAM id="track_5_volume" value="0.85"/>
+    <PARAM id="track_6_attack" value="0.0"/>
+    <PARAM id="track_6_bleed_enable" value="1.0"/>
+    <PARAM id="track_6_bleed_send" value="0.2"/>
+    <PARAM id="track_6_choke"/>
+    <PARAM id="track_6_comp_send" value="0.3"/>
+    <PARAM id="track_6_decay" value="0.75"/>
+    <PARAM id="track_6_eq_high" value="0.0"/>
+    <PARAM id="track_6_eq_low" value="0.0"/>
+    <PARAM id="track_6_eq_mid" value="0.0"/>
+    <PARAM id="track_6_eq8_b0_freq" value="50.0"/>
+    <PARAM id="track_6_eq8_b0_gain"/>
+    <PARAM id="track_6_eq8_b0_q" value="0.707"/>
+    <PARAM id="track_6_eq8_b1_freq" value="80.0"/>
+    <PARAM id="track_6_eq8_b1_gain" value="4.0"/>
+    <PARAM id="track_6_eq8_b1_q" value="0.8"/>
+    <PARAM id="track_6_eq8_b2_freq" value="200.0"/>
+    <PARAM id="track_6_eq8_b2_gain"/>
+    <PARAM id="track_6_eq8_b2_q" value="1.0"/>
+    <PARAM id="track_6_eq8_b3_freq" value="300.0"/>
+    <PARAM id="track_6_eq8_b3_gain" value="-4.0"/>
+    <PARAM id="track_6_eq8_b3_q" value="2.0"/>
+    <PARAM id="track_6_eq8_b4_freq" value="1500.0"/>
+    <PARAM id="track_6_eq8_b4_gain" value="-2.5"/>
+    <PARAM id="track_6_eq8_b4_q" value="2.0"/>
+    <PARAM id="track_6_eq8_b5_freq" value="2500.0"/>
+    <PARAM id="track_6_eq8_b5_gain" value="2.0"/>
+    <PARAM id="track_6_eq8_b5_q" value="1.5"/>
+    <PARAM id="track_6_eq8_b6_freq" value="10000.0"/>
+    <PARAM id="track_6_eq8_b6_gain"/>
+    <PARAM id="track_6_eq8_b6_q" value="0.707"/>
+    <PARAM id="track_6_eq8_b7_freq" value="22000.0"/>
+    <PARAM id="track_6_eq8_b7_gain"/>
+    <PARAM id="track_6_eq8_b7_q" value="0.707"/>
+    <PARAM id="track_6_eq8_on" value="1.0"/>
+    <PARAM id="track_6_midi_note" value="43.0"/>
+    <PARAM id="track_6_mute"/>
+    <PARAM id="track_6_output" value="0.0"/>
+    <PARAM id="track_6_output_mode" value="0.0"/>
+    <PARAM id="track_6_pan" value="0.3"/>
+    <PARAM id="track_6_phase"/>
+    <PARAM id="track_6_reverb_send" value="0.16"/>
+    <PARAM id="track_6_sat_send" value="0.2"/>
+    <PARAM id="track_6_solo"/>
+    <PARAM id="track_6_trk_comp_atk" value="5.0"/>
+    <PARAM id="track_6_trk_comp_mkp" value="0.0"/>
+    <PARAM id="track_6_trk_comp_on"/>
+    <PARAM id="track_6_trk_comp_rat" value="4.0"/>
+    <PARAM id="track_6_trk_comp_rel" value="80.0"/>
+    <PARAM id="track_6_trk_comp_thr" value="-20.0"/>
+    <PARAM id="track_6_tune" value="-4.0"/>
+    <PARAM id="track_6_volume" value="0.85"/>
+    <PARAM id="track_7_attack" value="0.0"/>
+    <PARAM id="track_7_bleed_enable" value="1.0"/>
+    <PARAM id="track_7_bleed_send" value="0.2"/>
+    <PARAM id="track_7_choke"/>
+    <PARAM id="track_7_comp_send" value="0.3"/>
+    <PARAM id="track_7_decay" value="0.85"/>
+    <PARAM id="track_7_eq_high" value="0.0"/>
+    <PARAM id="track_7_eq_low" value="0.0"/>
+    <PARAM id="track_7_eq_mid" value="0.0"/>
+    <PARAM id="track_7_eq8_b0_freq" value="40.0"/>
+    <PARAM id="track_7_eq8_b0_gain"/>
+    <PARAM id="track_7_eq8_b0_q" value="0.707"/>
+    <PARAM id="track_7_eq8_b1_freq" value="70.0"/>
+    <PARAM id="track_7_eq8_b1_gain" value="6.0"/>
+    <PARAM id="track_7_eq8_b1_q" value="0.7"/>
+    <PARAM id="track_7_eq8_b2_freq" value="200.0"/>
+    <PARAM id="track_7_eq8_b2_gain"/>
+    <PARAM id="track_7_eq8_b2_q" value="1.0"/>
+    <PARAM id="track_7_eq8_b3_freq" value="280.0"/>
+    <PARAM id="track_7_eq8_b3_gain" value="-4.0"/>
+    <PARAM id="track_7_eq8_b3_q" value="2.0"/>
+    <PARAM id="track_7_eq8_b4_freq" value="1200.0"/>
+    <PARAM id="track_7_eq8_b4_gain" value="-3.0"/>
+    <PARAM id="track_7_eq8_b4_q" value="2.0"/>
+    <PARAM id="track_7_eq8_b5_freq" value="2500.0"/>
+    <PARAM id="track_7_eq8_b5_gain" value="1.5"/>
+    <PARAM id="track_7_eq8_b5_q" value="1.5"/>
+    <PARAM id="track_7_eq8_b6_freq" value="10000.0"/>
+    <PARAM id="track_7_eq8_b6_gain"/>
+    <PARAM id="track_7_eq8_b6_q" value="0.707"/>
+    <PARAM id="track_7_eq8_b7_freq" value="22000.0"/>
+    <PARAM id="track_7_eq8_b7_gain"/>
+    <PARAM id="track_7_eq8_b7_q" value="0.707"/>
+    <PARAM id="track_7_eq8_on" value="1.0"/>
+    <PARAM id="track_7_midi_note" value="41.0"/>
+    <PARAM id="track_7_mute"/>
+    <PARAM id="track_7_output" value="0.0"/>
+    <PARAM id="track_7_output_mode" value="0.0"/>
+    <PARAM id="track_7_pan" value="0.55"/>
+    <PARAM id="track_7_phase"/>
+    <PARAM id="track_7_reverb_send" value="0.16"/>
+    <PARAM id="track_7_sat_send" value="0.2"/>
+    <PARAM id="track_7_solo"/>
+    <PARAM id="track_7_trk_comp_atk" value="5.0"/>
+    <PARAM id="track_7_trk_comp_mkp" value="0.0"/>
+    <PARAM id="track_7_trk_comp_on"/>
+    <PARAM id="track_7_trk_comp_rat" value="4.0"/>
+    <PARAM id="track_7_trk_comp_rel" value="80.0"/>
+    <PARAM id="track_7_trk_comp_thr" value="-20.0"/>
+    <PARAM id="track_7_tune" value="-5.0"/>
+    <PARAM id="track_7_volume" value="0.9"/>
+    <PARAM id="track_8_attack" value="0.0"/>
+    <PARAM id="track_8_bleed_enable"/>
+    <PARAM id="track_8_bleed_send" value="1.0"/>
+    <PARAM id="track_8_choke"/>
+    <PARAM id="track_8_comp_send" value="0.1"/>
+    <PARAM id="track_8_decay" value="0.3"/>
+    <PARAM id="track_8_eq_high" value="0.0"/>
+    <PARAM id="track_8_eq_low" value="0.0"/>
+    <PARAM id="track_8_eq_mid" value="0.0"/>
+    <PARAM id="track_8_eq8_b0_freq" value="200.0"/>
+    <PARAM id="track_8_eq8_b0_gain" value="-8.0"/>
+    <PARAM id="track_8_eq8_b0_q" value="0.5"/>
+    <PARAM id="track_8_eq8_b1_freq" value="500.0"/>
+    <PARAM id="track_8_eq8_b1_gain" value="-4.0"/>
+    <PARAM id="track_8_eq8_b1_q" value="1.0"/>
+    <PARAM id="track_8_eq8_b2_freq" value="200.0"/>
+    <PARAM id="track_8_eq8_b2_gain"/>
+    <PARAM id="track_8_eq8_b2_q" value="1.0"/>
+    <PARAM id="track_8_eq8_b3_freq" value="3000.0"/>
+    <PARAM id="track_8_eq8_b3_gain" value="-1.5"/>
+    <PARAM id="track_8_eq8_b3_q" value="1.5"/>
+    <PARAM id="track_8_eq8_b4_freq" value="8000.0"/>
+    <PARAM id="track_8_eq8_b4_gain" value="2.5"/>
+    <PARAM id="track_8_eq8_b4_q" value="1.0"/>
+    <PARAM id="track_8_eq8_b5_freq" value="12000.0"/>
+    <PARAM id="track_8_eq8_b5_gain" value="3.0"/>
+    <PARAM id="track_8_eq8_b5_q" value="0.9"/>
+    <PARAM id="track_8_eq8_b6_freq" value="16000.0"/>
+    <PARAM id="track_8_eq8_b6_gain" value="2.0"/>
+    <PARAM id="track_8_eq8_b6_q" value="0.6"/>
+    <PARAM id="track_8_eq8_b7_freq" value="22000.0"/>
+    <PARAM id="track_8_eq8_b7_gain"/>
+    <PARAM id="track_8_eq8_b7_q" value="0.707"/>
+    <PARAM id="track_8_eq8_on" value="1.0"/>
+    <PARAM id="track_8_midi_note" value="42.0"/>
+    <PARAM id="track_8_mute"/>
+    <PARAM id="track_8_output" value="0.0"/>
+    <PARAM id="track_8_output_mode" value="0.0"/>
+    <PARAM id="track_8_pan" value="-0.5"/>
+    <PARAM id="track_8_phase"/>
+    <PARAM id="track_8_reverb_send" value="0.03"/>
+    <PARAM id="track_8_sat_send" value="0.05"/>
+    <PARAM id="track_8_solo"/>
+    <PARAM id="track_8_trk_comp_atk" value="5.0"/>
+    <PARAM id="track_8_trk_comp_mkp" value="0.0"/>
+    <PARAM id="track_8_trk_comp_on"/>
+    <PARAM id="track_8_trk_comp_rat" value="4.0"/>
+    <PARAM id="track_8_trk_comp_rel" value="80.0"/>
+    <PARAM id="track_8_trk_comp_thr" value="-20.0"/>
+    <PARAM id="track_8_tune" value="0.0"/>
+    <PARAM id="track_8_volume" value="0.6"/>
+    <PARAM id="track_9_attack" value="0.0"/>
+    <PARAM id="track_9_bleed_enable"/>
+    <PARAM id="track_9_bleed_send" value="1.0"/>
+    <PARAM id="track_9_choke"/>
+    <PARAM id="track_9_comp_send" value="0.1"/>
+    <PARAM id="track_9_decay" value="0.45"/>
+    <PARAM id="track_9_eq_high" value="0.0"/>
+    <PARAM id="track_9_eq_low" value="0.0"/>
+    <PARAM id="track_9_eq_mid" value="0.0"/>
+    <PARAM id="track_9_eq8_b0_freq" value="200.0"/>
+    <PARAM id="track_9_eq8_b0_gain" value="-7.0"/>
+    <PARAM id="track_9_eq8_b0_q" value="0.5"/>
+    <PARAM id="track_9_eq8_b1_freq" value="600.0"/>
+    <PARAM id="track_9_eq8_b1_gain" value="-3.0"/>
+    <PARAM id="track_9_eq8_b1_q" value="1.0"/>
+    <PARAM id="track_9_eq8_b2_freq" value="200.0"/>
+    <PARAM id="track_9_eq8_b2_gain"/>
+    <PARAM id="track_9_eq8_b2_q" value="1.0"/>
+    <PARAM id="track_9_eq8_b3_freq" value="3500.0"/>
+    <PARAM id="track_9_eq8_b3_gain" value="-1.0"/>
+    <PARAM id="track_9_eq8_b3_q" value="1.5"/>
+    <PARAM id="track_9_eq8_b4_freq" value="8000.0"/>
+    <PARAM id="track_9_eq8_b4_gain" value="2.0"/>
+    <PARAM id="track_9_eq8_b4_q" value="1.0"/>
+    <PARAM id="track_9_eq8_b5_freq" value="10000.0"/>
+    <PARAM id="track_9_eq8_b5_gain" value="2.0"/>
+    <PARAM id="track_9_eq8_b5_q" value="0.9"/>
+    <PARAM id="track_9_eq8_b6_freq" value="14000.0"/>
+    <PARAM id="track_9_eq8_b6_gain" value="1.5"/>
+    <PARAM id="track_9_eq8_b6_q" value="0.707"/>
+    <PARAM id="track_9_eq8_b7_freq" value="22000.0"/>
+    <PARAM id="track_9_eq8_b7_gain"/>
+    <PARAM id="track_9_eq8_b7_q" value="0.707"/>
+    <PARAM id="track_9_eq8_on" value="1.0"/>
+    <PARAM id="track_9_midi_note" value="44.0"/>
+    <PARAM id="track_9_mute"/>
+    <PARAM id="track_9_output" value="0.0"/>
+    <PARAM id="track_9_output_mode" value="0.0"/>
+    <PARAM id="track_9_pan" value="-0.5"/>
+    <PARAM id="track_9_phase"/>
+    <PARAM id="track_9_reverb_send" value="0.04"/>
+    <PARAM id="track_9_sat_send" value="0.15"/>
+    <PARAM id="track_9_solo"/>
+    <PARAM id="track_9_trk_comp_atk" value="5.0"/>
+    <PARAM id="track_9_trk_comp_mkp" value="0.0"/>
+    <PARAM id="track_9_trk_comp_on"/>
+    <PARAM id="track_9_trk_comp_rat" value="4.0"/>
+    <PARAM id="track_9_trk_comp_rel" value="80.0"/>
+    <PARAM id="track_9_trk_comp_thr" value="-20.0"/>
+    <PARAM id="track_9_tune" value="0.0"/>
+    <PARAM id="track_9_volume" value="0.55"/>
+  </DDDParams>
+  <Tracks>
+    <Track name="KICK" samplePath="{builtin}/KICK.wav"
+           sampleMode="1" numVariants="8"/>
+    <Track name="KICK 2" samplePath="{builtin}/KICK 2.wav"
+           sampleMode="1" numVariants="8"/>
+    <Track name="SNARE" samplePath="{builtin}/SNARE.wav"
+           sampleMode="1" numVariants="8"/>
+    <Track name="RIM" samplePath="{builtin}/RIM.wav"
+           sampleMode="1" numVariants="8"/>
+    <Track name="TOM 1" samplePath="{builtin}/TOM 1.wav"
+           sampleMode="1" numVariants="8"/>
+    <Track name="TOM 2" samplePath="{builtin}/TOM 2.wav"
+           sampleMode="1" numVariants="8"/>
+    <Track name="TOM 3" samplePath="{builtin}/TOM 3.wav"
+           sampleMode="1" numVariants="8"/>
+    <Track name="TOM 4" samplePath="{builtin}/TOM 4.wav"
+           sampleMode="1" numVariants="8"/>
+    <Track name="HIHAT CLOSED" samplePath="{builtin}/HIHAT CLOSED.wav"
+           sampleMode="1" numVariants="8"/>
+    <Track name="HIHAT HALF LOOSE" samplePath="{builtin}/HIHAT HALF LOOSE.wav"
+           sampleMode="1" numVariants="8"/>
+    <Track name="HIHAT LOOSE" samplePath="{builtin}/HIHAT LOOSE.wav"
+           sampleMode="1" numVariants="8"/>
+    <Track name="HIHAT OPEN" samplePath="{builtin}/HIHAT OPEN.wav"
+           sampleMode="1" numVariants="8"/>
+    <Track name="CRASH 1" samplePath="{builtin}/CRASH 1.wav"
+           sampleMode="1" numVariants="8"/>
+    <Track name="CRASH 2" samplePath="{builtin}/CRASH 2.wav"
+           sampleMode="1" numVariants="8"/>
+    <Track name="RIDE" samplePath="{builtin}/RIDE.wav"
+           sampleMode="1" numVariants="8"/>
+    <Track name="CHINA" samplePath="{builtin}/CHINA.wav"
+           sampleMode="1" numVariants="8"/>
+    <Track name="SPLASH" samplePath="{builtin}/SPLASH.wav"
+           sampleMode="1" numVariants="8"/>
+    <Track name="BELL" samplePath="{builtin}/BELL.wav"
+           sampleMode="1" numVariants="8"/>
+  </Tracks>
+</DDDState>

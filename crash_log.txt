@@ -1,0 +1,478 @@
+
+Microsoft (R) Windows Debugger Version 10.0.18362.1 AMD64
+Copyright (c) Microsoft Corporation. All rights reserved.
+
+CommandLine: "C:\Users\crypt\OneDrive\Desktop\DEATH DEALER DRUMS\build\windows\DeathDealerDrums_artefacts\Debug\Standalone\Death Dealer Drums.exe" 
+Symbol search path is: srv*
+Executable search path is: 
+ModLoad: 00007ff7`03330000 00007ff7`049d6000   Death Dealer Drums.exe
+ModLoad: 00007ffb`bec00000 00007ffb`bee67000   ntdll.dll
+ModLoad: 00007ffb`bd770000 00007ffb`bd839000   C:\WINDOWS\System32\KERNEL32.DLL
+ModLoad: 00007ffb`bc490000 00007ffb`bc887000   C:\WINDOWS\System32\KERNELBASE.dll
+ModLoad: 00007ffb`bd460000 00007ffb`bd626000   C:\WINDOWS\System32\USER32.dll
+ModLoad: 00007ffb`bc890000 00007ffb`bc8b7000   C:\WINDOWS\System32\win32u.dll
+ModLoad: 00007ffb`bcac0000 00007ffb`bcaeb000   C:\WINDOWS\System32\GDI32.dll
+ModLoad: 00007ffb`bc130000 00007ffb`bc25c000   C:\WINDOWS\System32\gdi32full.dll
+ModLoad: 00007ffb`bc080000 00007ffb`bc123000   C:\WINDOWS\System32\msvcp_win.dll
+ModLoad: 00007ffb`bbf30000 00007ffb`bc07b000   C:\WINDOWS\System32\ucrtbase.dll
+ModLoad: 00007ffb`bd9f0000 00007ffb`be15e000   C:\WINDOWS\System32\SHELL32.dll
+ModLoad: 00007ffb`be170000 00007ffb`be307000   C:\WINDOWS\System32\ole32.dll
+ModLoad: 00007ffb`bcff0000 00007ffb`bd373000   C:\WINDOWS\System32\combase.dll
+ModLoad: 00007ffb`bced0000 00007ffb`bcfe8000   C:\WINDOWS\System32\RPCRT4.dll
+ModLoad: 00007ffb`bd380000 00007ffb`bd459000   C:\WINDOWS\System32\OLEAUT32.dll
+ModLoad: 00007ffb`bcbb0000 00007ffb`bcca0000   C:\WINDOWS\System32\COMDLG32.dll
+ModLoad: 00007ffb`bc9c0000 00007ffb`bcab6000   C:\WINDOWS\System32\shcore.dll
+ModLoad: 00007ffb`bd700000 00007ffb`bd766000   C:\WINDOWS\System32\SHLWAPI.dll
+ModLoad: 00007ffb`bb630000 00007ffb`bbe9c000   C:\WINDOWS\System32\Windows.Storage.dll
+ModLoad: 00007ffb`beb00000 00007ffb`bebb6000   C:\WINDOWS\System32\advapi32.dll
+ModLoad: 00007ffb`bd940000 00007ffb`bd9e9000   C:\WINDOWS\System32\msvcrt.dll
+ModLoad: 00007ffb`bcaf0000 00007ffb`bcb97000   C:\WINDOWS\System32\sechost.dll
+ModLoad: 00007ffb`be310000 00007ffb`be390000   C:\WINDOWS\System32\WS2_32.dll
+ModLoad: 00007ffb`a2b30000 00007ffb`a2dc2000   C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.26100.8328_none_3e08182ce334b678\COMCTL32.dll
+ModLoad: 00007ffb`a36d0000 00007ffb`a3965000   C:\WINDOWS\SYSTEM32\WININET.dll
+ModLoad: 00007ffb`bc980000 00007ffb`bc9b2000   C:\WINDOWS\System32\IMM32.dll
+ModLoad: 00007ffb`55630000 00007ffb`55711000   C:\WINDOWS\SYSTEM32\MSVCP140D.dll
+ModLoad: 00007ffb`b5d80000 00007ffb`b5d8b000   C:\WINDOWS\SYSTEM32\VERSION.dll
+ModLoad: 00007ffb`ae2a0000 00007ffb`ae2d6000   C:\WINDOWS\SYSTEM32\WINMM.dll
+ModLoad: 00007ffb`af9d0000 00007ffb`afc12000   C:\WINDOWS\SYSTEM32\dbghelp.dll
+ModLoad: 00007ffb`b7cf0000 00007ffb`b832a000   C:\WINDOWS\SYSTEM32\d2d1.dll
+ModLoad: 00007ffb`b9240000 00007ffb`b937e000   C:\WINDOWS\SYSTEM32\dxgi.dll
+ModLoad: 00007ffb`b8330000 00007ffb`b8592000   C:\WINDOWS\SYSTEM32\d3d11.dll
+ModLoad: 00007ffb`b85a0000 00007ffb`b87c2000   C:\WINDOWS\SYSTEM32\dcomp.dll
+ModLoad: 00007ffb`900c0000 00007ffb`900f0000   C:\WINDOWS\SYSTEM32\VCRUNTIME140D.dll
+ModLoad: 00007ffb`afe30000 00007ffb`afe3f000   C:\WINDOWS\SYSTEM32\VCRUNTIME140_1D.dll
+ModLoad: 00007ffb`22c30000 00007ffb`22e34000   C:\WINDOWS\SYSTEM32\ucrtbased.dll
+ModLoad: 00007ffb`b93b0000 00007ffb`b93df000   C:\WINDOWS\SYSTEM32\dwmapi.dll
+ModLoad: 00007ffb`bb020000 00007ffb`bb07e000   C:\WINDOWS\SYSTEM32\powrprof.dll
+ModLoad: 00007ffb`ba380000 00007ffb`ba39b000   C:\WINDOWS\SYSTEM32\kernel.appcore.dll
+ModLoad: 00007ffb`b7830000 00007ffb`b7849000   C:\WINDOWS\SYSTEM32\Microsoft.Internal.WarpPal.dll
+ModLoad: 00007ffb`baf00000 00007ffb`baf14000   C:\WINDOWS\SYSTEM32\UMPDC.dll
+JUCE v8.0.5
+ModLoad: 00007ffb`bc3e0000 00007ffb`bc488000   C:\WINDOWS\System32\bcryptPrimitives.dll
+ModLoad: 00007ffb`b9110000 00007ffb`b91ba000   C:\WINDOWS\system32\uxtheme.dll
+ModLoad: 00007ffb`bccb0000 00007ffb`bce0c000   C:\WINDOWS\System32\MSCTF.dll
+ModLoad: 00007ffb`bb550000 00007ffb`bb579000   C:\WINDOWS\SYSTEM32\profapi.dll
+ModLoad: 00007ffb`5dc10000 00007ffb`5dca4000   C:\WINDOWS\SYSTEM32\dsound.dll
+ModLoad: 00007ffb`54a20000 00007ffb`54ad1000   C:\WINDOWS\SYSTEM32\ResampleDmo.DLL
+ModLoad: 00007ffb`8ff60000 00007ffb`8ff97000   C:\WINDOWS\SYSTEM32\winmmbase.dll
+ModLoad: 00007ffb`8ff40000 00007ffb`8ff4e000   C:\WINDOWS\SYSTEM32\msdmo.dll
+ModLoad: 00007ffb`bd630000 00007ffb`bd6de000   C:\WINDOWS\System32\clbcatq.dll
+ModLoad: 00007ffb`ad650000 00007ffb`ad6e9000   C:\WINDOWS\System32\MMDevApi.dll
+ModLoad: 00007ffb`bb290000 00007ffb`bb2bd000   C:\WINDOWS\System32\DEVOBJ.dll
+ModLoad: 00007ffb`bb2c0000 00007ffb`bb311000   C:\WINDOWS\SYSTEM32\cfgmgr32.dll
+ModLoad: 000001e1`0fcc0000 000001e1`0fd11000   C:\WINDOWS\System32\CFGMGR32.dll
+ModLoad: 000001e1`0def0000 000001e1`0df41000   C:\WINDOWS\SYSTEM32\cfgmgr32.dll
+ModLoad: 00007ffb`88540000 00007ffb`88587000   C:\WINDOWS\SYSTEM32\wdmaud.drv
+ModLoad: 00007ffb`8d490000 00007ffb`8d4b3000   C:\WINDOWS\SYSTEM32\wdmaud2.drv
+ModLoad: 00007ffb`b6be0000 00007ffb`b6beb000   C:\WINDOWS\SYSTEM32\AVRT.dll
+ModLoad: 00007ffb`9ef60000 00007ffb`9f113000   C:\WINDOWS\SYSTEM32\AUDIOSES.DLL
+ModLoad: 00007ffb`8f7a0000 00007ffb`8f7af000   C:\WINDOWS\SYSTEM32\msacm32.drv
+ModLoad: 00007ffb`68820000 00007ffb`68841000   C:\WINDOWS\SYSTEM32\MSACM32.dll
+ModLoad: 00007ffb`9d390000 00007ffb`9d39c000   C:\WINDOWS\SYSTEM32\midimap.dll
+ModLoad: 00007ffb`b9730000 00007ffb`b9744000   C:\WINDOWS\SYSTEM32\resourcepolicyclient.dll
+ModLoad: 00007ffb`99120000 00007ffb`9927a000   C:\Windows\System32\Windows.UI.dll
+ModLoad: 00007ffb`aede0000 00007ffb`af02d000   C:\Windows\System32\twinapi.appcore.dll
+ModLoad: 00007ffb`b7020000 00007ffb`b7126000   C:\WINDOWS\system32\propsys.dll
+ModLoad: 00007ffb`a1600000 00007ffb`a17dd000   C:\Windows\System32\urlmon.dll
+ModLoad: 00007ffb`a1150000 00007ffb`a1414000   C:\Windows\System32\iertutil.dll
+ModLoad: 00007ffb`b9d30000 00007ffb`b9d3d000   C:\Windows\System32\netutils.dll
+ModLoad: 00007ffb`a0e50000 00007ffb`a0e79000   C:\Windows\System32\srvcli.dll
+ModLoad: 00007ffb`b7850000 00007ffb`b7a7d000   C:\WINDOWS\SYSTEM32\WindowsCodecs.dll
+ModLoad: 00007ffb`9ce50000 00007ffb`9cf64000   C:\WINDOWS\SYSTEM32\MrmCoreR.dll
+ModLoad: 00007ffb`65160000 00007ffb`651cf000   C:\Windows\System32\thumbcache.dll
+ModLoad: 00007ffb`b72e0000 00007ffb`b7394000   C:\WINDOWS\SYSTEM32\policymanager.dll
+ModLoad: 00007ffb`8a070000 00007ffb`8a0ca000   C:\WINDOWS\system32\dataexchange.dll
+ModLoad: 00007ffb`b91f0000 00007ffb`b9235000   C:\WINDOWS\SYSTEM32\dxcore.dll
+ModLoad: 00007ffb`b6cd0000 00007ffb`b6d31000   C:\WINDOWS\SYSTEM32\directxdatabasehelper.dll
+ModLoad: 00007ffb`b5d90000 00007ffb`b5e54000   C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispig.inf_amd64_f4c7a2fd13e0f763\nvldumdx.dll
+ModLoad: 00007ffb`bad30000 00007ffb`bad43000   C:\WINDOWS\SYSTEM32\msasn1.dll
+ModLoad: 00007ffb`b5b70000 00007ffb`b5bab000   C:\WINDOWS\SYSTEM32\cryptnet.dll
+ModLoad: 00007ffb`bc260000 00007ffb`bc3d8000   C:\WINDOWS\System32\CRYPT32.dll
+ModLoad: 00007ffb`bab30000 00007ffb`bab3c000   C:\WINDOWS\SYSTEM32\cryptbase.dll
+ModLoad: 00007ffb`babd0000 00007ffb`bac3a000   C:\WINDOWS\SYSTEM32\wldp.dll
+ModLoad: 00007ffb`b59f0000 00007ffb`b5b68000   C:\WINDOWS\SYSTEM32\drvstore.dll
+ModLoad: 00007ffb`bbea0000 00007ffb`bbf22000   C:\WINDOWS\System32\wintrust.dll
+ModLoad: 00007ffb`bd910000 00007ffb`bd930000   C:\WINDOWS\System32\imagehlp.dll
+ModLoad: 00007ffb`bacd0000 00007ffb`baceb000   C:\WINDOWS\SYSTEM32\CRYPTSP.dll
+ModLoad: 00007ffb`ba2e0000 00007ffb`ba319000   C:\WINDOWS\system32\rsaenh.dll
+ModLoad: 00007ffb`bb520000 00007ffb`bb54a000   C:\WINDOWS\SYSTEM32\bcrypt.dll
+ModLoad: 00007ffb`b0a50000 00007ffb`b574f000   C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispig.inf_amd64_f4c7a2fd13e0f763\nvgpucomp64.dll
+ModLoad: 00007ffb`ae2e0000 00007ffb`ae410000   C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispig.inf_amd64_f4c7a2fd13e0f763\NvMemMapStoragex.dll
+ModLoad: 00007ffb`a7810000 00007ffb`ac8fe000   C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispig.inf_amd64_f4c7a2fd13e0f763\nvwgf2umx.dll
+ModLoad: 00007ffb`2d8f0000 00007ffb`2daa7000   C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispig.inf_amd64_f4c7a2fd13e0f763\nvppex.dll
+ModLoad: 00007ffb`27b40000 00007ffb`280eb000   C:\WINDOWS\SYSTEM32\d3d10warp.dll
+ModLoad: 00007ffb`b5d90000 00007ffb`b5e54000   C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispig.inf_amd64_f4c7a2fd13e0f763\nvldumdx.dll
+ModLoad: 00007ffb`b0a50000 00007ffb`b574f000   C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispig.inf_amd64_f4c7a2fd13e0f763\nvgpucomp64.dll
+ModLoad: 00007ffb`ae2e0000 00007ffb`ae410000   C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispig.inf_amd64_f4c7a2fd13e0f763\NvMemMapStoragex.dll
+ModLoad: 00007ffb`a7810000 00007ffb`ac8fe000   C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispig.inf_amd64_f4c7a2fd13e0f763\nvwgf2umx.dll
+ModLoad: 00007ffb`27b40000 00007ffb`280eb000   C:\WINDOWS\SYSTEM32\d3d10warp.dll
+ModLoad: 00007ffb`b5d90000 00007ffb`b5e54000   C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispig.inf_amd64_f4c7a2fd13e0f763\nvldumdx.dll
+ModLoad: 00007ffb`b0a50000 00007ffb`b574f000   C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispig.inf_amd64_f4c7a2fd13e0f763\nvgpucomp64.dll
+ModLoad: 00007ffb`ae2e0000 00007ffb`ae410000   C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispig.inf_amd64_f4c7a2fd13e0f763\NvMemMapStoragex.dll
+ModLoad: 00007ffb`a7810000 00007ffb`ac8fe000   C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispig.inf_amd64_f4c7a2fd13e0f763\nvwgf2umx.dll
+ModLoad: 00007ffb`27b40000 00007ffb`280eb000   C:\WINDOWS\SYSTEM32\d3d10warp.dll
+ModLoad: 00007ffb`b7a80000 00007ffb`b7ce7000   C:\WINDOWS\SYSTEM32\DWrite.dll
+ModLoad: 00007ffb`b5d90000 00007ffb`b5e54000   C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispig.inf_amd64_f4c7a2fd13e0f763\nvldumdx.dll
+ModLoad: 00007ffb`b0a50000 00007ffb`b574f000   C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispig.inf_amd64_f4c7a2fd13e0f763\nvgpucomp64.dll
+ModLoad: 00007ffb`ae2e0000 00007ffb`ae410000   C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispig.inf_amd64_f4c7a2fd13e0f763\NvMemMapStoragex.dll
+ModLoad: 00007ffb`a7810000 00007ffb`ac8fe000   C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispig.inf_amd64_f4c7a2fd13e0f763\nvwgf2umx.dll
+ModLoad: 00007ffb`27b40000 00007ffb`280eb000   C:\WINDOWS\SYSTEM32\d3d10warp.dll
+ModLoad: 00007ffb`b5d90000 00007ffb`b5e54000   C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispig.inf_amd64_f4c7a2fd13e0f763\nvldumdx.dll
+ModLoad: 00007ffb`b0a50000 00007ffb`b574f000   C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispig.inf_amd64_f4c7a2fd13e0f763\nvgpucomp64.dll
+ModLoad: 00007ffb`ae2e0000 00007ffb`ae410000   C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispig.inf_amd64_f4c7a2fd13e0f763\NvMemMapStoragex.dll
+ModLoad: 00007ffb`a7810000 00007ffb`ac8fe000   C:\WINDOWS\System32\DriverStore\FileRepository\nv_dispig.inf_amd64_f4c7a2fd13e0f763\nvwgf2umx.dll
+ModLoad: 00007ffb`27b40000 00007ffb`280eb000   C:\WINDOWS\SYSTEM32\d3d10warp.dll
+ModLoad: 00007ffb`b7a80000 00007ffb`b7ce7000   C:\WINDOWS\SYSTEM32\DWrite.dll
+ModLoad: 00007ffb`90b70000 00007ffb`90cb6000   C:\WINDOWS\SYSTEM32\textinputframework.dll
+ModLoad: 00007ffb`b8c10000 00007ffb`b8d37000   C:\WINDOWS\SYSTEM32\CoreMessaging.dll
+ModLoad: 00007ffb`b6460000 00007ffb`b6742000   C:\WINDOWS\SYSTEM32\CoreUIComponents.dll
+ModLoad: 00007ffb`b62f0000 00007ffb`b645a000   C:\WINDOWS\SYSTEM32\wintypes.dll
+(1d90.2918): Access violation - code c0000005 (first chance)
+First chance exceptions are reported before any exception handling.
+This exception may be expected and handled.
+*** WARNING: Unable to verify checksum for Death Dealer Drums.exe
+Death_Dealer_Drums!juce::Rectangle<int>::getWidth+0xb:
+00007ff7`033f165b 8b4008          mov     eax,dword ptr [rax+8] ds:00000000`00000040=????????
+0:000> cdb: Reading initial command '!analyze -v;k 20;q'
+*******************************************************************************
+*                                                                             *
+*                        Exception Analysis                                   *
+*                                                                             *
+*******************************************************************************
+
+
+KEY_VALUES_STRING: 1
+
+    Key  : AV.Dereference
+    Value: NullClassPtr
+
+    Key  : AV.Fault
+    Value: Read
+
+    Key  : Timeline.OS.Boot.DeltaSec
+    Value: 24936
+
+    Key  : Timeline.Process.Start.DeltaSec
+    Value: 2
+
+
+PROCESSES_ANALYSIS: 1
+
+SERVICE_ANALYSIS: 1
+
+STACKHASH_ANALYSIS: 1
+
+TIMELINE_ANALYSIS: 1
+
+Timeline: !analyze.Start
+    Name: <blank>
+    Time: 2026-05-02T03:36:19.637Z
+    Diff: 637 mSec
+
+Timeline: Dump.Current
+    Name: <blank>
+    Time: 2026-05-02T03:36:19.0Z
+    Diff: 0 mSec
+
+Timeline: Process.Start
+    Name: <blank>
+    Time: 2026-05-02T03:36:17.0Z
+    Diff: 2000 mSec
+
+Timeline: OS.Boot
+    Name: <blank>
+    Time: 2026-05-01T20:40:43.0Z
+    Diff: 24936000 mSec
+
+
+DUMP_CLASS: 2
+
+DUMP_QUALIFIER: 0
+
+FAULTING_IP: 
+Death_Dealer_Drums!juce::Rectangle<int>::getWidth+b
+00007ff7`033f165b 8b4008          mov     eax,dword ptr [rax+8]
+
+EXCEPTION_RECORD:  (.exr -1)
+ExceptionAddress: 00007ff7033f165b (Death_Dealer_Drums!juce::Rectangle<int>::getWidth+0x000000000000000b)
+   ExceptionCode: c0000005 (Access violation)
+  ExceptionFlags: 00000000
+NumberParameters: 2
+   Parameter[0]: 0000000000000000
+   Parameter[1]: 0000000000000040
+Attempt to read from address 0000000000000040
+
+FAULTING_THREAD:  00002918
+
+DEFAULT_BUCKET_ID:  NULL_CLASS_PTR_READ
+
+PROCESS_NAME:  Death Dealer Drums.exe
+
+FOLLOWUP_IP: 
+Death_Dealer_Drums!juce::Rectangle<int>::getWidth+b
+00007ff7`033f165b 8b4008          mov     eax,dword ptr [rax+8]
+
+READ_ADDRESS:  0000000000000040 
+
+ERROR_CODE: (NTSTATUS) 0xc0000005 - The instruction at 0x%p referenced memory at 0x%p. The memory could not be %s.
+
+EXCEPTION_CODE: (NTSTATUS) 0xc0000005 - The instruction at 0x%p referenced memory at 0x%p. The memory could not be %s.
+
+EXCEPTION_CODE_STR:  c0000005
+
+EXCEPTION_PARAMETER1:  0000000000000000
+
+EXCEPTION_PARAMETER2:  0000000000000040
+
+WATSON_BKT_PROCSTAMP:  69f56e48
+
+WATSON_BKT_PROCVER:  1.0.0.0
+
+PROCESS_VER_PRODUCT:  Death Dealer Drums
+
+WATSON_BKT_MODULE:  Death Dealer Drums.exe
+
+WATSON_BKT_MODSTAMP:  69f56e48
+
+WATSON_BKT_MODOFFSET:  c165b
+
+WATSON_BKT_MODVER:  1.0.0.0
+
+MODULE_VER_PRODUCT:  Death Dealer Drums
+
+BUILD_VERSION_STRING:  26100.1.amd64fre.ge_release.240331-1435
+
+MODLIST_WITH_TSCHKSUM_HASH:  190d9ab68ae7830ddf9e71cdd9c3bcd8da910da1
+
+MODLIST_SHA1_HASH:  31a1d63feee5913423d95c286d3ab9a476644b11
+
+DUMP_TYPE:  fe
+
+ANALYSIS_SESSION_HOST:  TBC
+
+ANALYSIS_SESSION_TIME:  05-01-2026 22:36:19.0637
+
+ANALYSIS_VERSION: 10.0.18362.1 amd64fre
+
+THREAD_ATTRIBUTES: 
+BUGCHECK_STR:  APPLICATION_FAULT_NULL_CLASS_PTR_READ_NULL_CLASS_PTR_DEREFERENCE_INVALID_POINTER_READ
+
+PRIMARY_PROBLEM_CLASS:  APPLICATION_FAULT
+
+PROBLEM_CLASSES: 
+
+    ID:     [0n313]
+    Type:   [@ACCESS_VIOLATION]
+    Class:  Addendum
+    Scope:  BUCKET_ID
+    Name:   Omit
+    Data:   Omit
+    PID:    [Unspecified]
+    TID:    [0x2918]
+    Frame:  [0] : Death_Dealer_Drums!juce::Rectangle<int>::getWidth
+
+    ID:     [0n285]
+    Type:   [INVALID_POINTER_READ]
+    Class:  Primary
+    Scope:  BUCKET_ID
+    Name:   Add
+    Data:   Omit
+    PID:    [Unspecified]
+    TID:    [0x2918]
+    Frame:  [0] : Death_Dealer_Drums!juce::Rectangle<int>::getWidth
+
+    ID:     [0n309]
+    Type:   [NULL_CLASS_PTR_DEREFERENCE]
+    Class:  Primary
+    Scope:  BUCKET_ID
+    Name:   Add
+    Data:   Omit
+    PID:    [Unspecified]
+    TID:    [0x2918]
+    Frame:  [0] : Death_Dealer_Drums!juce::Rectangle<int>::getWidth
+
+    ID:     [0n310]
+    Type:   [NULL_CLASS_PTR_READ]
+    Class:  Primary
+    Scope:  DEFAULT_BUCKET_ID (Failure Bucket ID prefix)
+            BUCKET_ID
+    Name:   Add
+    Data:   Omit
+    PID:    [0x1d90]
+    TID:    [0x2918]
+    Frame:  [0] : Death_Dealer_Drums!juce::Rectangle<int>::getWidth
+
+LAST_CONTROL_TRANSFER:  from 00007ff7033f168b to 00007ff7033f165b
+
+STACK_TEXT:  
+00000031`bd2fed60 00007ff7`033f168b : 00000000`00000038 00007ff7`03818d4f 00000000`00002918 00007ffb`00000001 : Death_Dealer_Drums!juce::Rectangle<int>::getWidth+0xb
+00000031`bd2fed70 00007ff7`038384a4 : 00000000`00000000 00000000`00000000 000001e1`00000039 00007ffb`0000010a : Death_Dealer_Drums!juce::Component::getWidth+0x1b
+00000031`bd2feda0 00007ff7`041b3b0e : 00000000`00000000 00000000`00000110 00000031`00000039 00007ff7`0000004c : Death_Dealer_Drums!juce::Component::setBounds+0xa4
+00000031`bd2fee10 00007ff7`03840ed2 : 000001e1`54ae44a0 000001e1`54ae44a0 000001e1`54b23078 cccccccc`cccccccc : Death_Dealer_Drums!DeathDealerDrumsAudioProcessorEditor::resized+0x1fe
+00000031`bd2fefc0 00007ff7`0384115d : 000001e1`54ae44a0 00000000`00000000 000001e1`54ae4401 00007ff7`033e6157 : Death_Dealer_Drums!juce::Component::sendMovedResizedMessages+0xb2
+00000031`bd2ff050 00007ff7`03838713 : 000001e1`54ae44a0 00000000`00000000 00000031`00000000 cccccccc`000004b0 : Death_Dealer_Drums!juce::Component::sendMovedResizedMessagesIfPending+0x8d
+00000031`bd2ff090 00007ff7`038383ef : 000001e1`54ae44a0 cccccccc`00000000 00000031`00000000 00007ff7`000004b0 : Death_Dealer_Drums!juce::Component::setBounds+0x313
+00000031`bd2ff100 00007ff7`041b28c8 : 000001e1`54ae44a0 000001e1`000004b0 00000031`000002bc 00000000`40000060 : Death_Dealer_Drums!juce::Component::setSize+0x4f
+00000031`bd2ff150 00007ff7`03d51670 : 000001e1`54ae44a0 000001e1`0da72f30 000001e1`0da72f58 00007ff7`034b09a6 : Death_Dealer_Drums!DeathDealerDrumsAudioProcessorEditor::DeathDealerDrumsAudioProcessorEditor+0x7e8
+00000031`bd2ff650 00007ff7`03c91087 : 000001e1`0da72f30 00000000`00000000 00000031`ffffffff 000001e1`54ae21b0 : Death_Dealer_Drums!DeathDealerDrumsAudioProcessor::createEditor+0x30
+00000031`bd2ff6a0 00007ff7`033e3af0 : 000001e1`0da72f30 000001e1`54ae22c0 00000031`bd2ff760 00000000`00000000 : Death_Dealer_Drums!juce::AudioProcessor::createEditorIfNeeded+0x97
+00000031`bd2ff710 00007ff7`033f6610 : 000001e1`54ae21b0 000001e1`0da6f730 00000031`bd2ff8f0 00007ff7`0384de5e : Death_Dealer_Drums!juce::StandaloneFilterWindow::MainContentComponent::MainContentComponent+0x190
+00000031`bd2ff7e0 00007ff7`033e4b92 : 000001e1`0da6f730 000001e1`0da6f901 00000000`ffffffff cccccccc`00000005 : Death_Dealer_Drums!juce::StandaloneFilterWindow::updateContent+0x30
+00000031`bd2ff840 00007ff7`033ef419 : 000001e1`0da6f730 00000031`bd2ff950 cccccccc`ff323e44 00000031`bd2ff938 : Death_Dealer_Drums!juce::StandaloneFilterWindow::StandaloneFilterWindow+0x222
+00000031`bd2ff900 00007ff7`033f21f9 : 000001e1`0da6d550 00007ff7`043446a0 000001e1`0da269b8 00007ff7`0434469c : Death_Dealer_Drums!juce::StandaloneFilterApp::createWindow+0x149
+00000031`bd2ff9c0 00007ff7`03513ab1 : 000001e1`0da6d550 00000031`bd2ffa80 00007ff7`04344810 00007ffb`22e1bc40 : Death_Dealer_Drums!juce::StandaloneFilterApp::initialise+0x19
+00000031`bd2ffa20 00007ff7`038c60a4 : 000001e1`0da6d550 000001e1`0da6d550 000001e1`00000001 00000031`bd2ffb38 : Death_Dealer_Drums!juce::JUCEApplicationBase::initialiseApp+0x1c1
+00000031`bd2ffac0 00007ff7`035137d8 : 000001e1`0da6d550 00000000`00000000 000001e1`00000000 000001e1`0da3a650 : Death_Dealer_Drums!juce::JUCEApplication::initialiseApp+0x14
+00000031`bd2ffaf0 00007ff7`033db98c : 00000000`00000000 00000000`00000000 00000000`00000000 00000000`0134c308 : Death_Dealer_Drums!juce::JUCEApplicationBase::main+0xc8
+00000031`bd2ffb70 00007ff7`041c0082 : 00007ff7`03330000 00000000`00000000 000001e1`0da287c6 00007ff7`0000000a : Death_Dealer_Drums!WinMain+0x2c
+00000031`bd2ffba0 00007ff7`041bff72 : 00007ff7`03394812 00007ff7`00000002 00000000`00000000 00000000`00000000 : Death_Dealer_Drums!invoke_main+0x32
+00000031`bd2ffbe0 00007ff7`041bfe2e : 00000000`00000000 00000000`00000000 00000000`00000000 00000000`00000000 : Death_Dealer_Drums!__scrt_common_main_seh+0x132
+00000031`bd2ffc50 00007ff7`041c011e : 00000000`00000000 00000000`00000000 00000000`00000000 00000000`00000000 : Death_Dealer_Drums!__scrt_common_main+0xe
+00000031`bd2ffc80 00007ffb`bd79e957 : 00000031`bd019000 00000000`00000000 00000000`00000000 00000000`00000000 : Death_Dealer_Drums!WinMainCRTStartup+0xe
+00000031`bd2ffcb0 00007ffb`bec0427c : 00000000`00000000 00000000`00000000 000004f0`fffffb30 000004d0`fffffb30 : KERNEL32!BaseThreadInitThunk+0x17
+00000031`bd2ffce0 00000000`00000000 : 00000000`00000000 00000000`00000000 00000000`00000000 00000000`00000000 : ntdll!RtlUserThreadStart+0x2c
+
+
+STACK_COMMAND:  ~0s ; .cxr ; kb
+
+THREAD_SHA1_HASH_MOD_FUNC:  b4f395293a4b57b2fab60cfa8b61002541b02008
+
+THREAD_SHA1_HASH_MOD_FUNC_OFFSET:  621db3aae68eb2452a6f9e93e4f51974fbd1af46
+
+THREAD_SHA1_HASH_MOD:  48be65f5ad1baf407cf8a9b1a309775ba30963b1
+
+FAULT_INSTR_CODE:  5f08408b
+
+FAULTING_SOURCE_LINE:  C:\Users\crypt\OneDrive\Desktop\DEATH DEALER DRUMS\build\windows\_deps\juce-src\modules\juce_graphics\geometry\juce_Rectangle.h
+
+FAULTING_SOURCE_FILE:  C:\Users\crypt\OneDrive\Desktop\DEATH DEALER DRUMS\build\windows\_deps\juce-src\modules\juce_graphics\geometry\juce_Rectangle.h
+
+FAULTING_SOURCE_LINE_NUMBER:  142
+
+SYMBOL_STACK_INDEX:  0
+
+SYMBOL_NAME:  Death_Dealer_Drums!juce::Rectangle<int>::getWidth+b
+
+FOLLOWUP_NAME:  MachineOwner
+
+MODULE_NAME: Death_Dealer_Drums
+
+IMAGE_NAME:  Death_Dealer_Drums.exe
+
+DEBUG_FLR_IMAGE_TIMESTAMP:  69f56e48
+
+FAILURE_BUCKET_ID:  NULL_CLASS_PTR_READ_c0000005_Death_Dealer_Drums.exe!juce::Rectangle_int_::getWidth
+
+BUCKET_ID:  APPLICATION_FAULT_NULL_CLASS_PTR_READ_NULL_CLASS_PTR_DEREFERENCE_INVALID_POINTER_READ_Death_Dealer_Drums!juce::Rectangle_int_::getWidth+b
+
+FAILURE_EXCEPTION_CODE:  c0000005
+
+FAILURE_IMAGE_NAME:  Death_Dealer_Drums.exe
+
+BUCKET_ID_IMAGE_STR:  Death_Dealer_Drums.exe
+
+FAILURE_MODULE_NAME:  Death_Dealer_Drums
+
+BUCKET_ID_MODULE_STR:  Death_Dealer_Drums
+
+FAILURE_FUNCTION_NAME:  juce::Rectangle_int_::getWidth
+
+BUCKET_ID_FUNCTION_STR:  juce::Rectangle_int_::getWidth
+
+BUCKET_ID_OFFSET:  b
+
+BUCKET_ID_MODTIMEDATESTAMP:  69f56e48
+
+BUCKET_ID_MODCHECKSUM:  0
+
+BUCKET_ID_MODVER_STR:  1.0.0.0
+
+BUCKET_ID_PREFIX_STR:  APPLICATION_FAULT_NULL_CLASS_PTR_READ_NULL_CLASS_PTR_DEREFERENCE_INVALID_POINTER_READ_
+
+FAILURE_PROBLEM_CLASS:  APPLICATION_FAULT
+
+FAILURE_SYMBOL_NAME:  Death_Dealer_Drums.exe!juce::Rectangle_int_::getWidth
+
+WATSON_STAGEONE_URL:  http://watson.microsoft.com/StageOne/Death Dealer Drums.exe/1.0.0.0/69f56e48/Death Dealer Drums.exe/1.0.0.0/69f56e48/c0000005/000c165b.htm?Retriage=1
+
+TARGET_TIME:  2026-05-02T03:36:24.000Z
+
+OSBUILD:  26200
+
+OSSERVICEPACK:  8328
+
+SERVICEPACK_NUMBER: 0
+
+OS_REVISION: 0
+
+SUITE_MASK:  256
+
+PRODUCT_TYPE:  1
+
+OSPLATFORM_TYPE:  x64
+
+OSNAME:  Windows 10
+
+OSEDITION:  Windows 10 WinNt SingleUserTS
+
+OS_LOCALE:  
+
+USER_LCID:  0
+
+OSBUILD_TIMESTAMP:  unknown_date
+
+BUILDDATESTAMP_STR:  240331-1435
+
+BUILDLAB_STR:  ge_release
+
+BUILDOSVER_STR:  10.0.26100.1.amd64fre.ge_release.240331-1435
+
+ANALYSIS_SESSION_ELAPSED_TIME:  13bd
+
+ANALYSIS_SOURCE:  UM
+
+FAILURE_ID_HASH_STRING:  um:null_class_ptr_read_c0000005_death_dealer_drums.exe!juce::rectangle_int_::getwidth
+
+FAILURE_ID_HASH:  {3427852c-ccdb-a1c3-b9f4-4e09f1892303}
+
+Followup:     MachineOwner
+---------
+
+Child-SP          RetAddr           Call Site
+00000031`bd2fed60 00007ff7`033f168b Death_Dealer_Drums!juce::Rectangle<int>::getWidth+0xb
+00000031`bd2fed70 00007ff7`038384a4 Death_Dealer_Drums!juce::Component::getWidth+0x1b
+00000031`bd2feda0 00007ff7`041b3b0e Death_Dealer_Drums!juce::Component::setBounds+0xa4
+00000031`bd2fee10 00007ff7`03840ed2 Death_Dealer_Drums!DeathDealerDrumsAudioProcessorEditor::resized+0x1fe
+00000031`bd2fefc0 00007ff7`0384115d Death_Dealer_Drums!juce::Component::sendMovedResizedMessages+0xb2
+00000031`bd2ff050 00007ff7`03838713 Death_Dealer_Drums!juce::Component::sendMovedResizedMessagesIfPending+0x8d
+00000031`bd2ff090 00007ff7`038383ef Death_Dealer_Drums!juce::Component::setBounds+0x313
+00000031`bd2ff100 00007ff7`041b28c8 Death_Dealer_Drums!juce::Component::setSize+0x4f
+00000031`bd2ff150 00007ff7`03d51670 Death_Dealer_Drums!DeathDealerDrumsAudioProcessorEditor::DeathDealerDrumsAudioProcessorEditor+0x7e8
+00000031`bd2ff650 00007ff7`03c91087 Death_Dealer_Drums!DeathDealerDrumsAudioProcessor::createEditor+0x30
+00000031`bd2ff6a0 00007ff7`033e3af0 Death_Dealer_Drums!juce::AudioProcessor::createEditorIfNeeded+0x97
+00000031`bd2ff710 00007ff7`033f6610 Death_Dealer_Drums!juce::StandaloneFilterWindow::MainContentComponent::MainContentComponent+0x190
+00000031`bd2ff7e0 00007ff7`033e4b92 Death_Dealer_Drums!juce::StandaloneFilterWindow::updateContent+0x30
+00000031`bd2ff840 00007ff7`033ef419 Death_Dealer_Drums!juce::StandaloneFilterWindow::StandaloneFilterWindow+0x222
+00000031`bd2ff900 00007ff7`033f21f9 Death_Dealer_Drums!juce::StandaloneFilterApp::createWindow+0x149
+00000031`bd2ff9c0 00007ff7`03513ab1 Death_Dealer_Drums!juce::StandaloneFilterApp::initialise+0x19
+00000031`bd2ffa20 00007ff7`038c60a4 Death_Dealer_Drums!juce::JUCEApplicationBase::initialiseApp+0x1c1
+00000031`bd2ffac0 00007ff7`035137d8 Death_Dealer_Drums!juce::JUCEApplication::initialiseApp+0x14
+00000031`bd2ffaf0 00007ff7`033db98c Death_Dealer_Drums!juce::JUCEApplicationBase::main+0xc8
+00000031`bd2ffb70 00007ff7`041c0082 Death_Dealer_Drums!WinMain+0x2c
+00000031`bd2ffba0 00007ff7`041bff72 Death_Dealer_Drums!invoke_main+0x32
+00000031`bd2ffbe0 00007ff7`041bfe2e Death_Dealer_Drums!__scrt_common_main_seh+0x132
+00000031`bd2ffc50 00007ff7`041c011e Death_Dealer_Drums!__scrt_common_main+0xe
+00000031`bd2ffc80 00007ffb`bd79e957 Death_Dealer_Drums!WinMainCRTStartup+0xe
+00000031`bd2ffcb0 00007ffb`bec0427c KERNEL32!BaseThreadInitThunk+0x17
+00000031`bd2ffce0 00000000`00000000 ntdll!RtlUserThreadStart+0x2c
+quit:
+NatVis script unloaded from 'C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\Visualizers\atlmfc.natvis'
+NatVis script unloaded from 'C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\Visualizers\concurrency.natvis'
+NatVis script unloaded from 'C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\Visualizers\cpp_rest.natvis'
+NatVis script unloaded from 'C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\Visualizers\stl.natvis'
+NatVis script unloaded from 'C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\Visualizers\Windows.Data.Json.natvis'
+NatVis script unloaded from 'C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\Visualizers\Windows.Devices.Geolocation.natvis'
+NatVis script unloaded from 'C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\Visualizers\Windows.Devices.Sensors.natvis'
+NatVis script unloaded from 'C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\Visualizers\Windows.Media.natvis'
+NatVis script unloaded from 'C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\Visualizers\windows.natvis'
+NatVis script unloaded from 'C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\Visualizers\winrt.natvis'

@@ -1,0 +1,274 @@
+name: Release DEATH DEALER DRUMS
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag (e.g. v1.0.0)"
+        required: true
+        type: string
+      create_release:
+        description: Create or update a GitHub release
+        required: true
+        default: true
+        type: boolean
+      notarize_macos:
+        description: Sign and notarize macOS installer (requires Apple secrets)
+        required: true
+        default: true
+        type: boolean
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+env:
+  PRODUCT_NAME: "DEATH DEALER DRUMS"
+  COMPANY_NAME: "INFERNO TONES"
+
+jobs:
+  build-windows:
+    name: Build Windows installer (.exe)
+    runs-on: windows-2022
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Resolve release tag
+        shell: pwsh
+        run: |
+          if ('${{ github.event_name }}' -eq 'workflow_dispatch') {
+            $tag = '${{ inputs.tag }}'
+          } else {
+            $tag = '${{ github.ref_name }}'
+          }
+          "RELEASE_TAG=$tag" >> $env:GITHUB_ENV
+          $version = $tag -replace '^v', ''
+          "VERSION=$version" >> $env:GITHUB_ENV
+
+      - name: Configure
+        run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64
+
+      - name: Build VST3 + Standalone
+        run: |
+          cmake --build build --config Release --target DeathDealerDrums_VST3
+          cmake --build build --config Release --target DeathDealerDrums_Standalone
+
+      - name: Stage deliverables
+        shell: pwsh
+        run: |
+          $vst3Src = 'build\DeathDealerDrums_artefacts\Release\VST3\DEATH DEALER DRUMS.vst3'
+          $exeSrc  = 'build\DeathDealerDrums_artefacts\Release\Standalone\DEATH DEALER DRUMS.exe'
+
+          if (!(Test-Path $vst3Src)) { throw "VST3 bundle not found at $vst3Src" }
+          if (!(Test-Path $exeSrc))  { throw "Standalone exe not found at $exeSrc" }
+
+          New-Item -ItemType Directory -Force -Path 'DELIVERABLES\Windows\VST3\DEATH DEALER DRUMS.vst3' | Out-Null
+          New-Item -ItemType Directory -Force -Path 'DELIVERABLES\Windows\Standalone' | Out-Null
+
+          Copy-Item -Recurse -Force "$vst3Src\*" 'DELIVERABLES\Windows\VST3\DEATH DEALER DRUMS.vst3\'
+          Copy-Item -Force $exeSrc 'DELIVERABLES\Windows\Standalone\DEATH DEALER DRUMS.exe'
+
+      - name: Install Inno Setup
+        run: choco install innosetup --no-progress -y
+
+      - name: Build Windows installer
+        shell: pwsh
+        run: |
+          $iscc = 'C:\Program Files (x86)\Inno Setup 6\ISCC.exe'
+          & $iscc 'installers\windows\DEATH_DEALER_DRUMS_Installer.iss' "/DAppVersion=$env:VERSION"
+          if ($LASTEXITCODE -ne 0) { throw "Inno Setup failed (exit $LASTEXITCODE)" }
+
+      - name: Upload Windows installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: DEATH-DEALER-DRUMS-windows-release
+          path: installers\windows\DEATH_DEALER_DRUMS_Installer_v*_Windows.exe
+          if-no-files-found: error
+
+  build-macos:
+    name: Build macOS installer (.pkg)
+    runs-on: macos-14
+    env:
+      APPLE_DEV_ID_APP_CERT_P12_BASE64: ${{ secrets.APPLE_DEV_ID_APP_CERT_P12_BASE64 }}
+      APPLE_DEV_ID_APP_CERT_PASSWORD:   ${{ secrets.APPLE_DEV_ID_APP_CERT_PASSWORD }}
+      APPLE_ID:                         ${{ secrets.APPLE_ID }}
+      APPLE_APP_SPECIFIC_PASSWORD:      ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+      APPLE_TEAM_ID:                    ${{ secrets.APPLE_TEAM_ID }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Resolve release tag
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            tag="${{ inputs.tag }}"
+          else
+            tag="${{ github.ref_name }}"
+          fi
+          echo "RELEASE_TAG=${tag}" >> "$GITHUB_ENV"
+          version="${tag#v}"
+          echo "VERSION=${version}" >> "$GITHUB_ENV"
+
+      - name: Generate LOGO.icns
+        shell: bash
+        run: |
+          chmod +x installers/macos/Generate-LOGO-icns.sh
+          installers/macos/Generate-LOGO-icns.sh
+
+      - name: Configure
+        run: |
+          cmake -S . -B build \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" \
+            -DCMAKE_OSX_DEPLOYMENT_TARGET=10.15 \
+            -DDDD_MACOS_ICNS="${GITHUB_WORKSPACE}/LOGO.icns"
+
+      - name: Build VST3 + AU + Standalone
+        run: |
+          cmake --build build --config Release --target DeathDealerDrums_VST3
+          cmake --build build --config Release --target DeathDealerDrums_AU
+          cmake --build build --config Release --target DeathDealerDrums_Standalone
+
+      - name: Import Developer ID certificate
+        if: >
+          (github.event_name != 'workflow_dispatch' || inputs.notarize_macos) &&
+          env.APPLE_DEV_ID_APP_CERT_P12_BASE64 != '' &&
+          env.APPLE_DEV_ID_APP_CERT_PASSWORD   != ''
+        shell: bash
+        run: |
+          CERT_PATH="$RUNNER_TEMP/developer-id-application.p12"
+          KEYCHAIN_PATH="$RUNNER_TEMP/deathdealerdrums-signing.keychain-db"
+          KEYCHAIN_PASSWORD="deathdealerdrums-temporary-keychain"
+
+          echo "$APPLE_DEV_ID_APP_CERT_P12_BASE64" | base64 --decode > "$CERT_PATH"
+          security create-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security set-keychain-settings -lut 21600 "$KEYCHAIN_PATH"
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security import "$CERT_PATH" -P "$APPLE_DEV_ID_APP_CERT_PASSWORD" -A -t cert -f pkcs12 -k "$KEYCHAIN_PATH"
+          security list-keychains -d user -s "$KEYCHAIN_PATH"
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+
+          CODE_SIGN_IDENTITY=$(security find-identity -v -p codesigning "$KEYCHAIN_PATH" \
+            | awk -F '"' '/Developer ID Application/ { print $2; exit }')
+          test -n "$CODE_SIGN_IDENTITY" || { echo "No Developer ID Application identity found"; exit 1; }
+
+          echo "CODE_SIGN_IDENTITY=$CODE_SIGN_IDENTITY" >> "$GITHUB_ENV"
+
+      - name: Sign macOS bundles
+        if: >
+          (github.event_name != 'workflow_dispatch' || inputs.notarize_macos) &&
+          env.APPLE_DEV_ID_APP_CERT_P12_BASE64 != '' &&
+          env.APPLE_DEV_ID_APP_CERT_PASSWORD   != ''
+        shell: bash
+        run: |
+          mapfile -t bundles < <(
+            find build -type d \( -name "DEATH DEALER DRUMS.app" -o -name "DEATH DEALER DRUMS.vst3" -o -name "DEATH DEALER DRUMS.component" \)
+          )
+
+          test ${#bundles[@]} -gt 0 || { echo "No bundles found to sign"; exit 1; }
+
+          for bundle in "${bundles[@]}"; do
+            xattr -cr "$bundle"
+            chmod -R u+w "$bundle"
+            codesign --force --deep --options runtime --timestamp \
+              --sign "$CODE_SIGN_IDENTITY" "$bundle"
+            codesign --verify --verbose=2 "$bundle"
+          done
+
+      - name: Notarize and staple macOS bundles
+        if: >
+          (github.event_name != 'workflow_dispatch' || inputs.notarize_macos) &&
+          env.APPLE_DEV_ID_APP_CERT_P12_BASE64 != '' &&
+          env.APPLE_DEV_ID_APP_CERT_PASSWORD   != '' &&
+          env.APPLE_ID                         != '' &&
+          env.APPLE_APP_SPECIFIC_PASSWORD      != '' &&
+          env.APPLE_TEAM_ID                    != ''
+        shell: bash
+        run: |
+          NOTARY_PROFILE="deathdealerdrums-notary-profile"
+          NOTARY_ZIP="$RUNNER_TEMP/DEATH-DEALER-DRUMS-macos-notary.zip"
+
+          xcrun notarytool store-credentials "$NOTARY_PROFILE" \
+            --apple-id "$APPLE_ID" \
+            --team-id "$APPLE_TEAM_ID" \
+            --password "$APPLE_APP_SPECIFIC_PASSWORD"
+
+          mkdir -p release/macos
+          find build -type d -name "DEATH DEALER DRUMS.app" -exec cp -R {} release/macos/ \; -quit
+          find build -type d -name "DEATH DEALER DRUMS.vst3" -exec cp -R {} release/macos/ \; -quit
+          find build -type d -name "DEATH DEALER DRUMS.component" -exec cp -R {} release/macos/ \; -quit
+
+          ditto -c -k --keepParent release/macos "$NOTARY_ZIP"
+          xcrun notarytool submit "$NOTARY_ZIP" --keychain-profile "$NOTARY_PROFILE" --wait
+
+          xcrun stapler staple "release/macos/DEATH DEALER DRUMS.app"
+          xcrun stapler staple "release/macos/DEATH DEALER DRUMS.vst3"
+          xcrun stapler staple "release/macos/DEATH DEALER DRUMS.component"
+
+      - name: Build macOS pkg
+        shell: bash
+        run: |
+          chmod +x installers/macos/Build-DEATH-DEALER-DRUMS-macOS-pkg.sh
+          installers/macos/Build-DEATH-DEALER-DRUMS-macOS-pkg.sh "$VERSION"
+
+      - name: Upload macOS installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: DEATH-DEALER-DRUMS-macos-release
+          path: release/DEATH-DEALER-DRUMS-macOS-*.pkg
+          if-no-files-found: error
+
+  publish-release:
+    name: Publish GitHub release
+    needs:
+      - build-windows
+      - build-macos
+    if: ${{ github.event_name == 'push' || inputs.create_release }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download installers
+        uses: actions/download-artifact@v4
+        with:
+          pattern: DEATH-DEALER-DRUMS-*-release
+          path: release-assets
+          merge-multiple: true
+
+      - name: Resolve release tag
+        id: meta
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            tag="${{ inputs.tag }}"
+          else
+            tag="${{ github.ref_name }}"
+          fi
+          echo "tag=${tag}" >> "$GITHUB_OUTPUT"
+
+      - name: Create or update GitHub release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ steps.meta.outputs.tag }}
+        run: |
+          ls -la release-assets
+
+          if gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Release $RELEASE_TAG exists — uploading refreshed installers."
+          else
+            gh release create "$RELEASE_TAG" \
+              --repo "$GITHUB_REPOSITORY" \
+              --title "DEATH DEALER DRUMS $RELEASE_TAG" \
+              --generate-notes
+          fi
+
+          gh release upload "$RELEASE_TAG" \
+            --repo "$GITHUB_REPOSITORY" \
+            release-assets/* \
+            --clobber

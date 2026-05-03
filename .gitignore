@@ -1,0 +1,36 @@
+# Build output
+build/
+DELIVERABLES/
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+*.cmake
+!CMakeLists.txt
+
+# JUCE fetched dependency
+_deps/
+
+# IDE
+.vs/
+.vscode/settings.json
+*.user
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.xcodeproj
+*.xcworkspace
+*.xcuserdata
+
+# macOS
+.DS_Store
+*.dSYM/
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Logs / temp
+*.log
+*.tmp
