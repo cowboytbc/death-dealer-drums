@@ -10,6 +10,7 @@
 #define AppURL         "https://myinferno.online/"
 #define VST3Src        "..\..\DELIVERABLES\Windows\VST3\DEATH DEALER DRUMS.vst3"
 #define StandaloneSrc  "..\..\DELIVERABLES\Windows\Standalone\DEATH DEALER DRUMS.exe"
+#define LogoIcoSrc     "..\..\LOGO.ico"
 
 [Setup]
 AppId={{A86D4A6C-8A59-4B2B-9C57-DAA37E220C5B}
@@ -48,14 +49,15 @@ Name: "{code:GetStandaloneDir}";                     Components: standalone
 [Files]
 Source: "{#VST3Src}\*"; DestDir: "{code:GetVST3Dir}\DEATH DEALER DRUMS.vst3"; Flags: recursesubdirs createallsubdirs ignoreversion; Components: vst3
 Source: "{#StandaloneSrc}"; DestDir: "{code:GetStandaloneDir}"; Flags: ignoreversion; Components: standalone
+Source: "{#LogoIcoSrc}"; DestDir: "{code:GetStandaloneDir}"; Flags: ignoreversion; Components: standalone
 
 [Icons]
-Name: "{group}\DEATH DEALER DRUMS (Standalone)"; Filename: "{code:GetStandaloneDir}\DEATH DEALER DRUMS.exe"; Components: standalone
+Name: "{group}\DEATH DEALER DRUMS (Standalone)"; Filename: "{code:GetStandaloneDir}\DEATH DEALER DRUMS.exe"; IconFilename: "{code:GetStandaloneDir}\LOGO.ico"; Components: standalone
 Name: "{group}\Uninstall DEATH DEALER DRUMS"; Filename: "{uninstallexe}"
-Name: "{autodesktop}\DEATH DEALER DRUMS"; Filename: "{code:GetStandaloneDir}\DEATH DEALER DRUMS.exe"; Components: standalone; Tasks: desktopicon
+Name: "{autodesktop}\DEATH DEALER DRUMS"; Filename: "{code:GetStandaloneDir}\DEATH DEALER DRUMS.exe"; IconFilename: "{code:GetStandaloneDir}\LOGO.ico"; Components: standalone; Tasks: desktopicon
 
 [Tasks]
-Name: "desktopicon"; Description: "Create a &desktop shortcut for the Standalone app"; Components: standalone
+Name: "desktopicon"; Description: "Create a &desktop shortcut for the Standalone app"; Components: standalone; Flags: checkedonce
 
 [Run]
 Filename: "{code:GetStandaloneDir}\DEATH DEALER DRUMS.exe"; Description: "Launch DEATH DEALER DRUMS now"; Flags: nowait postinstall skipifsilent; Components: standalone
@@ -63,6 +65,7 @@ Filename: "{code:GetStandaloneDir}\DEATH DEALER DRUMS.exe"; Description: "Launch
 [UninstallDelete]
 Type: filesandordirs; Name: "{code:GetVST3Dir}\DEATH DEALER DRUMS.vst3"
 Type: files; Name: "{code:GetStandaloneDir}\DEATH DEALER DRUMS.exe"
+Type: files; Name: "{code:GetStandaloneDir}\LOGO.ico"
 
 [Code]
 var

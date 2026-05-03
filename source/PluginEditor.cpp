@@ -3026,7 +3026,9 @@ DeathDealerDrumsAudioProcessorEditor::DeathDealerDrumsAudioProcessorEditor (
     addAndMakeVisible (helpBtn);
 
     setResizable (false, false);
+    uiLayoutReady = true;
     setSize (W, H);
+    resized();
 }
 
 DeathDealerDrumsAudioProcessorEditor::~DeathDealerDrumsAudioProcessorEditor()
@@ -3359,6 +3361,9 @@ void DeathDealerDrumsAudioProcessorEditor::paint (juce::Graphics& g)
 
 void DeathDealerDrumsAudioProcessorEditor::resized ()
 {
+    if (!uiLayoutReady)
+        return;
+
     const int headerH = 80;
     const int footerH = 90;
     const int listW   = 380;

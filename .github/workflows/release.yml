@@ -82,6 +82,10 @@ jobs:
           & $iscc 'installers\windows\DEATH_DEALER_DRUMS_Installer.iss' "/DAppVersion=$env:VERSION"
           if ($LASTEXITCODE -ne 0) { throw "Inno Setup failed (exit $LASTEXITCODE)" }
 
+          $built = Get-ChildItem 'installers\windows\DEATH_DEALER_DRUMS_Installer_v*_Windows.exe' | Select-Object -First 1
+          if (!$built) { throw "Windows installer .exe not found in installers\\windows" }
+          Write-Output "Windows installer built: $($built.Name)"
+
       - name: Upload Windows installer
         uses: actions/upload-artifact@v4
         with:
@@ -135,11 +139,33 @@ jobs:
           cmake --build build --config Release --target DeathDealerDrums_AU
           cmake --build build --config Release --target DeathDealerDrums_Standalone
 
+      - name: Collect macOS deliverables
+        shell: bash
+        run: |
+          mkdir -p release/macos
+
+          standalone_path=$(find build -type d -path '*/Standalone/DEATH DEALER DRUMS.app'  | head -n 1)
+          vst3_path=$(      find build -type d -path '*/VST3/DEATH DEALER DRUMS.vst3'       | head -n 1)
+          au_path=$(        find build -type d -path '*/AU/DEATH DEALER DRUMS.component'    | head -n 1)
+
+          echo "Standalone : ${standalone_path}"
+          echo "VST3       : ${vst3_path}"
+          echo "AU         : ${au_path}"
+
+          test -n "${standalone_path}" || { echo "Standalone app not found"; find build -maxdepth 7 | sort; exit 1; }
+          test -n "${vst3_path}"       || { echo "VST3 bundle not found";   find build -maxdepth 7 | sort; exit 1; }
+
+          cp -R "${standalone_path}" release/macos/
+          cp -R "${vst3_path}"       release/macos/
+
+          if [ -n "${au_path}" ]; then
+            cp -R "${au_path}" release/macos/
+          else
+            echo "AU bundle not found in build output. Continuing (pkg script supports optional AU)."
+          fi
+
       - name: Import Developer ID certificate
-        if: >
-          (github.event_name != 'workflow_dispatch' || inputs.notarize_macos) &&
-          env.APPLE_DEV_ID_APP_CERT_P12_BASE64 != '' &&
-          env.APPLE_DEV_ID_APP_CERT_PASSWORD   != ''
+        if: ${{ (github.event_name != 'workflow_dispatch' || inputs.notarize_macos) && env.APPLE_DEV_ID_APP_CERT_P12_BASE64 != '' && env.APPLE_DEV_ID_APP_CERT_PASSWORD != '' }}
         shell: bash
         run: |
           CERT_PATH="$RUNNER_TEMP/developer-id-application.p12"
@@ -161,15 +187,10 @@ jobs:
           echo "CODE_SIGN_IDENTITY=$CODE_SIGN_IDENTITY" >> "$GITHUB_ENV"
 
       - name: Sign macOS bundles
-        if: >
-          (github.event_name != 'workflow_dispatch' || inputs.notarize_macos) &&
-          env.APPLE_DEV_ID_APP_CERT_P12_BASE64 != '' &&
-          env.APPLE_DEV_ID_APP_CERT_PASSWORD   != ''
+        if: ${{ (github.event_name != 'workflow_dispatch' || inputs.notarize_macos) && env.APPLE_DEV_ID_APP_CERT_P12_BASE64 != '' && env.APPLE_DEV_ID_APP_CERT_PASSWORD != '' }}
         shell: bash
         run: |
-          mapfile -t bundles < <(
-            find build -type d \( -name "DEATH DEALER DRUMS.app" -o -name "DEATH DEALER DRUMS.vst3" -o -name "DEATH DEALER DRUMS.component" \)
-          )
+          mapfile -t bundles < <(find release/macos -maxdepth 1 -type d \( -name "DEATH DEALER DRUMS.app" -o -name "DEATH DEALER DRUMS.vst3" -o -name "DEATH DEALER DRUMS.component" \))
 
           test ${#bundles[@]} -gt 0 || { echo "No bundles found to sign"; exit 1; }
 
@@ -182,13 +203,7 @@ jobs:
           done
 
       - name: Notarize and staple macOS bundles
-        if: >
-          (github.event_name != 'workflow_dispatch' || inputs.notarize_macos) &&
-          env.APPLE_DEV_ID_APP_CERT_P12_BASE64 != '' &&
-          env.APPLE_DEV_ID_APP_CERT_PASSWORD   != '' &&
-          env.APPLE_ID                         != '' &&
-          env.APPLE_APP_SPECIFIC_PASSWORD      != '' &&
-          env.APPLE_TEAM_ID                    != ''
+        if: ${{ (github.event_name != 'workflow_dispatch' || inputs.notarize_macos) && env.APPLE_DEV_ID_APP_CERT_P12_BASE64 != '' && env.APPLE_DEV_ID_APP_CERT_PASSWORD != '' && env.APPLE_ID != '' && env.APPLE_APP_SPECIFIC_PASSWORD != '' && env.APPLE_TEAM_ID != '' }}
         shell: bash
         run: |
           NOTARY_PROFILE="deathdealerdrums-notary-profile"
@@ -199,23 +214,28 @@ jobs:
             --team-id "$APPLE_TEAM_ID" \
             --password "$APPLE_APP_SPECIFIC_PASSWORD"
 
-          mkdir -p release/macos
-          find build -type d -name "DEATH DEALER DRUMS.app" -exec cp -R {} release/macos/ \; -quit
-          find build -type d -name "DEATH DEALER DRUMS.vst3" -exec cp -R {} release/macos/ \; -quit
-          find build -type d -name "DEATH DEALER DRUMS.component" -exec cp -R {} release/macos/ \; -quit
-
           ditto -c -k --keepParent release/macos "$NOTARY_ZIP"
           xcrun notarytool submit "$NOTARY_ZIP" --keychain-profile "$NOTARY_PROFILE" --wait
 
-          xcrun stapler staple "release/macos/DEATH DEALER DRUMS.app"
-          xcrun stapler staple "release/macos/DEATH DEALER DRUMS.vst3"
-          xcrun stapler staple "release/macos/DEATH DEALER DRUMS.component"
+          for bundle in "release/macos/DEATH DEALER DRUMS.app" "release/macos/DEATH DEALER DRUMS.vst3" "release/macos/DEATH DEALER DRUMS.component"; do
+            if [ -d "$bundle" ]; then
+              xcrun stapler staple "$bundle"
+            else
+              echo "Skipping stapler for missing bundle: $bundle"
+            fi
+          done
 
       - name: Build macOS pkg
         shell: bash
         run: |
           chmod +x installers/macos/Build-DEATH-DEALER-DRUMS-macOS-pkg.sh
           installers/macos/Build-DEATH-DEALER-DRUMS-macOS-pkg.sh "$VERSION"
+
+          ls -la release
+          test -f "release/DEATH-DEALER-DRUMS-macOS-${VERSION}.pkg" || {
+            echo "Expected macOS pkg release/DEATH-DEALER-DRUMS-macOS-${VERSION}.pkg not found"
+            exit 1
+          }
 
       - name: Upload macOS installer
         uses: actions/upload-artifact@v4

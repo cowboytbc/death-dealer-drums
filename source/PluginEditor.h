@@ -518,6 +518,9 @@ private:
     // Bottom-right brand logo spin angle (radians), animated while DEMO is playing
     float footerLogoSpinRadians { 0.0f };
 
+    // Guards layout until constructor has fully initialized all UI components.
+    bool uiLayoutReady { false };
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DeathDealerDrumsAudioProcessorEditor)
 };
 

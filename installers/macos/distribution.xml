@@ -1,28 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <installer-gui-script minSpecVersion="1">
+
   <title>DEATH DEALER DRUMS</title>
-  <options customize="always" require-scripts="false"/>
-  <domains enable_localSystem="true" enable_anywhere="false" enable_currentUserHome="false"/>
+  <organization>com.infernoplugins</organization>
+
+  <domains enable_localSystem="true"/>
+  <options customize="always" require-scripts="false" hostArchitectures="x86_64,arm64"/>
 
   <choices-outline>
-    <line choice="choice.vst3"/>
-    <line choice="choice.au"/>
-    <line choice="choice.standalone"/>
+    <line choice="vst3"/>
+    <line choice="au"/>
+    <line choice="standalone"/>
   </choices-outline>
 
-  <choice id="choice.vst3" visible="true" title="VST3 Plugin">
-    <pkg-ref id="com.infernotones.deathdealerdrums.vst3"/>
+  <choice id="vst3" visible="true" selected="true"
+          title="VST3 Plugin"
+          description="Installs DEATH DEALER DRUMS.vst3 to /Library/Audio/Plug-Ins/VST3. Works in Reaper, Ableton Live, Cubase, Studio One, Logic Pro, and most modern DAWs.">
+    <pkg-ref id="com.infernoplugins.deathdealerdrums.vst3"/>
   </choice>
 
-  <choice id="choice.au" visible="true" title="Audio Unit Plugin">
-    <pkg-ref id="com.infernotones.deathdealerdrums.au"/>
+  <choice id="au" visible="true" selected="true"
+          title="Audio Unit (AU) Plugin"
+          description="Installs DEATH DEALER DRUMS.component to /Library/Audio/Plug-Ins/Components. Required for Logic Pro and GarageBand.">
+    <pkg-ref id="com.infernoplugins.deathdealerdrums.au"/>
   </choice>
 
-  <choice id="choice.standalone" visible="true" title="Standalone Application">
-    <pkg-ref id="com.infernotones.deathdealerdrums.standalone"/>
+  <choice id="standalone" visible="true" selected="true"
+          title="Standalone Application"
+          description="Installs DEATH DEALER DRUMS.app to /Applications. Run the drum instrument without a DAW.">
+    <pkg-ref id="com.infernoplugins.deathdealerdrums.standalone"/>
   </choice>
 
-  <pkg-ref id="com.infernotones.deathdealerdrums.vst3" version="1.0.0">DEATH-DEALER-DRUMS-vst3.pkg</pkg-ref>
-  <pkg-ref id="com.infernotones.deathdealerdrums.au" version="1.0.0">DEATH-DEALER-DRUMS-au.pkg</pkg-ref>
-  <pkg-ref id="com.infernotones.deathdealerdrums.standalone" version="1.0.0">DEATH-DEALER-DRUMS-standalone.pkg</pkg-ref>
+  <pkg-ref id="com.infernoplugins.deathdealerdrums.vst3" auth="Root">DEATH-DEALER-DRUMS-vst3.pkg</pkg-ref>
+  <pkg-ref id="com.infernoplugins.deathdealerdrums.au" auth="Root">DEATH-DEALER-DRUMS-au.pkg</pkg-ref>
+  <pkg-ref id="com.infernoplugins.deathdealerdrums.standalone" auth="Root">DEATH-DEALER-DRUMS-standalone.pkg</pkg-ref>
+
 </installer-gui-script>

@@ -8,8 +8,15 @@ echo "========================================================"
 
 BUILD_DIR="build/macos"
 DELIVERABLES_DIR="DELIVERABLES/macOS"
+ICON_SCRIPT="installers/macos/Generate-LOGO-icns.sh"
 
 mkdir -p "$BUILD_DIR"
+
+if [[ -x "$ICON_SCRIPT" ]]; then
+    echo ""
+    echo "[0/3] Generating LOGO.icns from LOGO.png..."
+    "$ICON_SCRIPT"
+fi
 
 echo ""
 echo "[1/3] Configuring with CMake..."
