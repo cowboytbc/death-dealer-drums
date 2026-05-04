@@ -88,13 +88,24 @@ if [[ -n "$AU_PATH" && -d "$AU_PATH" ]]; then
   HAS_AU=1
 fi
 
-# Collect for signing/notarization workflows if needed
-rm -rf "$MAC_RELEASE_DIR/DEATH DEALER DRUMS.vst3" "$MAC_RELEASE_DIR/DEATH DEALER DRUMS.component" "$MAC_RELEASE_DIR/DEATH DEALER DRUMS.app"
-cp -R "$VST3_PATH" "$MAC_RELEASE_DIR/"
+# Collect for signing/notarization workflows if needed.
+# Guard: if source is already inside MAC_RELEASE_DIR don't rm then re-copy it.
+stage_bundle() {
+  local src="$1"
+  local dst="$MAC_RELEASE_DIR/$(basename "$src")"
+  if [[ "$src" -ef "$dst" ]]; then
+    echo "Already staged: $dst"
+    return 0
+  fi
+  rm -rf "$dst"
+  cp -R "$src" "$MAC_RELEASE_DIR/"
+}
+
+stage_bundle "$VST3_PATH"
 if [[ "$HAS_AU" -eq 1 ]]; then
-  cp -R "$AU_PATH" "$MAC_RELEASE_DIR/"
+  stage_bundle "$AU_PATH"
 fi
-cp -R "$APP_PATH" "$MAC_RELEASE_DIR/"
+stage_bundle "$APP_PATH"
 
 # Stage install roots expected by pkgbuild
 rm -rf "$PKG_STAGING/vst3" "$PKG_STAGING/au" "$PKG_STAGING/standalone"
