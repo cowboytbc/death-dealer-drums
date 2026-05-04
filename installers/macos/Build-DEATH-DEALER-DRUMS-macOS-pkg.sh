@@ -53,11 +53,15 @@ AU_PATH=""
 APP_PATH=""
 
 SEARCH_ROOTS=(
+  "$PROJECT_ROOT/release/macos"
+  "$PROJECT_ROOT/build/DeathDealerDrums_artefacts/Release/VST3"
+  "$PROJECT_ROOT/build/DeathDealerDrums_artefacts/Release/AU"
+  "$PROJECT_ROOT/build/DeathDealerDrums_artefacts/Release/Standalone"
+  "$PROJECT_ROOT/build/DeathDealerDrums_artefacts/Release"
   "$PROJECT_ROOT/DELIVERABLES/macOS/VST3"
   "$PROJECT_ROOT/DELIVERABLES/macOS/AU"
   "$PROJECT_ROOT/DELIVERABLES/macOS/Standalone"
   "$PROJECT_ROOT/DELIVERABLES/macOS"
-  "$PROJECT_ROOT/release/macos"
   "$PROJECT_ROOT/RELEASES/DEATH-DEALER-DRUMS-macOS-installer-payload"
   "$PROJECT_ROOT/build"
 )
