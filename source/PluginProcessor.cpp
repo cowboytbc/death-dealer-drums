@@ -76,9 +76,9 @@ DeathDealerDrumsAudioProcessor::createParameterLayout()
         layout.add (std::make_unique<juce::AudioParameterBool> (
             juce::ParameterID { trackParamID (i, "choke"), 1 }, trackParamID (i, "choke"), false));
 
-        layout.add (std::make_unique<juce::AudioParameterBool> (
+        layout.add (std::make_unique<MetaBoolParam> (
             juce::ParameterID { trackParamID (i, "mute"), 1 }, trackParamID (i, "mute"), false));
-        layout.add (std::make_unique<juce::AudioParameterBool> (
+        layout.add (std::make_unique<MetaBoolParam> (
             juce::ParameterID { trackParamID (i, "solo"), 1 }, trackParamID (i, "solo"), false));
         layout.add (std::make_unique<juce::AudioParameterFloat> (
             juce::ParameterID { trackParamID (i, "output"), 1 }, trackParamID (i, "output"),
@@ -162,9 +162,9 @@ DeathDealerDrumsAudioProcessor::createParameterLayout()
         juce::NormalisableRange<float> (0.05f, 0.20f, 0.001f), 0.05f));
 
     // Room bus global controls
-    layout.add (std::make_unique<juce::AudioParameterBool> (
+    layout.add (std::make_unique<MetaBoolParam> (
         juce::ParameterID { "room_mute",   1 }, "room_mute",   false));
-    layout.add (std::make_unique<juce::AudioParameterBool> (
+    layout.add (std::make_unique<MetaBoolParam> (
         juce::ParameterID { "room_solo",   1 }, "room_solo",   false));
     layout.add (std::make_unique<juce::AudioParameterInt> (
         juce::ParameterID { "room_output", 1 }, "room_output", 0, 15, 0));
@@ -175,9 +175,9 @@ DeathDealerDrumsAudioProcessor::createParameterLayout()
         juce::NormalisableRange<float> (-24.0f, 6.0f, 0.1f), 0.0f));
 
     // Parallel compression bus
-    layout.add (std::make_unique<juce::AudioParameterBool> (
+    layout.add (std::make_unique<MetaBoolParam> (
         juce::ParameterID { "comp_mute",       1 }, "comp_mute",       false));
-    layout.add (std::make_unique<juce::AudioParameterBool> (
+    layout.add (std::make_unique<MetaBoolParam> (
         juce::ParameterID { "comp_solo",       1 }, "comp_solo",       false));
     layout.add (std::make_unique<juce::AudioParameterInt> (
         juce::ParameterID { "comp_output",     1 }, "comp_output",     0, 15, 0));
@@ -191,9 +191,9 @@ DeathDealerDrumsAudioProcessor::createParameterLayout()
         juce::NormalisableRange<float> (0.0f, 30.0f, 0.1f), 10.0f));
 
     // Tape saturation bus
-    layout.add (std::make_unique<juce::AudioParameterBool> (
+    layout.add (std::make_unique<MetaBoolParam> (
         juce::ParameterID { "sat_mute",       1 }, "sat_mute",       false));
-    layout.add (std::make_unique<juce::AudioParameterBool> (
+    layout.add (std::make_unique<MetaBoolParam> (
         juce::ParameterID { "sat_solo",       1 }, "sat_solo",       false));
     layout.add (std::make_unique<juce::AudioParameterInt> (
         juce::ParameterID { "sat_output",     1 }, "sat_output",     0, 15, 0));

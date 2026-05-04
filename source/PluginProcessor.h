@@ -6,6 +6,18 @@
 #include "DrumEngine.h"   // also pulls in DrumPad.h
 
 //==============================================================================
+/** AudioParameterBool that declares itself as a VST3 meta-parameter.
+    Required whenever setting this parameter causes other parameters to change
+    their values (e.g. Solo clears Mute, Mute clears Solo).
+    Without this flag the VST3 validator emits:
+      "parameter values are different since last set" */
+struct MetaBoolParam : public juce::AudioParameterBool
+{
+    using juce::AudioParameterBool::AudioParameterBool;
+    bool isMetaParameter() const override { return true; }
+};
+
+//==============================================================================
 class DeathDealerDrumsAudioProcessor : public juce::AudioProcessor,
                                       private juce::AudioProcessorValueTreeState::Listener
 {
