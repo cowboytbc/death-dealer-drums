@@ -75,6 +75,14 @@ DeathDealerDrumsAudioProcessor::createParameterLayout()
 
         layout.add (std::make_unique<juce::AudioParameterBool> (
             juce::ParameterID { trackParamID (i, "choke"), 1 }, trackParamID (i, "choke"), false));
+        layout.add (std::make_unique<juce::AudioParameterBool> (
+            juce::ParameterID { trackParamID (i, "choke_trig_on"), 1 }, trackParamID (i, "choke_trig_on"), false));
+        layout.add (std::make_unique<juce::AudioParameterFloat> (
+            juce::ParameterID { trackParamID (i, "choke_trig_slot"), 1 }, trackParamID (i, "choke_trig_slot"),
+            juce::NormalisableRange<float> (0.f, 19.f, 1.f), 0.f));
+        layout.add (std::make_unique<juce::AudioParameterFloat> (
+            juce::ParameterID { trackParamID (i, "choke_trig_delay"), 1 }, trackParamID (i, "choke_trig_delay"),
+            juce::NormalisableRange<float> (0.f, 200.f, 1.f), 0.f));
 
         layout.add (std::make_unique<MetaBoolParam> (
             juce::ParameterID { trackParamID (i, "mute"), 1 }, trackParamID (i, "mute"), false));
@@ -133,6 +141,15 @@ DeathDealerDrumsAudioProcessor::createParameterLayout()
         layout.add (std::make_unique<juce::AudioParameterFloat> (
             juce::ParameterID { trackParamID (i, "trk_comp_mkp"), 1 }, trackParamID (i, "trk_comp_mkp"),
             juce::NormalisableRange<float> (0.f, 24.f, 0.1f), 0.f));
+        // ── Per-track transient designer ─────────────────────────────────────
+        layout.add (std::make_unique<juce::AudioParameterBool> (
+            juce::ParameterID { trackParamID (i, "trk_trans_on"),  1 }, trackParamID (i, "trk_trans_on"),  false));
+        layout.add (std::make_unique<juce::AudioParameterFloat> (
+            juce::ParameterID { trackParamID (i, "trk_trans_atk"), 1 }, trackParamID (i, "trk_trans_atk"),
+            juce::NormalisableRange<float> (-12.f, 12.f, 0.1f), 0.f));
+        layout.add (std::make_unique<juce::AudioParameterFloat> (
+            juce::ParameterID { trackParamID (i, "trk_trans_sus"), 1 }, trackParamID (i, "trk_trans_sus"),
+            juce::NormalisableRange<float> (-12.f, 12.f, 0.1f), 0.f));
         // Per-track mic-bleed enable (default off)
         layout.add (std::make_unique<juce::AudioParameterBool> (
             juce::ParameterID { trackParamID (i, "bleed_enable"), 1 },
@@ -156,10 +173,11 @@ DeathDealerDrumsAudioProcessor::createParameterLayout()
         juce::ParameterID { PARAM_BLEED_SOLO, 1 }, PARAM_BLEED_SOLO, false));
 
     // Global humanization amount for per-hit velocity scatter.
-    // 0.05 = ±5% (current behavior, default/min), 0.20 = ±20%.
+    // 0.0  = pitch-lock (no micro-detuning, all other humanization at minimum)
+    // 0.05 = ±5% (normal minimum), 0.20 = ±20%.
     layout.add (std::make_unique<juce::AudioParameterFloat> (
         juce::ParameterID { PARAM_HUMAN_ERROR, 1 }, PARAM_HUMAN_ERROR,
-        juce::NormalisableRange<float> (0.05f, 0.20f, 0.001f), 0.05f));
+        juce::NormalisableRange<float> (0.0f, 0.20f, 0.001f), 0.05f));
 
     // Room bus global controls
     layout.add (std::make_unique<MetaBoolParam> (
@@ -401,7 +419,7 @@ void DeathDealerDrumsAudioProcessor::processBlock (juce::AudioBuffer<float>& buf
     hostPlaying.store (hostIsPlayingNow, std::memory_order_relaxed);
 
     const float humanErrorScatter = juce::jlimit (
-        0.05f, 0.20f,
+        0.0f, 0.20f,
         apvts.getRawParameterValue (PARAM_HUMAN_ERROR)->load());
 
     // Drain preview triggers queued by UI pad buttons
@@ -831,6 +849,7 @@ void DeathDealerDrumsAudioProcessor::setStateInformation (const void* data, int 
     if (tracksNode.isValid())
     {
         juce::ScopedWriteLock wl (tracksLock);
+        engine->killAllVoices();   // prevent dangling audioData pointers after tracks.clear()
         tracks.clear();
         for (const auto& child : tracksNode)
         {
@@ -885,8 +904,31 @@ void DeathDealerDrumsAudioProcessor::setStateInformation (const void* data, int 
                             else if (name == "RIDE.wav")             { data = BinaryData::RIDE_wav;             bytes = BinaryData::RIDE_wavSize;             }
                             else if (name == "CHINA.wav")            { data = BinaryData::CHINA_wav;            bytes = BinaryData::CHINA_wavSize;            }
                             else if (name == "SPLASH.wav")           { data = BinaryData::SPLASH_wav;           bytes = BinaryData::SPLASH_wavSize;           }
-                            else if (name == "BELL.wav")             { data = BinaryData::BELL_wav;             bytes = BinaryData::BELL_wavSize;             }
-                            if (data)
+                            else if (name == "BELL.wav")             { data = BinaryData::BELL_wav;             bytes = BinaryData::BELL_wavSize;             }                            // ── Bass drop built-ins ──────────────────────────────────────────────
+                            else if (name == "BD S G1.wav")           { data = BinaryData::BD_S_G1_wav;          bytes = BinaryData::BD_S_G1_wavSize;          }
+                            else if (name == "BD S Gs1.wav")          { data = BinaryData::BD_S_Gs1_wav;         bytes = BinaryData::BD_S_Gs1_wavSize;         }
+                            else if (name == "BD S A1.wav")           { data = BinaryData::BD_S_A1_wav;          bytes = BinaryData::BD_S_A1_wavSize;          }
+                            else if (name == "BD S As1.wav")          { data = BinaryData::BD_S_As1_wav;         bytes = BinaryData::BD_S_As1_wavSize;         }
+                            else if (name == "BD S B1.wav")           { data = BinaryData::BD_S_B1_wav;          bytes = BinaryData::BD_S_B1_wavSize;          }
+                            else if (name == "BD S C2.wav")           { data = BinaryData::BD_S_C2_wav;          bytes = BinaryData::BD_S_C2_wavSize;          }
+                            else if (name == "BD S Cs2.wav")          { data = BinaryData::BD_S_Cs2_wav;         bytes = BinaryData::BD_S_Cs2_wavSize;         }
+                            else if (name == "BD S D2.wav")           { data = BinaryData::BD_S_D2_wav;          bytes = BinaryData::BD_S_D2_wavSize;          }
+                            else if (name == "BD M G1.wav")           { data = BinaryData::BD_M_G1_wav;          bytes = BinaryData::BD_M_G1_wavSize;          }
+                            else if (name == "BD M Gs1.wav")          { data = BinaryData::BD_M_Gs1_wav;         bytes = BinaryData::BD_M_Gs1_wavSize;         }
+                            else if (name == "BD M A1.wav")           { data = BinaryData::BD_M_A1_wav;          bytes = BinaryData::BD_M_A1_wavSize;          }
+                            else if (name == "BD M As1.wav")          { data = BinaryData::BD_M_As1_wav;         bytes = BinaryData::BD_M_As1_wavSize;         }
+                            else if (name == "BD M B1.wav")           { data = BinaryData::BD_M_B1_wav;          bytes = BinaryData::BD_M_B1_wavSize;          }
+                            else if (name == "BD M C2.wav")           { data = BinaryData::BD_M_C2_wav;          bytes = BinaryData::BD_M_C2_wavSize;          }
+                            else if (name == "BD M Cs2.wav")          { data = BinaryData::BD_M_Cs2_wav;         bytes = BinaryData::BD_M_Cs2_wavSize;         }
+                            else if (name == "BD M D2.wav")           { data = BinaryData::BD_M_D2_wav;          bytes = BinaryData::BD_M_D2_wavSize;          }
+                            else if (name == "BD L G1.wav")           { data = BinaryData::BD_L_G1_wav;          bytes = BinaryData::BD_L_G1_wavSize;          }
+                            else if (name == "BD L Gs1.wav")          { data = BinaryData::BD_L_Gs1_wav;         bytes = BinaryData::BD_L_Gs1_wavSize;         }
+                            else if (name == "BD L A1.wav")           { data = BinaryData::BD_L_A1_wav;          bytes = BinaryData::BD_L_A1_wavSize;          }
+                            else if (name == "BD L As1.wav")          { data = BinaryData::BD_L_As1_wav;         bytes = BinaryData::BD_L_As1_wavSize;         }
+                            else if (name == "BD L B1.wav")           { data = BinaryData::BD_L_B1_wav;          bytes = BinaryData::BD_L_B1_wavSize;          }
+                            else if (name == "BD L C2.wav")           { data = BinaryData::BD_L_C2_wav;          bytes = BinaryData::BD_L_C2_wavSize;          }
+                            else if (name == "BD L Cs2.wav")          { data = BinaryData::BD_L_Cs2_wav;         bytes = BinaryData::BD_L_Cs2_wavSize;         }
+                            else if (name == "BD L D2.wav")           { data = BinaryData::BD_L_D2_wav;          bytes = BinaryData::BD_L_D2_wavSize;          }                            if (data)
                                 track->loadSampleAndGenerateVariations (data, bytes, path, currentSampleRate, formatManager);
                         }
                         else if (embeddedData.getSize() > 0)

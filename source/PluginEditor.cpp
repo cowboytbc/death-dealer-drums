@@ -10,7 +10,7 @@ namespace
 }
 
 //==============================================================================
-// ── InfernoLookAndFeel ────────────────────────────────────────────────────────
+// -- InfernoLookAndFeel --------------------------------------------------------
 
 InfernoLookAndFeel::InfernoLookAndFeel()
 {
@@ -386,7 +386,7 @@ void WaveformDisplay::mouseUp (const juce::MouseEvent&)
 
 
 //==============================================================================
-// ── TrackRow ─────────────────────────────────────────────────────────────────
+// -- TrackRow -----------------------------------------------------------------
 
 static void setupSmallKnob (juce::Slider& s, InfernoLookAndFeel& laf)
 {
@@ -399,7 +399,7 @@ static void setupSmallKnob (juce::Slider& s, InfernoLookAndFeel& laf)
 TrackRow::TrackRow (int idx, DeathDealerDrumsAudioProcessor& p, InfernoLookAndFeel& l)
     : slotIndex (idx), proc (p), laf (l)
 {
-    // Name label — double-click to rename
+    // Name label � double-click to rename
     nameLabel.setFont (juce::Font (juce::FontOptions ("Arial", 11.0f, juce::Font::bold)));
     nameLabel.setColour (juce::Label::textColourId, InfernoLookAndFeel::textColour());
     nameLabel.setJustificationType (juce::Justification::centredLeft);
@@ -410,7 +410,7 @@ TrackRow::TrackRow (int idx, DeathDealerDrumsAudioProcessor& p, InfernoLookAndFe
     };
     addAndMakeVisible (nameLabel);
 
-    // MIDI note label � double-click to type a note name or number
+    // MIDI note label ? double-click to type a note name or number
     midiLabel.setFont (juce::Font (juce::FontOptions ("Arial", 9.5f, juce::Font::bold)));
     midiLabel.setColour (juce::Label::textColourId, InfernoLookAndFeel::dimText());
     midiLabel.setColour (juce::Label::backgroundWhenEditingColourId, juce::Colour (0xff1a1a24));
@@ -449,11 +449,13 @@ TrackRow::TrackRow (int idx, DeathDealerDrumsAudioProcessor& p, InfernoLookAndFe
     // LOAD button
     loadBtn.setLookAndFeel (&laf);
     loadBtn.addListener (this);
+    loadBtn.setTooltip ("Load samples for this track");
     addAndMakeVisible (loadBtn);
 
     // Remove button
     removeBtn.setLookAndFeel (&laf);
     removeBtn.addListener (this);
+    removeBtn.setTooltip ("Remove this track from the kit");
     addAndMakeVisible (removeBtn);
 
     // Knobs
@@ -508,6 +510,8 @@ TrackRow::TrackRow (int idx, DeathDealerDrumsAudioProcessor& p, InfernoLookAndFe
         btn->setClickingTogglesState (true);
         addAndMakeVisible (btn);
     }
+    soloBtn.setTooltip ("Solo this track � all other tracks are silenced");
+    muteBtn.setTooltip ("Mute this track");
     soloBtn.setColour (juce::TextButton::buttonOnColourId, juce::Colour (0xffcc2200));
     muteBtn.setColour (juce::TextButton::buttonOnColourId, juce::Colour (0xffcc2200));
     soloAtt = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment> (
@@ -577,6 +581,7 @@ TrackRow::TrackRow (int idx, DeathDealerDrumsAudioProcessor& p, InfernoLookAndFe
                 DeathDealerDrumsAudioProcessor::trackParamID (slotIndex, "output")))
             p->setValueNotifyingHost (p->convertTo0to1 ((float) val));
     };
+    outputCombo.setTooltip ("Route this track to a specific audio output channel");
     addAndMakeVisible (outputCombo);
 
     // Output mode combo
@@ -591,6 +596,7 @@ TrackRow::TrackRow (int idx, DeathDealerDrumsAudioProcessor& p, InfernoLookAndFe
                 DeathDealerDrumsAudioProcessor::trackParamID (slotIndex, "output_mode")))
             p->setValueNotifyingHost (p->convertTo0to1 ((float) val));
     };
+    outputModeCombo.setTooltip ("Set this track's output to stereo or mono");
     addAndMakeVisible (outputModeCombo);
 
     // Slave-link routing (same-note phase/humanization lock)
@@ -698,6 +704,22 @@ void TrackRow::refresh ()
             fileLabel.setColour (juce::Label::textColourId, InfernoLookAndFeel::dimText());
         }
     }
+
+    // Sync output bus and output mode combos from current APVTS state so they
+    // correctly reflect the parameter after preset load or editor reopen.
+    {
+        const int outVal  = juce::roundToInt (
+            proc.getAPVTS().getRawParameterValue (
+                DeathDealerDrumsAudioProcessor::trackParamID (slotIndex, "output"))->load());
+        outputCombo.setSelectedId (outVal + 1, juce::dontSendNotification);
+    }
+    {
+        const int modeVal = juce::roundToInt (
+            proc.getAPVTS().getRawParameterValue (
+                DeathDealerDrumsAudioProcessor::trackParamID (slotIndex, "output_mode"))->load());
+        outputModeCombo.setSelectedId (modeVal + 1, juce::dontSendNotification);
+    }
+
     updateMidiLabel();
     rebuildSlaveCombo();
 }
@@ -715,7 +737,7 @@ void TrackRow::updateMeter (DrumEngine* engine)
 {
     if (!engine || slotIndex >= DrumEngine::MAX_TRACKS) return;
     const float raw  = engine->trackPeakLin[slotIndex].load();
-    // UI-side peak hold with faster decay (0.78 per 20Hz tick � -14 dB/sec display fallback)
+    // UI-side peak hold with faster decay (0.78 per 20Hz tick ? -14 dB/sec display fallback)
     meterLevel = juce::jmax (raw, meterLevel * 0.50f);
     repaint();
 }
@@ -742,7 +764,7 @@ void TrackRow::paint (juce::Graphics& g)
         g.fillRoundedRectangle (b.withWidth (4.0f), 2.0f);
     }
 
-    // Volume meter � sits left of the X button, skips the top row so it doesn't overlap
+    // Volume meter ? sits left of the X button, skips the top row so it doesn't overlap
     {
         constexpr float minDb = -60.0f, maxDb = 0.0f;
         const float db = (meterLevel > 1e-7f)
@@ -750,7 +772,7 @@ void TrackRow::paint (juce::Graphics& g)
                            : minDb;
         const float norm = (db - minDb) / (maxDb - minDb); // 0 = silent, 1 = 0 dBFS
 
-        // Start below the top row (name/X/LOAD) � approx y=34
+        // Start below the top row (name/X/LOAD) ? approx y=34
         const int mW = 6;
         const int mX = getWidth() - mW - 2; // just inside right edge, clears X button
         const int mY = 34;
@@ -818,7 +840,7 @@ void TrackRow::resized ()
 
     r.removeFromTop (2);
 
-    // Bottom row 1 (performance controls): SOLO | MUTE | Ø | BLEED | BLEED SEND
+    // Bottom row 1 (performance controls): SOLO | MUTE | � | BLEED | BLEED SEND
     auto bot1 = r.removeFromTop (20);
     auto bot1Safe = bot1.withTrimmedRight (meterReserve);
     soloBtn.setBounds         (bot1Safe.removeFromLeft (28));
@@ -881,7 +903,7 @@ void TrackRow::buttonClicked (juce::Button* btn)
 }
 
 //==============================================================================
-// ── TrackDetailPanel ─────────────────────────────────────────────────────────
+// -- TrackDetailPanel ---------------------------------------------------------
 
 static void setupDetailKnob (juce::Slider& s, InfernoLookAndFeel& laf)
 {
@@ -1062,7 +1084,7 @@ void SpectrumDisplay::paint (juce::Graphics& g)
             const float f = eqFreqs[b];
             if (f < 18.f || f > 21000.f) continue;
             const float dotX  = freqToX (f);
-            // HPF (0) and LPF (7) gain controls slope � dot always at 0 dB
+            // HPF (0) and LPF (7) gain controls slope ? dot always at 0 dB
             const float dotY  = (b == 0 || b == 7) ? dBToY (0.f) : dBToY (eqGains[b]);
             const auto  col   = bandDotCols[b];
 
@@ -1189,9 +1211,10 @@ TrackEQPanel::TrackEQPanel (DeathDealerDrumsAudioProcessor& p, InfernoLookAndFee
     eqEnableBtn.setColour (juce::TextButton::textColourOffId,  InfernoLookAndFeel::dimText());
     eqEnableBtn.setColour (juce::TextButton::textColourOnId,   juce::Colours::white);
     eqEnableBtn.setClickingTogglesState (true);
+    eqEnableBtn.setTooltip ("Enable/disable per-track EQ");
     addAndMakeVisible (eqEnableBtn);
 
-    // Wire drag callback � updates APVTS params when user drags a dot
+    // Wire drag callback ? updates APVTS params when user drags a dot
     spectrumDisplay.onBandDragged = [this] (int band, float freq, float gain)
     {
         if (currentSlot < 0) return;
@@ -1201,7 +1224,7 @@ TrackEQPanel::TrackEQPanel (DeathDealerDrumsAudioProcessor& p, InfernoLookAndFee
         if (auto* pf = av.getParameter (
                 DeathDealerDrumsAudioProcessor::trackParamID (sl, bTag + "_freq")))
             pf->setValueNotifyingHost (pf->convertTo0to1 (freq));
-        // HPF (0) and LPF (7): Y-drag maps to slope steps � update gain param to adjust passes
+        // HPF (0) and LPF (7): Y-drag maps to slope steps ? update gain param to adjust passes
         // Other bands: Y-drag updates gain directly
         if (auto* pg = av.getParameter (
                 DeathDealerDrumsAudioProcessor::trackParamID (sl, bTag + "_gain")))
@@ -1241,6 +1264,10 @@ TrackEQPanel::TrackEQPanel (DeathDealerDrumsAudioProcessor& p, InfernoLookAndFee
         gainKnob[b].setColour (juce::Slider::textBoxOutlineColourId, juce::Colours::transparentBlack);
         gainKnob[b].setColour (juce::Slider::textBoxBackgroundColourId, juce::Colours::transparentBlack);
 
+        const juce::String bn (bandName (b));
+        freqKnob[b].setTooltip (bn + " � center frequency");
+        gainKnob[b].setTooltip (bn + " � gain (dB)");
+        qKnob[b].setTooltip    (bn + " � Q / bandwidth");
         addAndMakeVisible (freqKnob[b]);
         addAndMakeVisible (gainKnob[b]);
         addAndMakeVisible (qKnob[b]);
@@ -1420,15 +1447,15 @@ struct CompPreset { float thr, rat, atk, rel, mkp; };
 static const CompPreset kCompPresets[] =
 {
     //  thr      rat     atk      rel    mkp
-    { -24.f,   6.f,  15.f,   80.f,  3.f },  //  1  KICK PUNCH  – longer atk lets the click transient through; 80ms rel avoids pumping
-    { -30.f,   8.f,  20.f,  250.f,  7.f },  //  2  KICK DEEP   – slow atk for big transient, long rel creates sustained low-end boom
-    { -18.f,   4.f,   2.f,   40.f,  3.f },  //  3  SNARE SNAP  – very fast atk tightens the snap; slightly longer rel than original
-    { -24.f,   6.f,  18.f,   70.f,  4.f },  //  4  SNARE FAT   – slower atk lets crack pass through, compresses body for thickness
-    { -22.f,   5.f,  15.f,  100.f,  3.f },  //  5  RACK TOM    – longer rel follows natural tom decay without pumping
-    { -22.f,   5.f,  20.f,  180.f,  4.f },  //  6  FLOOR TOM   – long rel lets the deep thud sustain naturally
-    { -16.f,   3.f,   5.f,   25.f,  1.f },  //  7  HI-HAT      – gentle; 5ms atk preserves the chick transient
-    { -18.f,   3.f,  12.f,  100.f,  2.f },  //  8  CYMBAL      – slower atk preserves initial shimmer; long rel for wash tail
-    { -16.f,   2.5f, 25.f,  180.f,  2.f },  //  9  OVERHEAD    – gentle glue: low ratio, slow atk/rel, minimal GR
+    { -24.f,   6.f,  15.f,   80.f,  3.f },  //  1  KICK PUNCH  � longer atk lets the click transient through; 80ms rel avoids pumping
+    { -30.f,   8.f,  20.f,  250.f,  7.f },  //  2  KICK DEEP   � slow atk for big transient, long rel creates sustained low-end boom
+    { -18.f,   4.f,   2.f,   40.f,  3.f },  //  3  SNARE SNAP  � very fast atk tightens the snap; slightly longer rel than original
+    { -24.f,   6.f,  18.f,   70.f,  4.f },  //  4  SNARE FAT   � slower atk lets crack pass through, compresses body for thickness
+    { -22.f,   5.f,  15.f,  100.f,  3.f },  //  5  RACK TOM    � longer rel follows natural tom decay without pumping
+    { -22.f,   5.f,  20.f,  180.f,  4.f },  //  6  FLOOR TOM   � long rel lets the deep thud sustain naturally
+    { -16.f,   3.f,   5.f,   25.f,  1.f },  //  7  HI-HAT      � gentle; 5ms atk preserves the chick transient
+    { -18.f,   3.f,  12.f,  100.f,  2.f },  //  8  CYMBAL      � slower atk preserves initial shimmer; long rel for wash tail
+    { -16.f,   2.5f, 25.f,  180.f,  2.f },  //  9  OVERHEAD    � gentle glue: low ratio, slow atk/rel, minimal GR
 };
 
 TrackCompPanel::TrackCompPanel (DeathDealerDrumsAudioProcessor& p, InfernoLookAndFeel& l)
@@ -1441,6 +1468,7 @@ TrackCompPanel::TrackCompPanel (DeathDealerDrumsAudioProcessor& p, InfernoLookAn
     enableBtn.setColour (juce::TextButton::textColourOffId,  InfernoLookAndFeel::dimText());
     enableBtn.setColour (juce::TextButton::textColourOnId,   juce::Colours::white);
     enableBtn.setClickingTogglesState (true);
+    enableBtn.setTooltip ("Enable/disable per-track compressor");
     addAndMakeVisible (enableBtn);
 
     // Preset combo
@@ -1464,6 +1492,7 @@ TrackCompPanel::TrackCompPanel (DeathDealerDrumsAudioProcessor& p, InfernoLookAn
     presetCombo.addItem ("CUSTOM",     10);
     presetCombo.setSelectedId (10, juce::dontSendNotification);
     presetCombo.onChange = [this] { applyPreset (presetCombo.getSelectedId()); };
+    presetCombo.setTooltip ("Load a compressor preset tuned for a specific drum type");
     addAndMakeVisible (presetCombo);
 
     // Knobs + labels
@@ -1496,6 +1525,11 @@ TrackCompPanel::TrackCompPanel (DeathDealerDrumsAudioProcessor& p, InfernoLookAn
     atkKnob.textFromValueFunction = [] (double v) { return juce::String (v, 1) + " ms"; };
     relKnob.textFromValueFunction = [] (double v) { return juce::String (v, 0) + " ms"; };
     mkpKnob.textFromValueFunction = [] (double v) { return "+" + juce::String (v, 1) + " dB"; };
+    thrKnob.setTooltip ("Threshold � compression kicks in below this level");
+    ratKnob.setTooltip ("Ratio � higher = more squash");
+    atkKnob.setTooltip ("Attack � how fast the compressor clamps down (ms)");
+    relKnob.setTooltip ("Release � how fast the compressor lets go (ms)");
+    mkpKnob.setTooltip ("Makeup gain � compensate for volume lost to compression");
 }
 
 void TrackCompPanel::setTrack (int slotIndex)
@@ -1650,7 +1684,7 @@ void TrackCompPanel::paint (juce::Graphics& g)
         g.drawText (tickTxt, mX - 20, ty - 4, 18, 9, juce::Justification::centredRight, false);
     }
 
-    // GR fill � green ? amber ? red
+    // GR fill ? green ? amber ? red
     const float grDb  = juce::jlimit (-40.f, 0.f, grMeter);
     const float ratio = -grDb / 40.f;
     if (ratio > 0.001f)
@@ -1727,10 +1761,124 @@ void TrackCompPanel::resized()
 }
 
 //==============================================================================
+// TrackTransPanel implementation
+//==============================================================================
+TrackTransPanel::TrackTransPanel (DeathDealerDrumsAudioProcessor& p, InfernoLookAndFeel& l)
+    : proc (p), laf (l)
+{
+    enableBtn.setClickingTogglesState (true);
+    enableBtn.setLookAndFeel (&laf);
+    enableBtn.setColour (juce::TextButton::buttonColourId,   juce::Colour (0xff1e1e2a));
+    enableBtn.setColour (juce::TextButton::buttonOnColourId, InfernoLookAndFeel::accentRed());
+    enableBtn.setColour (juce::TextButton::textColourOffId,  InfernoLookAndFeel::dimText());
+    enableBtn.setColour (juce::TextButton::textColourOnId,   juce::Colours::white);
+    enableBtn.setTooltip ("Enable/disable per-track transient designer");
+    addAndMakeVisible (enableBtn);
+
+    struct KnobSetup { juce::Slider& knob; juce::Label& label; const char* txt; };
+    KnobSetup ks[] = {
+        { atkKnob, atkLabel, "ATTACK" },
+        { susKnob, susLabel, "SUSTAIN" },
+    };
+    for (auto& k : ks)
+    {
+        k.knob.setSliderStyle (juce::Slider::RotaryVerticalDrag);
+        k.knob.setTextBoxStyle (juce::Slider::TextBoxBelow, false, 60, 14);
+        k.knob.setLookAndFeel (&laf);
+        k.knob.setColour (juce::Slider::textBoxTextColourId,    InfernoLookAndFeel::dimText());
+        k.knob.setColour (juce::Slider::textBoxOutlineColourId, juce::Colours::transparentBlack);
+        addAndMakeVisible (k.knob);
+
+        k.label.setText (k.txt, juce::dontSendNotification);
+        k.label.setFont (juce::Font (juce::FontOptions ("Arial", 9.f, juce::Font::bold)));
+        k.label.setColour (juce::Label::textColourId, InfernoLookAndFeel::dimText());
+        k.label.setJustificationType (juce::Justification::centred);
+        addAndMakeVisible (k.label);
+    }
+    atkKnob.textFromValueFunction = [] (double v) { return juce::String (v, 1) + " dB"; };
+    susKnob.textFromValueFunction = [] (double v) { return juce::String (v, 1) + " dB"; };
+    atkKnob.setTooltip ("Attack boost/cut � positive punches up the transient click, negative softens it");
+    susKnob.setTooltip ("Sustain boost/cut � positive fattens the body, negative tightens it");
+}
+
+void TrackTransPanel::setTrack (int slotIndex)
+{
+    currentSlot = slotIndex;
+    rebuildAttachments();
+    repaint();
+}
+
+void TrackTransPanel::rebuildAttachments()
+{
+    atkAtt.reset(); susAtt.reset(); enableAtt.reset();
+    if (currentSlot < 0) return;
+
+    auto& av  = proc.getAPVTS();
+    const int sl = currentSlot;
+    atkAtt    = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment> (
+                    av, DeathDealerDrumsAudioProcessor::trackParamID (sl, "trk_trans_atk"), atkKnob);
+    susAtt    = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment> (
+                    av, DeathDealerDrumsAudioProcessor::trackParamID (sl, "trk_trans_sus"), susKnob);
+    enableAtt = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment> (
+                    av, DeathDealerDrumsAudioProcessor::trackParamID (sl, "trk_trans_on"), enableBtn);
+}
+
+void TrackTransPanel::paint (juce::Graphics& g)
+{
+    g.setColour (InfernoLookAndFeel::panelBg().brighter (0.04f));
+    g.fillRoundedRectangle (getLocalBounds().toFloat(), 4.f);
+
+    if (currentSlot < 0)
+    {
+        g.setColour (InfernoLookAndFeel::dimText());
+        g.setFont (juce::Font (juce::FontOptions ("Arial", 11.f, juce::Font::plain)));
+        g.drawText ("No track selected", getLocalBounds(), juce::Justification::centred, false);
+        return;
+    }
+
+    // Section header
+    g.setFont (juce::Font (juce::FontOptions ("Arial", 11.f, juce::Font::bold)));
+    g.setColour (InfernoLookAndFeel::accentBright());
+    g.drawText ("TRANSIENT DESIGNER", getLocalBounds().reduced (8, 6).removeFromTop (16),
+                juce::Justification::left, false);
+}
+
+void TrackTransPanel::resized()
+{
+    auto area = getLocalBounds().reduced (8, 8);
+
+    const int topRowH     = 22;
+    const int gapAfterTop = 10;
+    const int labelH      = 12;
+    const int knobH       = 56 + 14;
+
+    auto topRow = area.removeFromTop (topRowH);
+    topRow.removeFromLeft (136); // space for painted label
+    enableBtn.setBounds (topRow.removeFromLeft (34));
+
+    area.removeFromTop (gapAfterTop);
+
+    const int knobBlockH = labelH + knobH;
+    const int leftover   = juce::jmax (0, area.getHeight() - knobBlockH);
+    area.removeFromTop (leftover / 2);
+
+    const int colW = area.getWidth() / 2;
+    juce::Slider* knobs[]  = { &atkKnob,  &susKnob  };
+    juce::Label*  labels[] = { &atkLabel, &susLabel };
+
+    for (int c = 0; c < 2; ++c)
+    {
+        const int x = area.getX() + c * colW;
+        labels[c]->setBounds (x, area.getY(),           colW, labelH);
+        knobs [c]->setBounds (x, area.getY() + labelH,  colW, knobH);
+    }
+}
+
+//==============================================================================
 // TrackDetailPanel � constructor update to include EQ/comp panels + tabs
 //==============================================================================
 TrackDetailPanel::TrackDetailPanel (DeathDealerDrumsAudioProcessor& p, InfernoLookAndFeel& l)
-    : proc (p), laf (l), eqPanel (p, l), compPanel (p, l)
+    : proc (p), laf (l), eqPanel (p, l), compPanel (p, l), transPanel (p, l)
 {
     // Editable track name (no static header above it)
     nameEditLabel.setFont (juce::Font (juce::FontOptions ("Arial", 15.0f, juce::Font::bold)));
@@ -1756,22 +1904,28 @@ TrackDetailPanel::TrackDetailPanel (DeathDealerDrumsAudioProcessor& p, InfernoLo
     tuneLabel.setText  ("TUNE",   juce::dontSendNotification);
     decayLabel.setText ("DECAY",  juce::dontSendNotification);
     attackLabel.setText("ATTACK", juce::dontSendNotification);
+    tuneKnob.setTooltip   ("Tune � pitch offset in semitones");
+    decayKnob.setTooltip  ("Decay � how long the sample tail plays out");
+    attackKnob.setTooltip ("Attack sensitivity � controls how strongly quiet hits respond");
 
     setupDetailKnob  (reverbSendKnob, laf);
     setupDetailLabel (reverbSendLabel);
     reverbSendLabel.setText ("ROOM", juce::dontSendNotification);
+    reverbSendKnob.setTooltip ("Room reverb bus send level for this track");
     addAndMakeVisible (reverbSendKnob);
     addAndMakeVisible (reverbSendLabel);
 
     setupDetailKnob  (compSendKnob, laf);
     setupDetailLabel (compSendLabel);
     compSendLabel.setText ("SMASH", juce::dontSendNotification);
+    compSendKnob.setTooltip ("Parallel compression (SMASH) bus send level for this track");
     addAndMakeVisible (compSendKnob);
     addAndMakeVisible (compSendLabel);
 
     setupDetailKnob  (satSendKnob, laf);
     setupDetailLabel (satSendLabel);
     satSendLabel.setText ("TAPE", juce::dontSendNotification);
+    satSendKnob.setTooltip ("Tape saturation bus send level for this track");
     addAndMakeVisible (satSendKnob);
     addAndMakeVisible (satSendLabel);
 
@@ -1780,9 +1934,32 @@ TrackDetailPanel::TrackDetailPanel (DeathDealerDrumsAudioProcessor& p, InfernoLo
     chokeButton.setColour (juce::ToggleButton::textColourId,      InfernoLookAndFeel::textColour());
     chokeButton.setColour (juce::ToggleButton::tickColourId,      InfernoLookAndFeel::accentRed());
     chokeButton.setColour (juce::ToggleButton::tickDisabledColourId, InfernoLookAndFeel::textColour().withAlpha (0.4f));
+    chokeButton.setTooltip ("Choke � retriggering this note cuts off the current hit (like a closed hi-hat)");
     addAndMakeVisible (chokeButton);
 
-    // MIDI note � editable, type a note name ("C3", "D#4") or number
+    // Choke trigger � fire a secondary sample when choke fires
+    chokeTrigOnBtn.setButtonText ("ON CHOKE:");
+    chokeTrigOnBtn.setToggleState (false, juce::dontSendNotification);
+    chokeTrigOnBtn.setColour (juce::ToggleButton::textColourId,         InfernoLookAndFeel::textColour());
+    chokeTrigOnBtn.setColour (juce::ToggleButton::tickColourId,         InfernoLookAndFeel::accentRed());
+    chokeTrigOnBtn.setColour (juce::ToggleButton::tickDisabledColourId, InfernoLookAndFeel::textColour().withAlpha (0.4f));
+    chokeTrigOnBtn.setTooltip ("When checked, triggers the selected track every time this track is choked");
+    addAndMakeVisible (chokeTrigOnBtn);
+
+    chokeTrigCombo.setTextWhenNothingSelected ("-- pick track --");
+    chokeTrigCombo.setTextWhenNoChoicesAvailable ("(no tracks)");
+    chokeTrigCombo.setTooltip ("Track to trigger when this track gets choked");
+    addAndMakeVisible (chokeTrigCombo);
+
+    chokeTrigDelayKnob.setSliderStyle (juce::Slider::RotaryVerticalDrag);
+    chokeTrigDelayKnob.setTextBoxStyle (juce::Slider::NoTextBox, false, 0, 0);
+    chokeTrigDelayKnob.setRange (0.0, 200.0, 1.0);
+    chokeTrigDelayKnob.setValue (0.0, juce::dontSendNotification);
+    chokeTrigDelayKnob.setTooltip ("Choke Trigger Delay");
+    chokeTrigDelayKnob.setColour (juce::Slider::rotarySliderFillColourId, InfernoLookAndFeel::accentRed());
+    addAndMakeVisible (chokeTrigDelayKnob);
+
+    // MIDI note ? editable, type a note name ("C3", "D#4") or number
     midiNoteLabel.setFont (juce::Font (juce::FontOptions ("Arial", 13.0f, juce::Font::bold)));
     midiNoteLabel.setColour (juce::Label::textColourId,             InfernoLookAndFeel::textColour());
     midiNoteLabel.setColour (juce::Label::backgroundWhenEditingColourId, juce::Colour (0xff1a0000));
@@ -1810,6 +1987,8 @@ TrackDetailPanel::TrackDetailPanel (DeathDealerDrumsAudioProcessor& p, InfernoLo
 
     midiDownBtn.setLookAndFeel (&laf);
     midiUpBtn.setLookAndFeel   (&laf);
+    midiDownBtn.setTooltip ("Shift MIDI trigger note down 1 semitone");
+    midiUpBtn.setTooltip   ("Shift MIDI trigger note up 1 semitone");
     addAndMakeVisible (midiDownBtn);
     addAndMakeVisible (midiUpBtn);
 
@@ -1841,6 +2020,7 @@ TrackDetailPanel::TrackDetailPanel (DeathDealerDrumsAudioProcessor& p, InfernoLo
 
     // Load sample button
     loadSampleBtn.setLookAndFeel (&laf);
+    loadSampleBtn.setTooltip ("Load a new audio sample file for this pad");
     addAndMakeVisible (loadSampleBtn);
     loadSampleBtn.onClick = [this]
     {
@@ -1880,6 +2060,7 @@ TrackDetailPanel::TrackDetailPanel (DeathDealerDrumsAudioProcessor& p, InfernoLo
     sampleModeCombo.setSelectedId (1, juce::dontSendNotification);
     sampleModeCombo.setLookAndFeel (&laf);
     sampleModeCombo.onChange = [this] { rebuildPads(); };
+    sampleModeCombo.setTooltip ("Single: one sample for all velocities.  Multi: separate sample pads per velocity tier");
     addAndMakeVisible (sampleModeCombo);
 
     addAndMakeVisible (waveformDisplay);
@@ -1897,7 +2078,7 @@ TrackDetailPanel::TrackDetailPanel (DeathDealerDrumsAudioProcessor& p, InfernoLo
             p->setValueNotifyingHost (p->convertTo0to1 (endNorm));
     };
 
-    // Velocity tier selector � compact inline checkboxes: SOFT / MID / HARD
+    // Velocity tier selector ? compact inline checkboxes: SOFT / MID / HARD
     static const char* tierNames[NUM_VEL_TIERS] = { "SOFT", "MID", "HARD" };
     for (int t = 0; t < NUM_VEL_TIERS; ++t)
     {
@@ -1918,6 +2099,12 @@ TrackDetailPanel::TrackDetailPanel (DeathDealerDrumsAudioProcessor& p, InfernoLo
                 tierBtn[i].setToggleState (i == activeTier, juce::dontSendNotification);
             rebuildPads();
         };
+        static const char* tierTips[NUM_VEL_TIERS] = {
+            "Edit samples for the SOFT velocity layer (quiet hits)",
+            "Edit samples for the MID velocity layer",
+            "Edit samples for the HARD velocity layer (loud hits)"
+        };
+        tierBtn[t].setTooltip (tierTips[t]);
         addAndMakeVisible (tierBtn[t]);
     }
     // Default: HARD selected
@@ -1937,17 +2124,24 @@ TrackDetailPanel::TrackDetailPanel (DeathDealerDrumsAudioProcessor& p, InfernoLo
         btn.onClick = [this, tabId]
         {
             activeDetailTab = tabId;
-            eqPanel.setVisible   (tabId == 0);
-            compPanel.setVisible (tabId == 1);
+            eqPanel.setVisible    (tabId == 0);
+            compPanel.setVisible  (tabId == 1);
+            transPanel.setVisible (tabId == 2);
         };
         addAndMakeVisible (btn);
     };
-    setupTab (eqTabBtn,   0);
-    setupTab (compTabBtn, 1);
+    setupTab (eqTabBtn,    0);
+    setupTab (compTabBtn,  1);
+    setupTab (transTabBtn, 2);
+    eqTabBtn.setTooltip    ("Per-track parametric EQ (8 bands)");
+    compTabBtn.setTooltip  ("Per-track compressor");
+    transTabBtn.setTooltip ("Per-track transient designer");
 
     addAndMakeVisible (eqPanel);
     compPanel.setVisible (false);
     addAndMakeVisible (compPanel);
+    transPanel.setVisible (false);
+    addAndMakeVisible (transPanel);
 }
 
 TrackDetailPanel::~TrackDetailPanel()
@@ -1980,14 +2174,19 @@ void TrackDetailPanel::setTrack (int slotIndex)
     for (auto* btn : { &midiDownBtn, &midiUpBtn, &loadSampleBtn })
         btn->setVisible (hasTrack);
     chokeButton.setVisible (hasTrack);
+    chokeTrigOnBtn.setVisible (hasTrack);
+    chokeTrigCombo.setVisible (hasTrack);
+    chokeTrigDelayKnob.setVisible (hasTrack);
     samplePathLabel.setVisible (hasTrack);
     sampleModeLabel.setVisible (hasTrack);
     sampleModeCombo.setVisible (hasTrack);
     padAreaLabel.setVisible    (hasTrack);
     eqTabBtn .setVisible (hasTrack);
     compTabBtn.setVisible (hasTrack);
+    transTabBtn.setVisible (hasTrack);
     eqPanel  .setVisible (hasTrack && activeDetailTab == 0);
     compPanel.setVisible (hasTrack && activeDetailTab == 1);
+    transPanel.setVisible (hasTrack && activeDetailTab == 2);
     for (auto& btn : tierBtn)
         btn.setVisible (false);
 
@@ -2006,6 +2205,25 @@ void TrackDetailPanel::setTrack (int slotIndex)
     updateMidiNoteLabel();
     syncWaveTrimFromParams();
 
+    // Populate choke trigger track combo with current track names
+    {
+        chokeTrigCombo.clear (juce::dontSendNotification);
+        const int n = proc.getNumActiveTracks();
+        for (int i = 0; i < n; ++i)
+        {
+            if (i == slotIndex) continue;   // skip self
+            DrumTrack* tr = proc.getTrack (i);
+            const juce::String name = tr ? tr->getName() : ("Track " + juce::String (i + 1));
+            chokeTrigCombo.addItem (name, i + 1);   // item ID = track index + 1
+        }
+        // Restore selection from param
+        auto* p = proc.getAPVTS().getRawParameterValue (
+            DeathDealerDrumsAudioProcessor::trackParamID (slotIndex, "choke_trig_slot"));
+        if (p)
+            chokeTrigCombo.setSelectedId (juce::roundToInt (p->load()) + 1,
+                                          juce::dontSendNotification);
+    }
+
     // Update sample path label
     const juce::String path = t ? t->getSamplePath() : "";
     if (path.isNotEmpty())
@@ -2020,8 +2238,9 @@ void TrackDetailPanel::setTrack (int slotIndex)
         sampleModeCombo.setSelectedId  (isMulti ? 2 : 1,            juce::dontSendNotification);
     }
     rebuildPads();
-    eqPanel.setTrack   (slotIndex);
-    compPanel.setTrack (slotIndex);
+    eqPanel.setTrack    (slotIndex);
+    compPanel.setTrack  (slotIndex);
+    transPanel.setTrack (slotIndex);
 
     // Load waveform from variation 0
     {
@@ -2070,7 +2289,7 @@ void TrackDetailPanel::timerUpdate (DrumEngine* engine, float sampleRate)
             }
         }
 
-        // Decay flash countdowns — restore normal colour when they expire
+        // Decay flash countdowns � restore normal colour when they expire
         for (int s = 0; s < (int) padButtons.size(); ++s)
         {
             if (padFlashCountdown[s] > 0)
@@ -2085,12 +2304,17 @@ void TrackDetailPanel::timerUpdate (DrumEngine* engine, float sampleRate)
             }
         }
     }
+
 }
+
 
 void TrackDetailPanel::rebuildAttachments ()
 {
     tuneAtt.reset(); decayAtt.reset(); attackAtt.reset();
-    reverbSendAtt.reset(); compSendAtt.reset(); satSendAtt.reset(); chokeAtt.reset();
+    reverbSendAtt.reset(); compSendAtt.reset(); satSendAtt.reset();
+    chokeTrigDelayAtt.reset();
+    chokeAtt.reset(); chokeTrigOnAtt.reset();
+    chokeTrigCombo.onChange = nullptr;
     if (currentSlot < 0) return;
 
     auto& av = proc.getAPVTS();
@@ -2109,6 +2333,19 @@ void TrackDetailPanel::rebuildAttachments ()
                     av, DeathDealerDrumsAudioProcessor::trackParamID (sl, "sat_send"), satSendKnob);
     chokeAtt = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment> (
                     av, DeathDealerDrumsAudioProcessor::trackParamID (sl, "choke"), chokeButton);
+    chokeTrigOnAtt = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment> (
+                    av, DeathDealerDrumsAudioProcessor::trackParamID (sl, "choke_trig_on"), chokeTrigOnBtn);
+    chokeTrigDelayAtt = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment> (
+                    av, DeathDealerDrumsAudioProcessor::trackParamID (sl, "choke_trig_delay"), chokeTrigDelayKnob);
+
+    // ComboBox ? param (no built-in ComboBoxAttachment for plain float params)
+    chokeTrigCombo.onChange = [this, sl, &av]
+    {
+        const int id = chokeTrigCombo.getSelectedId();   // track index + 1
+        if (id > 0)
+            if (auto* p = av.getParameter (DeathDealerDrumsAudioProcessor::trackParamID (sl, "choke_trig_slot")))
+                p->setValueNotifyingHost (p->convertTo0to1 ((float)(id - 1)));
+    };
 }
 
 void TrackDetailPanel::syncWaveTrimFromParams ()
@@ -2182,24 +2419,27 @@ void TrackDetailPanel::resized ()
     // Fixed heights for top controls:
     const int nameH       = 22;
     const int knobRowH    = 74;   // label(10) + knob(48) + choke(16)
+    const int chokeTrigH  = 22;   // choke-trigger checkbox + combo row
     const int midiH       = 22;
     const int loadH       = 36;   // button(22) + path(14)
     const int modeH       = 22;
     const int padLabelH   = 16;
     const int padBtnH     = 52;
-    const int topRowGaps  = 4 + 4 + 4 + 4 + 4 + 2; // gaps between rows
-    const int topH        = padY + nameH + topRowGaps + knobRowH + midiH + loadH + modeH
+    const int topRowGaps  = 4 + 4 + 4 + 4 + 4 + 4 + 2; // gaps between rows
+    const int topH        = padY + nameH + topRowGaps + knobRowH + chokeTrigH + midiH + loadH + modeH
                             + padLabelH + padBtnH + 4;
 
     const int tabH    = 28;
     const int tabY    = topH;
-    const int halfW   = innerW / 2;
-    eqTabBtn  .setBounds (padX,         tabY, halfW - 2, tabH);
-    compTabBtn.setBounds (padX + halfW, tabY, innerW - halfW, tabH);
+    const int thirdW  = innerW / 3;
+    eqTabBtn  .setBounds (padX,              tabY, thirdW,          tabH);
+    compTabBtn.setBounds (padX + thirdW,     tabY, thirdW,          tabH);
+    transTabBtn.setBounds (padX + thirdW * 2, tabY, innerW - thirdW * 2, tabH);
 
     const juce::Rectangle<int> panelR (padX, tabY + tabH, innerW, totalH - tabY - tabH - 4);
-    eqPanel  .setBounds (panelR);
-    compPanel.setBounds (panelR);
+    eqPanel   .setBounds (panelR);
+    compPanel .setBounds (panelR);
+    transPanel.setBounds (panelR);
 
     // -- Top controls -----------------------------------------------------
     int y = padY;
@@ -2208,7 +2448,7 @@ void TrackDetailPanel::resized ()
     nameEditLabel.setBounds (padX, y, innerW, nameH);
     y += nameH + 4;
 
-    // Knob row � Tune/Decay+Choke/Attack on left, Room/Smash/Tape on right
+    // Knob row ? Tune/Decay+Choke/Attack on left, Room/Smash/Tape on right
     {
         const int kW    = 48;
         const int lH    = 10;
@@ -2243,6 +2483,20 @@ void TrackDetailPanel::resized ()
             waveformDisplay.setBounds (0, 0, 0, 0);
 
         y += lH + kW + chkH + 2 + 4;
+    }
+
+    // Choke trigger row � "ON CHOKE:" checkbox + track selector combo + delay knob
+    {
+        const int cbH   = 16;   // same height as CHOKE checkbox
+        const int cbOff = (chokeTrigH - cbH) / 2;   // vertical centering offset
+        const int kW    = chokeTrigH;                // knob is square, fills row height
+        const int btnW  = 60;                        // "ON CHOKE:" toggle
+        const int comboW = juce::jmin (130, innerW - btnW - kW - 12); // fixed narrow combo
+        const int gap   = 4;
+        chokeTrigOnBtn    .setBounds (padX,                      y + cbOff, btnW,   cbH);
+        chokeTrigCombo    .setBounds (padX + btnW + gap,         y + cbOff, comboW, cbH);
+        chokeTrigDelayKnob.setBounds (padX + btnW + gap + comboW + gap, y, kW,    kW);
+        y += chokeTrigH + 4;
     }
 
     // MIDI row
@@ -2356,6 +2610,34 @@ void TrackDetailPanel::filesDropped (const juce::StringArray& files, int, int)
     }
 }
 
+void TrackDetailPanel::setLockedForPreset (bool locked)
+{
+    // Disable editing controls but leave pad buttons and tier buttons interactive
+    nameEditLabel  .setEnabled (!locked);
+    tuneKnob       .setEnabled (!locked);
+    decayKnob      .setEnabled (!locked);
+    attackKnob     .setEnabled (!locked);
+    midiDownBtn    .setEnabled (!locked);
+    midiUpBtn      .setEnabled (!locked);
+    loadSampleBtn  .setEnabled (!locked);
+    sampleModeCombo.setEnabled (!locked);
+    reverbSendKnob .setEnabled (!locked);
+    compSendKnob   .setEnabled (!locked);
+    satSendKnob    .setEnabled (!locked);
+    chokeButton    .setEnabled (!locked);
+    chokeTrigOnBtn .setEnabled (!locked);
+    chokeTrigCombo .setEnabled (!locked);
+    chokeTrigDelayKnob.setEnabled (!locked);
+    eqTabBtn       .setEnabled (!locked);
+    compTabBtn     .setEnabled (!locked);
+    transTabBtn    .setEnabled (!locked);
+    eqPanel        .setEnabled (!locked);
+    compPanel      .setEnabled (!locked);
+    transPanel     .setEnabled (!locked);
+    waveformDisplay.setEnabled (!locked);
+    // Pad buttons and tier buttons always stay enabled
+}
+
 void TrackDetailPanel::rebuildPads ()
 {
     // Remove existing pad buttons
@@ -2406,7 +2688,7 @@ void TrackDetailPanel::rebuildPads ()
 }
 
 //==============================================================================
-// ── Main Editor ───────────────────────────────────────────────────────────────
+// -- Main Editor ---------------------------------------------------------------
 
 DeathDealerDrumsAudioProcessorEditor::DeathDealerDrumsAudioProcessorEditor (
     DeathDealerDrumsAudioProcessor& p)
@@ -2435,9 +2717,9 @@ DeathDealerDrumsAudioProcessorEditor::DeathDealerDrumsAudioProcessorEditor (
     brandLabel.setFont (juce::Font (juce::FontOptions ("Arial", 11.0f, juce::Font::bold)));
     brandLabel.setColour (juce::Label::textColourId, InfernoLookAndFeel::dimText());
     brandLabel.setJustificationType (juce::Justification::centredRight);
-    // brandLabel intentionally not added — text removed from header
+    // brandLabel intentionally not added � text removed from header
 
-    // DEMO button — plays DEMO.mid through the engine
+    // DEMO button � plays DEMO.mid through the engine
     demoBtn.setLookAndFeel (&laf);
     demoBtn.setColour (juce::TextButton::buttonOnColourId, juce::Colour (0xff00aa44));
     demoBtn.onClick = [this]
@@ -2463,6 +2745,7 @@ DeathDealerDrumsAudioProcessorEditor::DeathDealerDrumsAudioProcessorEditor (
             demoBtn.setToggleState (false, juce::dontSendNotification);
         });
     };
+    demoBtn.setTooltip ("Play a demo MIDI sequence through the current kit");
     addAndMakeVisible (demoBtn);
 
     // Preset bar (header center)
@@ -2493,6 +2776,66 @@ DeathDealerDrumsAudioProcessorEditor::DeathDealerDrumsAudioProcessorEditor (
                 refreshPresetList();
             }
         }
+        else if (id == 2)
+        {
+            auto xml = juce::XmlDocument::parse (
+                juce::String::fromUTF8 (BinaryData::SCAVENGER_DRUMS_ddd, BinaryData::SCAVENGER_DRUMS_dddSize));
+            if (xml)
+            {
+                juce::MemoryBlock mb;
+                proc.copyXmlToBinary (*xml, mb);
+                proc.setStateInformation (mb.getData(), (int) mb.getSize());
+                proc.currentPresetName = "SCAVENGER DRUMS";
+                rebuildTrackList();
+                selectTrack (-1);
+                refreshPresetList();
+            }
+        }
+        else if (id == 3)
+        {
+            auto xml = juce::XmlDocument::parse (
+                juce::String::fromUTF8 (BinaryData::SHORT_BASS_DROPS_ddd, BinaryData::SHORT_BASS_DROPS_dddSize));
+            if (xml)
+            {
+                juce::MemoryBlock mb;
+                proc.copyXmlToBinary (*xml, mb);
+                proc.setStateInformation (mb.getData(), (int) mb.getSize());
+                proc.currentPresetName = "SHORT BASS DROPS";
+                rebuildTrackList();
+                selectTrack (-1);
+                refreshPresetList();
+            }
+        }
+        else if (id == 4)
+        {
+            auto xml = juce::XmlDocument::parse (
+                juce::String::fromUTF8 (BinaryData::MEDIUM_BASS_DROPS_ddd, BinaryData::MEDIUM_BASS_DROPS_dddSize));
+            if (xml)
+            {
+                juce::MemoryBlock mb;
+                proc.copyXmlToBinary (*xml, mb);
+                proc.setStateInformation (mb.getData(), (int) mb.getSize());
+                proc.currentPresetName = "MEDIUM BASS DROPS";
+                rebuildTrackList();
+                selectTrack (-1);
+                refreshPresetList();
+            }
+        }
+        else if (id == 5)
+        {
+            auto xml = juce::XmlDocument::parse (
+                juce::String::fromUTF8 (BinaryData::LONG_BASS_DROPS_ddd, BinaryData::LONG_BASS_DROPS_dddSize));
+            if (xml)
+            {
+                juce::MemoryBlock mb;
+                proc.copyXmlToBinary (*xml, mb);
+                proc.setStateInformation (mb.getData(), (int) mb.getSize());
+                proc.currentPresetName = "LONG BASS DROPS";
+                rebuildTrackList();
+                selectTrack (-1);
+                refreshPresetList();
+            }
+        }
         else
         {
             const juce::String name = presetCombo.getItemText (id - 1);
@@ -2506,6 +2849,7 @@ DeathDealerDrumsAudioProcessorEditor::DeathDealerDrumsAudioProcessorEditor (
             }
         }
     };
+    presetCombo.setTooltip ("Switch between saved kit presets");
     addAndMakeVisible (presetCombo);
 
     loadPresetBtn.setLookAndFeel (&laf);
@@ -2549,6 +2893,7 @@ DeathDealerDrumsAudioProcessorEditor::DeathDealerDrumsAudioProcessorEditor (
             }
         }
     };
+    loadPresetBtn.setTooltip ("Import a .ddd preset file from disk");
     addAndMakeVisible (loadPresetBtn);
 
     savePresetBtn.setLookAndFeel (&laf);
@@ -2598,6 +2943,7 @@ DeathDealerDrumsAudioProcessorEditor::DeathDealerDrumsAudioProcessorEditor (
                     { presetCombo.setSelectedId (i + 1, juce::dontSendNotification); break; }
         }
     };
+    savePresetBtn.setTooltip ("Save the current kit as a named preset");
     addAndMakeVisible (savePresetBtn);
 
     exportPresetBtn.setLookAndFeel (&laf);
@@ -2613,13 +2959,14 @@ DeathDealerDrumsAudioProcessorEditor::DeathDealerDrumsAudioProcessorEditor (
             proc.savePreset (file, false);
         }
     };
+    exportPresetBtn.setTooltip ("Export the current kit as a portable .ddd file");
     addAndMakeVisible (exportPresetBtn);
 
     refreshPresetList();
 
     // brandLabel removed from header
 
-    // Left panel — viewport for scrollable track list
+    // Left panel � viewport for scrollable track list
     trackViewport.setViewedComponent (&trackListContent, false);
     trackViewport.setScrollBarsShown (true, false);
     addAndMakeVisible (trackViewport);
@@ -2635,6 +2982,7 @@ DeathDealerDrumsAudioProcessorEditor::DeathDealerDrumsAudioProcessorEditor (
         proc.addTrack ("DRUM " + juce::String (n + 1), midiNote);
         selectTrack (proc.getNumActiveTracks() - 1);
     };
+    addTrackBtn.setTooltip ("Add a new drum track to the kit");
     addAndMakeVisible (addTrackBtn);
 
     // Detail panel
@@ -2647,6 +2995,7 @@ DeathDealerDrumsAudioProcessorEditor::DeathDealerDrumsAudioProcessorEditor (
     masterVolKnob.setColour (juce::Slider::textBoxTextColourId,       InfernoLookAndFeel::dimText());
     masterVolKnob.setColour (juce::Slider::textBoxBackgroundColourId, juce::Colours::transparentBlack);
     masterVolKnob.setColour (juce::Slider::textBoxOutlineColourId,    juce::Colours::transparentBlack);
+    masterVolKnob.setTooltip ("Master output volume for all tracks");
     addAndMakeVisible (masterVolKnob);
 
     masterVolLabel.setText ("MASTER", juce::dontSendNotification);
@@ -2658,13 +3007,14 @@ DeathDealerDrumsAudioProcessorEditor::DeathDealerDrumsAudioProcessorEditor (
     masterVolAtt = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment> (
         proc.getAPVTS(), DeathDealerDrumsAudioProcessor::PARAM_MASTER_VOLUME, masterVolKnob);
 
-    // Mic bleed knob � header, right of preset controls
+    // Mic bleed knob ? header, right of preset controls
     bleedKnob.setLookAndFeel (&laf);
     bleedKnob.setSliderStyle (juce::Slider::RotaryVerticalDrag);
     bleedKnob.setTextBoxStyle (juce::Slider::TextBoxBelow, false, 46, 13);
     bleedKnob.setColour (juce::Slider::textBoxTextColourId,       InfernoLookAndFeel::dimText());
     bleedKnob.setColour (juce::Slider::textBoxBackgroundColourId, juce::Colours::transparentBlack);
     bleedKnob.setColour (juce::Slider::textBoxOutlineColourId,    juce::Colours::transparentBlack);
+    bleedKnob.setTooltip ("Global mic bleed amount � simulates crosstalk between microphones");
     addAndMakeVisible (bleedKnob);
 
     bleedLabel.setText ("MIC BLEED", juce::dontSendNotification);
@@ -2676,7 +3026,7 @@ DeathDealerDrumsAudioProcessorEditor::DeathDealerDrumsAudioProcessorEditor (
     bleedAtt = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment> (
         proc.getAPVTS(), DeathDealerDrumsAudioProcessor::PARAM_BLEED_AMOUNT, bleedKnob);
 
-    // HUMAN ERROR knob — controls per-hit velocity scatter amount globally
+    // HUMAN ERROR knob � controls per-hit velocity scatter amount globally
     humanErrorKnob.setLookAndFeel (&laf);
     humanErrorKnob.setSliderStyle (juce::Slider::RotaryVerticalDrag);
     humanErrorKnob.setTextBoxStyle (juce::Slider::TextBoxBelow, false, 46, 13);
@@ -2687,6 +3037,7 @@ DeathDealerDrumsAudioProcessorEditor::DeathDealerDrumsAudioProcessorEditor (
     {
         return juce::String (juce::roundToInt (v * 100.0)) + "%";
     };
+    humanErrorKnob.setTooltip ("Human Error � random timing and velocity scatter. Set to 0 for pitch-lock mode (no micro-detuning � ideal for pitched samples like bass drops)");
     addAndMakeVisible (humanErrorKnob);
 
     humanErrorLabel.setText ("HUMAN ERROR", juce::dontSendNotification);
@@ -2715,6 +3066,8 @@ DeathDealerDrumsAudioProcessorEditor::DeathDealerDrumsAudioProcessorEditor (
     }
     roomMuteBtn.setColour (juce::TextButton::buttonOnColourId, juce::Colour (0xffcc2200));
     roomSoloBtn.setColour (juce::TextButton::buttonOnColourId, juce::Colour (0xffcc2200));
+    roomMuteBtn.setTooltip ("Mute the room reverb bus");
+    roomSoloBtn.setTooltip ("Solo the room reverb bus");
 
     roomMuteAtt = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment> (
         proc.getAPVTS(), "room_mute", roomMuteBtn);
@@ -2743,6 +3096,7 @@ DeathDealerDrumsAudioProcessorEditor::DeathDealerDrumsAudioProcessorEditor (
     roomGainKnob.setColour (juce::Slider::textBoxTextColourId,       InfernoLookAndFeel::dimText());
     roomGainKnob.setColour (juce::Slider::textBoxBackgroundColourId, juce::Colours::transparentBlack);
     roomGainKnob.setColour (juce::Slider::textBoxOutlineColourId,    juce::Colours::transparentBlack);
+    roomGainKnob.setTooltip ("Room reverb bus output gain");
     addAndMakeVisible (roomGainKnob);
 
     roomGainLabel.setText ("GAIN", juce::dontSendNotification);
@@ -2754,7 +3108,7 @@ DeathDealerDrumsAudioProcessorEditor::DeathDealerDrumsAudioProcessorEditor (
     roomGainAtt = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment> (
         proc.getAPVTS(), "room_gain", roomGainKnob);
 
-    // Output routing � 25 outputs: 20 instrument tracks + 5 bus tracks
+    // Output routing ? 25 outputs: 20 instrument tracks + 5 bus tracks
     roomOutputLabel.setText ("OUTPUT", juce::dontSendNotification);
     roomOutputLabel.setFont (juce::Font (juce::FontOptions ("Arial", 9.5f, juce::Font::bold)));
     roomOutputLabel.setColour (juce::Label::textColourId, InfernoLookAndFeel::dimText());
@@ -2772,6 +3126,7 @@ DeathDealerDrumsAudioProcessorEditor::DeathDealerDrumsAudioProcessorEditor (
         if (auto* p = proc.getAPVTS().getParameter ("room_output"))
             p->setValueNotifyingHost (p->convertTo0to1 ((float) val));
     };
+    roomOutputCombo.setTooltip ("Select the audio output channel for the room bus");
     addAndMakeVisible (roomOutputCombo);
 
     // Output mode: Stereo / Mono L / Mono R
@@ -2791,6 +3146,7 @@ DeathDealerDrumsAudioProcessorEditor::DeathDealerDrumsAudioProcessorEditor (
         if (auto* p = proc.getAPVTS().getParameter ("room_output_mode"))
             p->setValueNotifyingHost (p->convertTo0to1 ((float) val));
     };
+    roomOutputModeCombo.setTooltip ("Set the room bus output to stereo or mono");
     addAndMakeVisible (roomOutputModeCombo);
 
     // -- Parallel Compression Bus ----------------------------------------------
@@ -2808,6 +3164,8 @@ DeathDealerDrumsAudioProcessorEditor::DeathDealerDrumsAudioProcessorEditor (
     }
     compMuteBtn.setColour (juce::TextButton::buttonOnColourId, juce::Colour (0xffcc2200));
     compSoloBtn.setColour (juce::TextButton::buttonOnColourId, juce::Colour (0xffcc2200));
+    compMuteBtn.setTooltip ("Mute the parallel compression (SMASH) bus");
+    compSoloBtn.setTooltip ("Solo the parallel compression (SMASH) bus");
 
     compMuteAtt = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment> (
         proc.getAPVTS(), "comp_mute", compMuteBtn);
@@ -2884,6 +3242,8 @@ DeathDealerDrumsAudioProcessorEditor::DeathDealerDrumsAudioProcessorEditor (
     };
     setupCompKnob (compThreshKnob, compThreshLabel, "THRESH");
     setupCompKnob (compMakeupKnob, compMakeupLabel, "GAIN");
+    compThreshKnob.setTooltip ("Parallel compressor threshold (dB)");
+    compMakeupKnob.setTooltip ("Parallel compressor makeup gain");
 
     compThreshAtt = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment> (
         proc.getAPVTS(), "comp_threshold", compThreshKnob);
@@ -2909,6 +3269,8 @@ DeathDealerDrumsAudioProcessorEditor::DeathDealerDrumsAudioProcessorEditor (
     }
     satMuteBtn.setColour (juce::TextButton::buttonOnColourId, juce::Colour (0xffcc2200));
     satSoloBtn.setColour (juce::TextButton::buttonOnColourId, juce::Colour (0xffcc2200));
+    satMuteBtn.setTooltip ("Mute the tape saturation bus");
+    satSoloBtn.setTooltip ("Solo the tape saturation bus");
 
     satMuteAtt = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment> (
         proc.getAPVTS(), "sat_mute", satMuteBtn);
@@ -2947,6 +3309,7 @@ DeathDealerDrumsAudioProcessorEditor::DeathDealerDrumsAudioProcessorEditor (
         if (auto* p = proc.getAPVTS().getParameter ("sat_output"))
             p->setValueNotifyingHost (p->convertTo0to1 ((float) val));
     };
+    satOutputCombo.setTooltip ("Select the audio output channel for the saturation bus");
     addAndMakeVisible (satOutputCombo);
 
     satOutputModeLabel.setText ("MODE", juce::dontSendNotification);
@@ -2965,6 +3328,7 @@ DeathDealerDrumsAudioProcessorEditor::DeathDealerDrumsAudioProcessorEditor (
         if (auto* p = proc.getAPVTS().getParameter ("sat_output_mode"))
             p->setValueNotifyingHost (p->convertTo0to1 ((float) val));
     };
+    satOutputModeCombo.setTooltip ("Set the saturation bus output to stereo or mono");
     addAndMakeVisible (satOutputModeCombo);
 
     auto setupSatKnob = [&] (juce::Slider& s, juce::Label& l, const char* name)
@@ -2984,6 +3348,8 @@ DeathDealerDrumsAudioProcessorEditor::DeathDealerDrumsAudioProcessorEditor (
     };
     setupSatKnob (satDriveKnob, satDriveLabel, "DRIVE");
     setupSatKnob (satGainKnob,  satGainLabel,  "GAIN");
+    satDriveKnob.setTooltip ("Tape saturation drive amount � higher = warmer/crunchier harmonics");
+    satGainKnob.setTooltip  ("Tape saturation output level");
 
     satDriveAtt = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment> (
         proc.getAPVTS(), "sat_drive", satDriveKnob);
@@ -3017,7 +3383,11 @@ DeathDealerDrumsAudioProcessorEditor::DeathDealerDrumsAudioProcessorEditor (
     rebuildTrackList();
     startTimerHz (20);
 
-    // Help button � bottom-left corner, opens website
+    // Lock overlay label (hidden by default; shown over preset controls when bass drop preset active)
+    lockOverlayLabel.setVisible (false);
+    addAndMakeVisible (lockOverlayLabel);
+
+    // Help button ? bottom-left corner, opens website
     helpBtn.setLookAndFeel (&laf);
     helpBtn.setColour (juce::TextButton::buttonColourId,   juce::Colour (0xff1e1e28));
     helpBtn.setColour (juce::TextButton::textColourOffId,  InfernoLookAndFeel::dimText());
@@ -3043,7 +3413,6 @@ DeathDealerDrumsAudioProcessorEditor::~DeathDealerDrumsAudioProcessorEditor()
     masterVolKnob.setLookAndFeel (nullptr);
     bleedKnob.setLookAndFeel (nullptr);
     humanErrorKnob.setLookAndFeel (nullptr);
-    demoBtn.setLookAndFeel (nullptr);
     roomMuteBtn.setLookAndFeel (nullptr);
     roomSoloBtn.setLookAndFeel (nullptr);
     roomOutputCombo.setLookAndFeel (nullptr);
@@ -3115,20 +3484,30 @@ void DeathDealerDrumsAudioProcessorEditor::refreshPresetList()
 {
     presetCombo.clear (juce::dontSendNotification);
 
-    // ID 1 is always the cooked-in default — never depends on the file system
-    presetCombo.addItem ("DEFAULT", 1);
+    // ID 1 is always the cooked-in default � never depends on the file system
+    presetCombo.addItem ("DEFAULT",             1);
+    // ID 2 is the cooked-in SCAVENGER DRUMS factory preset
+    presetCombo.addItem ("SCAVENGER DRUMS",     2);
+    // IDs 3-5 are cooked-in bass drop factory presets
+    presetCombo.addItem ("SHORT BASS DROPS",    3);
+    presetCombo.addItem ("MEDIUM BASS DROPS",   4);
+    presetCombo.addItem ("LONG BASS DROPS",     5);
 
-    // Remaining IDs: user-saved presets from the presets folder (skip DEFAULT.ddd)
+    // Remaining IDs: user-saved presets from the presets folder
     const auto folder = DeathDealerDrumsAudioProcessor::getPresetsFolder();
     if (folder.exists())
     {
         juce::Array<juce::File> files;
         folder.findChildFiles (files, juce::File::findFiles, false, "*.ddd");
         files.sort();
-        int id = 2;
+        int id = 6;
         for (const auto& f : files)
         {
-            if (f.getFileNameWithoutExtension().equalsIgnoreCase ("DEFAULT")) continue;
+            if (f.getFileNameWithoutExtension().equalsIgnoreCase ("DEFAULT"))           continue;
+            if (f.getFileNameWithoutExtension().equalsIgnoreCase ("SCAVENGER DRUMS"))   continue;
+            if (f.getFileNameWithoutExtension().equalsIgnoreCase ("SHORT BASS DROPS"))  continue;
+            if (f.getFileNameWithoutExtension().equalsIgnoreCase ("MEDIUM BASS DROPS")) continue;
+            if (f.getFileNameWithoutExtension().equalsIgnoreCase ("LONG BASS DROPS"))   continue;
             presetCombo.addItem (f.getFileNameWithoutExtension(), id++);
         }
     }
@@ -3138,6 +3517,22 @@ void DeathDealerDrumsAudioProcessorEditor::refreshPresetList()
     if (active.equalsIgnoreCase ("DEFAULT"))
     {
         presetCombo.setSelectedId (1, juce::dontSendNotification);
+    }
+    else if (active.equalsIgnoreCase ("SCAVENGER DRUMS"))
+    {
+        presetCombo.setSelectedId (2, juce::dontSendNotification);
+    }
+    else if (active.equalsIgnoreCase ("SHORT BASS DROPS"))
+    {
+        presetCombo.setSelectedId (3, juce::dontSendNotification);
+    }
+    else if (active.equalsIgnoreCase ("MEDIUM BASS DROPS"))
+    {
+        presetCombo.setSelectedId (4, juce::dontSendNotification);
+    }
+    else if (active.equalsIgnoreCase ("LONG BASS DROPS"))
+    {
+        presetCombo.setSelectedId (5, juce::dontSendNotification);
     }
     else if (active.isNotEmpty())
     {
@@ -3175,6 +3570,71 @@ void DeathDealerDrumsAudioProcessorEditor::refreshPresetList()
     else
     {
         presetCombo.setSelectedId (1, juce::dontSendNotification);
+    }
+
+    // Lock controls when a bass drop factory preset is active
+    const bool isBassDrop = active.equalsIgnoreCase ("SHORT BASS DROPS")
+                         || active.equalsIgnoreCase ("MEDIUM BASS DROPS")
+                         || active.equalsIgnoreCase ("LONG BASS DROPS");
+    setPresetLocked (isBassDrop);
+}
+
+//==============================================================================
+void DeathDealerDrumsAudioProcessorEditor::setPresetLocked (bool locked)
+{
+    // Global knobs � master vol stays enabled even when locked
+    humanErrorKnob  .setEnabled (!locked);
+    bleedKnob       .setEnabled (!locked);
+
+    // Room bus
+    roomMuteBtn     .setEnabled (!locked);
+    roomSoloBtn     .setEnabled (!locked);
+    roomGainKnob    .setEnabled (!locked);
+    roomOutputCombo .setEnabled (!locked);
+    roomOutputModeCombo.setEnabled (!locked);
+
+    // Comp bus
+    compMuteBtn     .setEnabled (!locked);
+    compSoloBtn     .setEnabled (!locked);
+    compThreshKnob  .setEnabled (!locked);
+    compMakeupKnob  .setEnabled (!locked);
+    compOutputCombo .setEnabled (!locked);
+    compOutputModeCombo.setEnabled (!locked);
+
+    // Sat bus
+    satMuteBtn      .setEnabled (!locked);
+    satSoloBtn      .setEnabled (!locked);
+    satDriveKnob    .setEnabled (!locked);
+    satGainKnob     .setEnabled (!locked);
+    satOutputCombo  .setEnabled (!locked);
+    satOutputModeCombo.setEnabled (!locked);
+
+    // Save / Export (Load is fine � user can load a different preset)
+    savePresetBtn   .setEnabled (!locked);
+    exportPresetBtn .setEnabled (!locked);
+
+    // Add track button
+    addTrackBtn     .setEnabled (!locked);
+
+    // Every track row
+    for (auto& row : trackRows)
+        if (row) row->setEnabled (!locked);
+
+    // Detail panel � selectively disable editing controls, pads stay active
+    detailPanel.setLockedForPreset (locked);
+
+    // Lock overlay label
+    if (locked)
+    {
+        lockOverlayLabel.setText ("PRESET LOCKED", juce::dontSendNotification);
+        lockOverlayLabel.setFont (juce::Font (juce::FontOptions ("Arial", 22.0f, juce::Font::bold)));
+        lockOverlayLabel.setColour (juce::Label::textColourId, juce::Colour (0xffff6600));
+        lockOverlayLabel.setJustificationType (juce::Justification::centred);
+        lockOverlayLabel.setVisible (true);
+    }
+    else
+    {
+        lockOverlayLabel.setVisible (false);
     }
 }
 
@@ -3228,11 +3688,11 @@ void DeathDealerDrumsAudioProcessorEditor::paint (juce::Graphics& g)
 {
     g.fillAll (InfernoLookAndFeel::windowBg());
 
-    // Header � same dark background as the rest of the window
+    // Header ? same dark background as the rest of the window
     g.setColour (InfernoLookAndFeel::windowBg());
     g.fillRect (0, 0, getWidth(), 80);
 
-    // Draw logo with high-quality resampling � aspect ratio preserved
+    // Draw logo with high-quality resampling ? aspect ratio preserved
     if (logoTinted.isValid())
     {
         g.setImageResamplingQuality (juce::Graphics::highResamplingQuality);
@@ -3301,7 +3761,7 @@ void DeathDealerDrumsAudioProcessorEditor::paint (juce::Graphics& g)
 
     // Master: far right of master section, before divider at 175
     drawBusMeter (162, busPeakMaster);
-    // Room: far right of room section � gain knob shifted left; ends ~380, meter before divider at 402
+    // Room: far right of room section ? gain knob shifted left; ends ~380, meter before divider at 402
     drawBusMeter (388, busPeakRoom);
     // Smash: after GR meter (cbX+284=698, w=16 ends 714), before divider at 730
     drawBusMeter (718, busPeakComp);
@@ -3312,7 +3772,7 @@ void DeathDealerDrumsAudioProcessorEditor::paint (juce::Graphics& g)
     g.setColour (juce::Colour (0xff282830));
     g.drawVerticalLine (380, 80.0f, (float) footerY);
 
-    // INFERNO TONES logo — bottom-right, silver disc (no frame/ring)
+    // INFERNO TONES logo � bottom-right, silver disc (no frame/ring)
     if (infernoTonesImg.isValid())
     {
         const int logoX = 1046;
@@ -3324,7 +3784,7 @@ void DeathDealerDrumsAudioProcessorEditor::paint (juce::Graphics& g)
                              | juce::RectanglePlacement::yMid
                              | juce::RectanglePlacement::onlyReduceInSize;
 
-        // Image is square � work out exact rendered centre for glow
+        // Image is square ? work out exact rendered centre for glow
         const int   imgSide = logoH;
         const int   imgX    = logoX + logoW - imgSide;
         const float cx      = (float) imgX + imgSide * 0.5f;
@@ -3371,10 +3831,10 @@ void DeathDealerDrumsAudioProcessorEditor::resized ()
     const int contentH = getHeight() - headerH - footerH - 2;
     const int footerY  = getHeight() - footerH;
 
-    // logo drawn directly in paint() � no component bounds needed
+    // logo drawn directly in paint() ? no component bounds needed
     brandLabel.setBounds  (getWidth() - 160, 28, 150, 28);
 
-    // Preset bar � centered in header between logo and brand label
+    // Preset bar ? centered in header between logo and brand label
     {
         const int btnH  = 26;
         const int btnY  = (80 - btnH) / 2;   // vertically centered in 80px header
@@ -3384,7 +3844,10 @@ void DeathDealerDrumsAudioProcessorEditor::resized ()
         savePresetBtn  .setBounds (752, btnY,      60,  btnH);
         exportPresetBtn.setBounds (818, btnY,      70,  btnH);
 
-        // Mic bleed knob � right of preset bar, before brand label
+        // Lock overlay label � dead center of the plugin
+        lockOverlayLabel.setBounds (W / 2 - 200, H / 2 - 30, 400, 60);
+
+        // Mic bleed knob ? right of preset bar, before brand label
         bleedLabel     .setBounds (895, 2,  62, 11);
         bleedKnob      .setBounds (899, 12, 50, 60);
         humanErrorLabel.setBounds (952, 2,  98, 11);
@@ -3398,7 +3861,7 @@ void DeathDealerDrumsAudioProcessorEditor::resized ()
     const int addBtnY  = footerY - addBtnH - 4;
     const int vpH      = addBtnY - listLabelY - panelLabelH - 2;
 
-    // "TRACKS" label painted inline in paint() — just layout viewport + button
+    // "TRACKS" label painted inline in paint() � just layout viewport + button
     trackViewport.setBounds (2, listLabelY + panelLabelH, listW - 4, vpH);
     trackListContent.setSize (juce::jmax (1, trackViewport.getMaximumVisibleWidth()),
         juce::jmax (1, (int) trackRows.size() * TrackRow::ROW_H));
@@ -3415,7 +3878,7 @@ void DeathDealerDrumsAudioProcessorEditor::resized ()
     masterVolLabel.setBounds (80, footerY + 4,  70, 14);
     masterVolKnob.setBounds  (80, footerY + 18, 70, 60);
 
-    // Help button � bottom-left corner
+    // Help button ? bottom-left corner
     helpBtn.setBounds (4, footerY + 68, 22, 18);
 
     // Room Bus section: ROOM BUS label | SOLO+MUTE | OUTPUT+MODE side-by-side | GAIN knob
@@ -3462,6 +3925,6 @@ void DeathDealerDrumsAudioProcessorEditor::resized ()
     satGainLabel.setBounds       (sbX + 222, footerY + 4,   56, 12);
     satGainKnob.setBounds        (sbX + 219, footerY + 16,  60, 66);
 
-    // DEMO button — in footer gap between sat bus and INFERNO TONES logo
+    // DEMO button � in footer gap between sat bus and INFERNO TONES logo
     demoBtn.setBounds (1044, footerY + 31, 58, 28);
 }

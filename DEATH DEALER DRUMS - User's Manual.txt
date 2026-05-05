@@ -1,0 +1,554 @@
+================================================================================
+  DEATH DEALER DRUMS — USER'S MANUAL
+  by INFERNO TONES
+================================================================================
+
+TABLE OF CONTENTS
+-----------------
+ 1.  Installation & First Launch
+ 2.  Interface Overview
+ 3.  Header Bar
+ 4.  Track List (Left Panel)
+ 5.  Track Detail Panel (Right Panel)
+ 6.  8-Band Parametric EQ
+ 7.  Per-Track Compressor
+ 8.  FX Bus Footer
+ 9.  Presets (.ddd Files)
+10.  MIDI & DAW Integration
+11.  Multi-Bus Output Routing
+12.  The Demo Button
+13.  Under the Hood — How Every Hit Is Made Unique
+14.  Tips & Workflows
+15.  Gatekeeper / First Launch (macOS)
+
+
+================================================================================
+  1. INSTALLATION & FIRST LAUNCH
+================================================================================
+
+WINDOWS
+-------
+Run DEATH_DEALER_DRUMS_Installer_vX.X.X_Windows.exe. You will be asked where
+to install the VST3 (defaults to C:\Program Files\Common Files\VST3) and
+optionally the Standalone app. After installation, rescan plugins in your DAW.
+
+macOS
+-----
+Double-click DEATH-DEALER-DRUMS-macOS-X.X.X.pkg. The installer offers three
+components — install all three or only the formats you need:
+
+  • VST3       → /Library/Audio/Plug-Ins/VST3
+  • AU         → /Library/Audio/Plug-Ins/Components
+  • Standalone → /Applications
+
+  GATEKEEPER WARNING: The installer is not notarized. On first open,
+  right-click (Control-click) the .pkg and choose Open, then click Open again
+  in the dialog. You only need to do this once.
+  See Section 15 for full details.
+
+DEFAULT KIT
+-----------
+When you first open the plugin, it loads the built-in DEFAULT preset
+automatically — a full 18-piece metal/rock kit with everything mapped and
+ready to play.
+
+
+================================================================================
+  2. INTERFACE OVERVIEW
+================================================================================
+
+The plugin window is 1200 x 860 pixels, divided into three zones:
+
+  HEADER (top bar)
+    Preset management, global controls — Bleed, Humanize, Master Volume, DEMO
+
+  TRACK LIST (left panel, scrollable)
+    One row per drum instrument. Volume, pan, routing, solo/mute per track.
+
+  TRACK DETAIL (right panel)
+    Deep editing for the selected track: tune, decay, attack, waveform, pad
+    preview grid, EQ, compressor, FX sends.
+
+  FX BUS FOOTER (bottom bar)
+    Global Room Reverb, Parallel Compressor, and Tape Saturation bus controls.
+
+
+================================================================================
+  3. HEADER BAR
+================================================================================
+
+PRESET COMBO + LOAD / SAVE / EXPORT
+  • Combo box  — lists all .ddd preset files in the plugin's presets folder.
+  • LOAD       — loads the selected preset, replacing all tracks and settings.
+  • SAVE       — saves the current state over the active preset. If the active
+                 preset is the built-in DEFAULT, it prompts you to name a new
+                 file.
+  • EXPORT     — saves a copy of the current state to any location you choose.
+
+  NOTE: Presets are self-contained .ddd (XML) files. Sample audio is embedded
+  directly inside — your kit sounds identical on any machine with no external
+  sample paths required.
+
+BLEED KNOB
+  Global mic bleed intensity. Range: 0–10.
+  At 0, bleed is off for all tracks. Raising this mixes a low-pass filtered
+  bleed signal from each bleed-enabled track into the mix, replicating the
+  natural cross-contamination between microphones in a real drum room.
+  Bleed character is controlled per-track with the BLEED button and send knob
+  on each track row.
+
+HUMANIZE KNOB
+  Global velocity/timing scatter. Range: 5%–20%.
+  At minimum (5%): subtle ±5% pitch drift, ±2 dB amplitude variation, small
+  chance of a 4ms timing offset.
+  At maximum (20%): pitch drifts up to ±35 cents, amplitude varies up to ±6 dB,
+  timing can slip up to 30ms, and sample start offsets up to 10ms are added.
+  Use this to make MIDI sequences sound performed rather than programmed.
+
+DEMO BUTTON
+  Plays the built-in MIDI demo sequence on loop through the current kit.
+  Press again to stop. See Section 12 for full details.
+
+MASTER VOLUME KNOB
+  Global output level. Range: 0–150%. Located in the footer. This is the last
+  control in the signal chain before audio reaches your DAW.
+
+
+================================================================================
+  4. TRACK LIST (LEFT PANEL)
+================================================================================
+
+Each row in the scrollable list represents one loaded drum instrument.
+Up to 20 tracks total.
+
+TRACK ROW CONTROLS
+------------------
+  Track name (double-click)   Renames the track in place
+  MIDI note label             Shows the MIDI note assigned (e.g. C3 / 36)
+  VOL knob                    Per-track volume. Range: 0–200%
+  PAN knob                    Per-track stereo pan. Range: L–R
+  LOAD button                 Opens a file browser to load a WAV into this track
+  X button                    Removes the track from the kit
+  S (Solo)                    Solos this track. Solo and Mute are mutually
+                              exclusive — enabling one clears the other
+  M (Mute)                    Mutes this track
+  ø (Phase)                   Inverts the polarity of this track's output
+  BLEED button                Enables mic bleed for this track (also raise the
+                              global BLEED knob)
+  Bleed send knob             How much this track feeds the bleed bus. 0–100%
+  Output combo                Routes track to one of 16 stereo output buses
+  Output mode combo           Sets the output bus to Stereo or Mono
+  Slave combo                 Slaves this track to another — see below
+  Level meter                 Real-time peak meter with visual decay
+
+ADDING TRACKS
+  Click "+ ADD TRACK" at the bottom of the track list. A new empty slot is
+  created with default parameters. Load a sample by clicking LOAD on the row,
+  or from the detail panel.
+
+TRACK SLAVING & AUTO PHASE ALIGNMENT
+  The Slave dropdown links a track to another so they fire together on the same
+  MIDI hit — the same technique used in professional studios to align close
+  microphones with room microphones.
+
+  When a slave track fires:
+  • It shares the same humanization (timing, velocity scatter, pitch drift) as
+    its master so all layered sounds move as one hit, not separate events.
+  • The engine automatically cross-correlates master and slave waveforms across
+    a ±1024-sample window to find the optimal sample offset and polarity.
+  • That alignment is cached per master/slave/tier/slot combination after the
+    first hit — zero run-time cost on subsequent hits.
+  • Locked followers blend in over ~2.5ms to suppress any double-transient
+    click artifact.
+  • Polarity is automatically inverted if the analysis determines it improves
+    phase alignment.
+
+
+================================================================================
+  5. TRACK DETAIL PANEL (RIGHT PANEL)
+================================================================================
+
+Click any track row to open its full editor on the right.
+
+CORE CONTROLS
+-------------
+  Control             Range                Default   Description
+  ----------------    -------------------  -------   -------------------------
+  Track name          —                    "DRUM"    Double-click to rename
+  TUNE                -24 to +24 semitones  0        Pitch-shifts all playback
+  DECAY               0–100%               100%      How long the sample plays.
+                                                     Lower = shorter fade-out
+  ATTACK              0–100%               0%        Delays onset, softens
+                                                     the transient
+  MIDI note (-/+)     0–127               60 (C3)    Trigger note for this track
+  LOAD SAMPLE button  —                    —         Opens file browser
+
+  TIP: Drag and drop a WAV file directly onto the detail panel to load it.
+
+WAVEFORM DISPLAY
+  Shows a downsampled peak waveform of the loaded sample.
+  Two orange handles (circles) mark the start and end trim points:
+
+  • Drag the LEFT handle to trim the start (remove pre-transient silence/noise)
+  • Drag the RIGHT handle to trim the end (shorten the tail)
+  • Grabbing a handle zooms in 2.2x around it for precise placement
+  • Trim positions are stored in the preset
+
+FX SENDS
+  Control        Range    Description
+  -----------    -------  --------------------------------------------------
+  REVERB send    0–100%   Amount sent to the global Room Reverb bus
+  COMP send      0–100%   Amount sent to the global Parallel Compression bus
+  SAT send       0–100%   Amount sent to the global Tape Saturation bus
+
+CHOKE TOGGLE
+  When enabled, new hits on this track immediately silence any still-playing
+  voice from the same track. Essential for open/closed hi-hat pairs.
+
+SAMPLE MODE
+  Single  Uses one variation at a time (round-robin across all 24 slots)
+  Multi   Uses velocity-aware tier selection (SOFT/MID/HARD) with per-tier
+          round-robin
+
+VELOCITY PAD GRID
+  Three buttons select the active tier: SOFT, MID, HARD.
+  Below are 8 trigger pads (one per round-robin slot in the active tier).
+  Click any pad to preview that exact variation. The active pad flashes orange
+  when triggered by MIDI.
+
+EQ TAB / COMP TAB
+  Switch between the 8-band EQ panel and the per-track compressor.
+  See Sections 6 and 7.
+
+
+================================================================================
+  6. 8-BAND PARAMETRIC EQ
+================================================================================
+
+Each track has a fully independent 8-band EQ.
+
+BAND LAYOUT
+-----------
+  Band   Type            Default Frequency
+  ----   ------------    -----------------
+  1      High-Pass (HPF)  20 Hz
+  2      Low Shelf        80 Hz
+  3      Peak Bell       200 Hz
+  4      Peak Bell       800 Hz
+  5      Peak Bell     2,500 Hz
+  6      Peak Bell     5,000 Hz
+  7      High Shelf   10,000 Hz
+  8      Low-Pass (LPF)  22,000 Hz
+
+CONTROLS PER BAND
+  FREQ    Filter frequency. Range: 20 Hz–22,000 Hz (log scale)
+  GAIN    Cut or boost. Range: −18 to +18 dB.
+          For HPF and LPF, the Gain knob controls slope:
+            Negative → 12 dB/oct (1 stage)
+            0 range  → 24 dB/oct (2 stages)
+            Positive → 36–48 dB/oct (3–4 cascaded stages)
+  Q       Resonance/bandwidth. Range: 0.1–10. Higher Q = narrower bell.
+
+ON BUTTON
+  Globally enables or disables the 8-band EQ for this track. When OFF, all 8
+  bands are bypassed with zero CPU cost.
+
+SPECTRUM ANALYZER
+  The large display shows a real-time 1024-point FFT of the selected track's
+  output (log frequency, 20 Hz–22 kHz). The EQ curve overlay is drawn on top —
+  you can see the combined frequency response of all active bands in real time.
+
+DRAGGING BANDS
+  Click and drag the band dot markers directly on the EQ curve to adjust
+  Frequency (horizontal) and Gain (vertical) simultaneously.
+
+
+================================================================================
+  7. PER-TRACK COMPRESSOR
+================================================================================
+
+Each track has its own independent feed-forward compressor.
+
+CONTROLS
+--------
+  Control       Range           Default    Description
+  -----------   -------------   -------    ----------------------------------
+  ON button     —               Off        Enables the compressor
+  THR           -60 to 0 dB    -20 dB     Level above which compression begins
+  RAT           1:1 to 20:1     4:1       Compression amount above threshold
+  ATK           0.1–100 ms      5 ms      How quickly compression engages
+  REL           10–1000 ms      60 ms     How quickly compression disengages
+  MKP           0–24 dB         0 dB      Output gain after compression
+
+PRESET COMBO
+  Built-in starting points tuned for common drum applications (snare snap,
+  kick punch, overhead glue, etc.).
+
+GR METER
+  Vertical gain-reduction meter showing live compression activity.
+  Green = light reduction, orange = moderate, red = heavy. Reading is in dB GR.
+
+
+================================================================================
+  8. FX BUS FOOTER
+================================================================================
+
+Three parallel global buses run along the bottom of the plugin. Tracks route
+into them via their per-track send knobs. All three buses have Mute, Solo,
+Output routing, and Output mode controls. Solo and Mute are mutually exclusive
+per bus (and also exclusive with track solos).
+
+ROOM REVERB BUS
+---------------
+  GAIN          -24 to +6 dB   Master send level into the reverb return mix
+  MUTE / SOLO   —              Mute or solo the reverb return
+  Output        OUT 1–16       Which stereo output bus the reverb return goes to
+  Mode          Stereo / Mono  Output mode for the reverb return
+
+  Reverb character — Large live room, stone/concrete, minimal HF absorption:
+    Room size   0.72  → approximately 1.8s RT60
+    Damping     0.15  (very bright — stone absorbs little HF)
+    Pre-delay   22ms  (keeps transient attack dry; room arrives behind each hit)
+    Bus HPF     120 Hz (removes kick body and low-mid mud from the reverb tail)
+    Bus shelf   -4 dB at 7 kHz (tames harsh upper tail without killing air)
+    Width       Full stereo
+
+  TIP: The 22ms pre-delay is the single most important drum-room trick in
+  professional mixing. It keeps the attack punch intact and makes the room
+  feel natural rather than washy.
+
+PARALLEL COMPRESSION BUS
+-------------------------
+  THRESHOLD     -60 to 0 dB   Where the compressor engages. Default: -20 dB
+  MAKEUP        0–30 dB       Output gain after compression. Default: +10 dB
+  MUTE / SOLO   —             Mute or solo the parallel comp return
+  Output        OUT 1–16      Routing for the parallel comp return
+
+  Compressor character — Classic New York parallel compression for metal:
+    Attack   5ms   (lets initial transient punch through for crack and click)
+    Release  60ms  (fast enough to pump with the groove, adds aggression)
+    Ratio    10:1  (heavy limiting character)
+
+  Recommended: send kick and snare at 30–50%, cymbals at 0–10%.
+
+TAPE SATURATION BUS
+-------------------
+  DRIVE         0–24 dB       Amount of tape saturation
+  GAIN          -24 to +12 dB Output trim after saturation
+  MUTE / SOLO   —             Mute or solo the saturation return
+  Output        OUT 1–16      Routing for the saturation return
+
+  Tape saturation adds analog warmth and harmonic density. Works well on kick
+  and snare at low send levels for character without obvious distortion.
+
+
+================================================================================
+  9. PRESETS (.ddd FILES)
+================================================================================
+
+WHAT'S IN A PRESET
+  A .ddd file is a plain XML snapshot of the entire plugin state including:
+  • All track names, MIDI note assignments, and all parameter values
+    (volume, pan, tune, decay, attack, EQ, compressor, FX sends, routing,
+    slave assignments)
+  • The raw WAV bytes of every loaded sample — embedded directly in the file
+  • All bus settings (reverb gain, comp threshold/makeup, sat drive/gain)
+  • Global bleed amount and humanize setting
+
+  Because samples are embedded, presets are fully self-contained. Share a .ddd
+  file with anyone and they will hear exactly what you hear — no missing samples.
+
+PRESET FILE LOCATION
+  Presets are stored in a platform-appropriate user data folder, resolved
+  automatically. Use EXPORT to save to any location (useful for sharing/backup).
+
+LOADING THE BUILT-IN DEFAULT
+  The DEFAULT preset is compiled directly into the plugin binary. It loads
+  automatically on first launch or when no saved state is present in the DAW
+  project. You cannot overwrite it — saving always creates a new file.
+
+
+================================================================================
+  10. MIDI & DAW INTEGRATION
+================================================================================
+
+MIDI NOTE ASSIGNMENTS
+  Each track responds to a single MIDI note. Assign notes using the -/+ buttons
+  in the Track Detail panel. Notes are displayed as "C3 / 36" (note name / MIDI
+  number, where C3 = MIDI 60).
+
+  Default assignments follow General MIDI drum mapping for the built-in kit.
+  Check the MIDI label on each track row for exact assignments.
+
+VELOCITY & TIER SELECTION
+  MIDI velocity (0–127) controls both volume and which velocity tier is used:
+    0–42   (0.00–0.33 normalized) → SOFT tier  (round-robin slots 0–7)
+    43–84  (0.34–0.66)            → MID tier   (round-robin slots 8–15)
+    85–127 (0.67–1.0)             → HARD tier  (round-robin slots 16–23)
+
+  Within each tier, slots cycle in round-robin order. You will never hear the
+  same variation twice in a row within a tier.
+
+DAW AUTOMATION
+  Every parameter is fully automatable. Parameter IDs follow the pattern
+  "track_N_paramname" (e.g. track_0_volume, track_2_reverb_send). Bus
+  parameters use names like room_gain, comp_threshold, sat_drive.
+
+TAIL LENGTH
+  The plugin reports a 1.5-second tail to the host, ensuring reverb tails and
+  slow decays are rendered completely when you export or bounce.
+
+
+================================================================================
+  11. MULTI-BUS OUTPUT ROUTING
+================================================================================
+
+The plugin exposes 16 stereo output buses (OUT 1–OUT 16).
+OUT 1 is always active (the main stereo mix).
+OUT 2–16 are optional — enable them in your DAW's plugin/instrument routing.
+
+PER-TRACK ROUTING
+  Each track row has an Output combo. Set it to any OUT 1–16 to send that drum
+  exclusively to that bus. When routed to a separate bus, the track is removed
+  from the main mix (OUT 1).
+
+  Output Mode (Stereo/Mono): collapses the signal before sending if set to Mono.
+
+BUS ROUTING
+  The Room Reverb, Parallel Compressor, and Tape Saturation buses each have
+  their own Output combo — print the reverb or comp return to a dedicated bus
+  for further processing in your DAW.
+
+TYPICAL MULTI-BUS SETUP
+  Track          Bus
+  ----------     -------
+  Kick           OUT 2
+  Snare          OUT 3
+  Hi-Hats        OUT 4
+  Toms           OUT 5
+  Cymbals        OUT 6
+  Room Reverb    OUT 7
+  Everything else OUT 1 (main)
+
+
+================================================================================
+  12. THE DEMO BUTTON
+================================================================================
+
+The DEMO button plays the built-in MIDI demo sequence through the currently
+loaded kit. The sequence loops seamlessly until you press DEMO again to stop.
+
+  • The demo uses the actual MIDI note assignments of your current tracks. If
+    you have reassigned notes or reordered tracks, the demo adapts automatically.
+  • All humanization, slaving, FX sends, and round-robin variation logic apply
+    exactly as they would to incoming MIDI.
+  • The demo and host playback are independent. You can play the demo while the
+    DAW is stopped to audition your kit.
+
+
+================================================================================
+  13. UNDER THE HOOD — HOW EVERY HIT IS MADE UNIQUE
+================================================================================
+
+VARIATION GENERATION
+  When a sample is loaded, the plugin generates 24 unique variations in the
+  background (3 velocity tiers × 8 round-robin slots). Each variation applies:
+  pitch shift (±1–5 cents), high-shelf EQ tweaks (±1.5–3 dB), subtle gain
+  changes (±1.5 dB), and start-offset trimming (0–3ms).
+  Generation happens once on load — zero run-time cost during playback.
+
+PER-HIT MICRO-RANDOMIZATION
+  On every single MIDI trigger, additional real-time randomization is applied:
+
+  Parameter               Range (at min Humanize → max Humanize)
+  --------------------    ----------------------------------------
+  Pitch micro-offset      ±4 to ±35 cents
+  Amplitude trim          ±2 to ±6 dB
+  Timing offset           0 to 30ms pre-delay before output
+  Sample start offset     0 to 10ms
+  Stick contact noise     3–12ms noise burst, unique per hit
+  Body resonance          Random ±4 dB bell, 80–250 Hz
+  Presence snap           Random ±2.5 dB bell, 2–5 kHz
+  Velocity brightness     High shelf -2 to +4 dB at 5 kHz (scales with velocity)
+
+DOUBLE-STRIKE SUPPRESSION
+  If the same track is triggered twice within 40ms, the second hit is
+  automatically attenuated by up to 8 dB based on how close the hits are.
+  This models stick bounce/press-roll physics and prevents unrealistic
+  double-loudness artifacts.
+
+VOICE POLYPHONY
+  Up to 64 simultaneous voices. If all voices are occupied when a new hit
+  arrives, the oldest voice on the same track is stolen first. If no same-track
+  voice is available, voice 0 is stolen.
+
+
+================================================================================
+  14. TIPS & WORKFLOWS
+================================================================================
+
+BUILDING A KIT FROM SCRATCH
+  1. Click "+ ADD TRACK"
+  2. In the detail panel, click "LOAD SAMPLE" and choose any WAV file
+  3. Set the MIDI note with the -/+ buttons
+  4. Repeat for each drum piece
+  5. Click SAVE to create a preset
+
+REPLACING ONE SAMPLE IN THE DEFAULT KIT
+  Click LOAD on the track row (or LOAD SAMPLE in the detail panel) for the drum
+  you want to change. The new sample generates 24 variations immediately in the
+  background. Old variations stop playing as soon as the new ones are ready.
+
+GETTING MORE REALISM FROM PROGRAMMED MIDI
+  Raise the HUMANIZE knob to 10–15%. This adds enough timing and velocity
+  variation that the performance stops sounding quantized without falling apart
+  rhythmically.
+
+NY PARALLEL COMPRESSION ON KICK AND SNARE
+  Set kick and snare COMP send knobs to 40–60%. Set the global COMP threshold
+  to around -25 dB and makeup to +12 dB. Route the comp bus return to its own
+  output bus if you want to blend it in your DAW mixer.
+
+PHASE-ALIGNING A ROOM MIC LAYER
+  Load your room mic WAV as a separate track. In its Slave dropdown, choose the
+  close-mic kick or snare track. The engine cross-correlates both waveforms
+  automatically and aligns them with sub-sample accuracy on every hit.
+
+TRIMMING PRE-TRANSIENT SILENCE
+  In the waveform display, drag the left orange handle to the right until it
+  sits at the very start of the transient. This removes any pre-roll silence and
+  makes the drum feel tighter and more immediate.
+
+LOADING YOUR OWN SAMPLES — ONE WAV BECOMES A FULL LIBRARY
+  Drop in any WAV file and DEATH DEALER DRUMS automatically generates 24 unique
+  variations from it — pitch-shifted, EQ-tweaked, gain-randomized, and
+  start-trimmed. Instantly turns a single recording into a full round-robin pool.
+  No extra recording sessions. No sample packs required.
+
+
+================================================================================
+  15. GATEKEEPER / FIRST LAUNCH (macOS)
+================================================================================
+
+Because the installer is not notarized by Apple, macOS will block it on first
+open.
+
+TO OPEN THE .PKG INSTALLER:
+  1. Right-click (Control-click) the .pkg file
+  2. Choose "Open"
+  3. In the dialog, click "Open" again
+
+TO LOAD THE PLUGIN IN YOUR DAW THE FIRST TIME:
+  If your DAW shows "plugin not verified," go to:
+    System Settings → Privacy & Security
+  Scroll to the Security section and click "Open Anyway" next to the
+  DEATH DEALER DRUMS entry.
+
+  You only need to do this once per machine. After that, the plugin loads
+  normally.
+
+
+================================================================================
+  DEATH DEALER DRUMS is a product of INFERNO TONES
+  https://myinferno.online
+================================================================================

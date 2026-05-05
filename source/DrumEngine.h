@@ -87,6 +87,12 @@ struct PadDSPState
 
     PadCompState comp;
 
+    struct TransientState
+    {
+        float envFast { 0.f }, envSlow { 0.f };
+        void reset() noexcept { envFast = envSlow = 0.f; }
+    } trans;
+
     void reset() noexcept
     {
         for (auto& s : lowShelfState)  s.reset();
@@ -94,6 +100,7 @@ struct PadDSPState
         for (auto& s : highShelfState) s.reset();
         for (auto& band : eq8State)    for (auto& stg : band) for (auto& s : stg) s.reset();
         comp.reset();
+        trans.reset();
     }
 };
 
@@ -154,6 +161,8 @@ public:
 
     void prepare         (double sampleRate, int blockSize);
     void releaseResources();
+    /** Kill all currently active voices immediately (call before replacing the track list). */
+    void killAllVoices   () noexcept;
     /** Called by processor when a track slot is removed; remaps active voice indices safely. */
     void handleTrackRemoved (int removedIndex);
 
@@ -191,6 +200,9 @@ private:
         std::atomic<float>* compSend { nullptr };
         std::atomic<float>* satSend { nullptr };
         std::atomic<float>* choke { nullptr };
+        std::atomic<float>* chokeTrigOn    { nullptr };
+        std::atomic<float>* chokeTrigSlot  { nullptr };
+        std::atomic<float>* chokeTrigDelay { nullptr };
         std::atomic<float>* mute { nullptr };
         std::atomic<float>* solo { nullptr };
         std::atomic<float>* phase { nullptr };
@@ -208,6 +220,9 @@ private:
         std::array<std::atomic<float>*, EQ8_BANDS> eq8Freq {};
         std::array<std::atomic<float>*, EQ8_BANDS> eq8Gain {};
         std::array<std::atomic<float>*, EQ8_BANDS> eq8Q {};
+        std::atomic<float>* trkTransOn  { nullptr };
+        std::atomic<float>* trkTransAtk { nullptr };
+        std::atomic<float>* trkTransSus { nullptr };
     };
 
     struct PhaseAlignment
@@ -300,7 +315,8 @@ private:
     std::array<PhaseCacheEntry, MAX_TRACKS * MAX_TRACKS * NUM_VEL_TIERS * VARS_PER_TIER> phaseCache;
 
     void       handleNoteOn   (int trackIndex, float velocity, float humanErrorScatter,
-                                const std::vector<std::unique_ptr<DrumTrack>>& tracks);
+                                const std::vector<std::unique_ptr<DrumTrack>>& tracks,
+                                int extraDelaySamples = 0);
     size_t phaseCacheIndex (int masterTrack, int slaveTrack, int tier, int slot) const noexcept;
     PhaseAlignment analysePhaseAlignment (const juce::AudioBuffer<float>& master,
                                           const juce::AudioBuffer<float>& slave) const;
@@ -315,7 +331,8 @@ private:
                                   const TriggerHumanization* sharedHumanization,
                                   const PhaseAlignment* forcedPhaseAlignment,
                                   int strictStartOverrideSamples = -1,
-                                  bool strictLockedFollower = false);
+                                  bool strictLockedFollower = false,
+                                  int extraDelaySamples = 0);
     DrumVoice* allocateVoice  (int trackIndex);
 
     static BiquadCoeffs makeLowShelf  (float fs, float freq, float gainDb) noexcept;

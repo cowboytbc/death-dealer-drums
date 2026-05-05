@@ -27,6 +27,12 @@ DrumEngine::DrumEngine()
     lastTriggerSample.fill (-1000000);  // ensure no suppression on first hit
 }
 
+void DrumEngine::killAllVoices() noexcept
+{
+    for (auto& v : voices)
+        v.active = false;
+}
+
 void DrumEngine::prepare (double sampleRate, int blockSize)
 {
     currentSampleRate = sampleRate;
@@ -501,9 +507,17 @@ DrumEngine::TriggerHumanization DrumEngine::makeTriggerHumanization (float veloc
     h.startOffsetMs = (rng.nextFloat() < zeroStartChance) ? 0.0f : rng.nextFloat() * maxStartOffsetMs;
 
     // Micro pitch / amplitude
-    const float maxPitchCents = juce::jmap (heNorm, 10.0f, 35.0f);
-    const float cents         = rng.nextFloat() * (maxPitchCents * 2.0f) - maxPitchCents;
-    h.pitchMicroOffset        = std::pow (2.0f, cents / 1200.0f);
+    // humanErrorScatter == 0 → pitch-lock mode: no detuning at all
+    if (humanErrorScatter <= 0.0f)
+    {
+        h.pitchMicroOffset = 1.0f;
+    }
+    else
+    {
+        const float maxPitchCents = juce::jmap (heNorm, 10.0f, 35.0f);
+        const float cents         = rng.nextFloat() * (maxPitchCents * 2.0f) - maxPitchCents;
+        h.pitchMicroOffset        = std::pow (2.0f, cents / 1200.0f);
+    }
 
     const float maxAmpDb      = juce::jmap (heNorm, 2.0f, 6.0f);
     const float dB            = rng.nextFloat() * (maxAmpDb * 2.0f) - maxAmpDb;
@@ -535,7 +549,8 @@ void DrumEngine::startVoiceFromVariation (int trackIndex, const DrumVariation& v
                                           const TriggerHumanization* sharedHumanization,
                                           const PhaseAlignment* forcedPhaseAlignment,
                                           int strictStartOverrideSamples,
-                                          bool strictLockedFollower)
+                                          bool strictLockedFollower,
+                                          int extraDelaySamples)
 {
     if (trackIndex < 0 || trackIndex >= MAX_TRACKS || !var.valid)
         return;
@@ -565,7 +580,7 @@ void DrumEngine::startVoiceFromVariation (int trackIndex, const DrumVariation& v
     const auto h = sharedHumanization ? *sharedHumanization
                                       : makeTriggerHumanization (velocity, humanErrorScatter);
 
-    int pendingDelay = h.pendingDelaySamples;
+    int pendingDelay = h.pendingDelaySamples + extraDelaySamples;
     double playbackPos = h.startOffsetMs * 0.001 * var.sampleRate;
 
     if (sharedHumanization != nullptr && strictStartOverrideSamples >= 0)
@@ -611,7 +626,7 @@ void DrumEngine::startVoiceFromVariation (int trackIndex, const DrumVariation& v
     v->amplitudeTrim       = h.amplitudeTrim;
     v->noiseState          = h.noiseState;
     v->noiseSamplesLeft    = h.noiseSamplesLeft;
-    v->noiseEnv            = h.noiseEnv;
+    v->noiseEnv            = h.noiseEnv * v->amplitude * v->amplitudeTrim;
     v->noiseDecay          = h.noiseDecay;
 
     // Perceptual anti-flam: in strict lock mode, keep root transient fully intact,
@@ -663,7 +678,8 @@ void DrumEngine::startVoiceFromVariation (int trackIndex, const DrumVariation& v
 }
 
 void DrumEngine::handleNoteOn (int trackIndex, float velocity, float humanErrorScatter,
-                                const std::vector<std::unique_ptr<DrumTrack>>& tracks)
+                                const std::vector<std::unique_ptr<DrumTrack>>& tracks,
+                                int extraDelaySamples)
 {
     if (trackIndex < 0 || trackIndex >= (int) tracks.size()) return;
     const DrumVariation* var = tracks[(size_t) trackIndex]->getNextVariationForVelocity (velocity);
@@ -675,7 +691,8 @@ void DrumEngine::handleNoteOn (int trackIndex, float velocity, float humanErrorS
                              nullptr,
                              nullptr,
                              -1,
-                             false);
+                             false,
+                             extraDelaySamples);
 }
 
 //==============================================================================
@@ -695,6 +712,22 @@ void DrumEngine::triggerVariationDirect (int trackIndex, int varIndex, float vel
                              nullptr,
                              -1,
                              false);
+
+    // Choke trigger: fire secondary sample on every hit when ON CHOKE: is enabled
+    if (trackIndex < MAX_TRACKS)
+    {
+        const auto& ctc = trackParamCache[(size_t) trackIndex];
+        if (ctc.chokeTrigOn && ctc.chokeTrigOn->load() > 0.5f && ctc.chokeTrigSlot)
+        {
+            const int numT    = (int) tracks.size();
+            const int dstSlot = juce::jlimit (0, numT - 1,
+                                    juce::roundToInt (ctc.chokeTrigSlot->load()));
+            const int delay   = ctc.chokeTrigDelay
+                ? juce::jmax (0, juce::roundToInt (ctc.chokeTrigDelay->load() * 0.001f * (float) currentSampleRate))
+                : 0;
+            handleNoteOn (dstSlot, velocity, humanErrorScatter, tracks, delay);
+        }
+    }
 }
 
 void DrumEngine::triggerTrackDirect (int trackIndex, float velocity, float humanErrorScatter,
@@ -725,6 +758,9 @@ void DrumEngine::ensureTrackParamCache (juce::AudioProcessorValueTreeState& apvt
         c.compSend   = apvts.getRawParameterValue (DeathDealerDrumsAudioProcessor::trackParamID (i, "comp_send"));
         c.satSend    = apvts.getRawParameterValue (DeathDealerDrumsAudioProcessor::trackParamID (i, "sat_send"));
         c.choke      = apvts.getRawParameterValue (DeathDealerDrumsAudioProcessor::trackParamID (i, "choke"));
+        c.chokeTrigOn    = apvts.getRawParameterValue (DeathDealerDrumsAudioProcessor::trackParamID (i, "choke_trig_on"));
+        c.chokeTrigSlot  = apvts.getRawParameterValue (DeathDealerDrumsAudioProcessor::trackParamID (i, "choke_trig_slot"));
+        c.chokeTrigDelay = apvts.getRawParameterValue (DeathDealerDrumsAudioProcessor::trackParamID (i, "choke_trig_delay"));
         c.mute       = apvts.getRawParameterValue (DeathDealerDrumsAudioProcessor::trackParamID (i, "mute"));
         c.solo       = apvts.getRawParameterValue (DeathDealerDrumsAudioProcessor::trackParamID (i, "solo"));
         c.phase      = apvts.getRawParameterValue (DeathDealerDrumsAudioProcessor::trackParamID (i, "phase"));
@@ -739,6 +775,9 @@ void DrumEngine::ensureTrackParamCache (juce::AudioProcessorValueTreeState& apvt
         c.trkCompMkp = apvts.getRawParameterValue (DeathDealerDrumsAudioProcessor::trackParamID (i, "trk_comp_mkp"));
         c.bleedSend  = apvts.getRawParameterValue (DeathDealerDrumsAudioProcessor::trackParamID (i, "bleed_send"));
         c.bleedEnable= apvts.getRawParameterValue (DeathDealerDrumsAudioProcessor::trackParamID (i, "bleed_enable"));
+        c.trkTransOn  = apvts.getRawParameterValue (DeathDealerDrumsAudioProcessor::trackParamID (i, "trk_trans_on"));
+        c.trkTransAtk = apvts.getRawParameterValue (DeathDealerDrumsAudioProcessor::trackParamID (i, "trk_trans_atk"));
+        c.trkTransSus = apvts.getRawParameterValue (DeathDealerDrumsAudioProcessor::trackParamID (i, "trk_trans_sus"));
 
         for (int b = 0; b < EQ8_BANDS; ++b)
         {
@@ -1079,6 +1118,22 @@ void DrumEngine::process (juce::AudioBuffer<float>& buffer,
                                              strictStartOverride,
                                              useHardAntiFlamLock && (gv.track != root));
                 }
+
+                // Choke-trigger secondary sample: fire at note-on time.
+                // (Also fires from triggerVariationDirect for UI pad-button path.)
+                {
+                    const auto& ctc = trackParamCache[(size_t) root];
+                    if (ctc.chokeTrigOn  && ctc.chokeTrigOn->load()  > 0.5f
+                     && ctc.chokeTrigSlot)
+                    {
+                        const int dstSlot    = juce::jlimit (0, numTracks - 1,
+                                                  juce::roundToInt (ctc.chokeTrigSlot->load()));
+                        const int extraDelay = (ctc.chokeTrigDelay != nullptr)
+                            ? juce::jmax (0, juce::roundToInt (ctc.chokeTrigDelay->load() * 0.001f * (float) currentSampleRate))
+                            : 0;
+                        handleNoteOn (dstSlot, velNorm, humanErrorScatter, tracks, extraDelay);
+                    }
+                }
             }
         }
     }
@@ -1288,7 +1343,11 @@ void DrumEngine::process (juce::AudioBuffer<float>& buffer,
                     // Choke mode: 8x faster decay, hard-cut below 0.05 for abrupt stop
                     const float cr = juce::jmin (1.0f, voice.decayRate * 8.0f);
                     voice.decayEnv += (0.f - voice.decayEnv) * cr;
-                    if (voice.decayEnv < 0.05f) { voice.decayEnv = 0.f; voice.active = false; }
+                    if (voice.decayEnv < 0.05f)
+                    {
+                        voice.decayEnv = 0.f;
+                        voice.active = false;
+                    }
                 }
                 else
                 {
@@ -1296,6 +1355,22 @@ void DrumEngine::process (juce::AudioBuffer<float>& buffer,
                 }
                 sL *= voice.decayEnv;
                 sR *= voice.decayEnv;
+            }
+
+            // Anti-click: linear fade over last 512 source samples before trimEnd.
+            // Prevents a hard pop when a sample ends without a natural zero-crossing.
+            {
+                constexpr int kEndFade = 512;
+                if ((trimEnd - trimStart) > kEndFade)
+                {
+                    const double fadeStart = (double)(trimEnd - kEndFade);
+                    if (voice.playbackPosition >= fadeStart)
+                    {
+                        const float fade = (float)(trimEnd - voice.playbackPosition) / (float)kEndFade;
+                        sL *= juce::jmax (0.f, fade);
+                        sR *= juce::jmax (0.f, fade);
+                    }
+                }
             }
 
             bufL[s] += sL;
@@ -1307,7 +1382,6 @@ void DrumEngine::process (juce::AudioBuffer<float>& buffer,
         }
     }
 
-    // Mic bleed — sympathetic resonance simulation
     // Sums all padBuffers, LPFs to body frequencies only (< 400 Hz),
     // then cross-feeds a scaled fraction into every OTHER track's padBuffer.
     // Knob 0-10 maps to 0-0.04 linear (≈ -28 dB at max), realistic bleed level.
@@ -1485,6 +1559,42 @@ void DrumEngine::process (juce::AudioBuffer<float>& buffer,
                 trackCompGrDb[i].store (0.0f);
                 dsp.comp.reset();
             }
+        }
+
+        // Per-track transient designer (two-envelope method)
+        {
+            const auto& pc = trackParamCache[si];
+            const bool transOn = loadParam (pc.trkTransOn, 0.f) > 0.5f;
+            if (transOn)
+            {
+                const float atkDb = loadParam (pc.trkTransAtk, 0.f);
+                const float susDb = loadParam (pc.trkTransSus, 0.f);
+                // Fast envelope ~1ms attack, ~50ms release → tracks transient peaks
+                const float atkCoef  = 1.f - std::exp (-1.f / (0.001f * (float) currentSampleRate));
+                const float relCoef  = 1.f - std::exp (-1.f / (0.050f * (float) currentSampleRate));
+                // Slow envelope ~200ms → tracks sustained body
+                const float slowCoef = 1.f - std::exp (-1.f / (0.200f * (float) currentSampleRate));
+                const float atkG = std::pow (10.f, atkDb / 20.f);
+                const float susG = std::pow (10.f, susDb / 20.f);
+                auto& ts = dsp.trans;
+                for (int n = 0; n < numSamples; ++n)
+                {
+                    const float x = juce::jmax (std::abs (L[n]), std::abs (R[n]));
+                    ts.envFast += (x > ts.envFast ? atkCoef : relCoef) * (x - ts.envFast);
+                    ts.envSlow += slowCoef * (x - ts.envSlow);
+                    if (ts.envFast > 1e-6f)
+                    {
+                        // tRat: how much of the fast envelope is above the slow (0..1)
+                        // sRat: remainder — always sums to 1, so gain is bounded
+                        const float tRat = juce::jmax (0.f, (ts.envFast - ts.envSlow) / ts.envFast);
+                        const float sRat = 1.f - tRat;
+                        const float gain = tRat * atkG + sRat * susG;
+                        L[n] *= gain;
+                        R[n] *= gain;
+                    }
+                }
+            }
+            else { dsp.trans.reset(); }
         }
 
         // Spectrum analysis — fill FFT buffer for the selected track

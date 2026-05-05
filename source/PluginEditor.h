@@ -152,6 +152,35 @@ private:
 };
 
 //==============================================================================
+/** Per-track transient designer panel (two-envelope method: Attack & Sustain). */
+class TrackTransPanel : public juce::Component
+{
+public:
+    TrackTransPanel (DeathDealerDrumsAudioProcessor& proc, InfernoLookAndFeel& laf);
+
+    void setTrack (int slotIndex);
+    void paint   (juce::Graphics& g) override;
+    void resized () override;
+
+private:
+    int  currentSlot { -1 };
+    DeathDealerDrumsAudioProcessor& proc;
+    InfernoLookAndFeel& laf;
+
+    juce::TextButton enableBtn { "ON" };
+
+    juce::Slider atkKnob, susKnob;
+    juce::Label  atkLabel, susLabel;
+
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> atkAtt, susAtt;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> enableAtt;
+
+    void rebuildAttachments();
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (TrackTransPanel)
+};
+
+//==============================================================================
 /** Gain-reduction meter — reads an atomic<float> from the engine (GR in dB, 0 = no reduction). */
 class CompGrMeter : public juce::Component
 {
@@ -325,6 +354,9 @@ public:
 
     std::function<void(int)> onNameChanged; ///< Called with slot index when track is renamed
 
+    /** Disable all editing controls except play pads — used by preset lock. */
+    void setLockedForPreset (bool locked);
+
 private:
     int currentSlot { -1 };
 
@@ -359,13 +391,19 @@ private:
     juce::Slider satSendKnob;
     juce::Label  satSendLabel;
 
-    // Choke toggle
+    // Choke toggle + choke-sample trigger
     juce::ToggleButton chokeButton;
+    juce::ToggleButton chokeTrigOnBtn;
+    juce::Label        chokeTrigOnLabel;
+    juce::ComboBox     chokeTrigCombo;
+    juce::Label        chokeTrigLabel;
+    juce::Slider       chokeTrigDelayKnob;
 
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>
-        tuneAtt, decayAtt, attackAtt, reverbSendAtt, compSendAtt, satSendAtt;
+        tuneAtt, decayAtt, attackAtt, reverbSendAtt, compSendAtt, satSendAtt,
+        chokeTrigDelayAtt;
     std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment>
-        chokeAtt;
+        chokeAtt, chokeTrigOnAtt;
 
     bool dragHovering { false };   ///< True while a valid file is hovering over the panel
 
@@ -389,9 +427,11 @@ private:
     // EQ + Compressor panels (right column)
     juce::TextButton eqTabBtn   { "EQ"   };
     juce::TextButton compTabBtn { "COMP" };
-    int              activeDetailTab { 0 }; // 0 = EQ, 1 = COMP
+    juce::TextButton transTabBtn { "TRANS" };
+    int              activeDetailTab { 0 }; // 0 = EQ, 1 = COMP, 2 = TRANS
     TrackEQPanel     eqPanel;
     TrackCompPanel   compPanel;
+    TrackTransPanel  transPanel;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (TrackDetailPanel)
 };
@@ -430,6 +470,7 @@ private:
     juce::TextButton      savePresetBtn  { "SAVE" };
     juce::TextButton      exportPresetBtn { "EXPORT" };
     void refreshPresetList();
+    void setPresetLocked (bool locked);
 
     // Mic bleed intensity knob (header, right of preset bar)
     juce::Slider     bleedKnob;
@@ -520,6 +561,9 @@ private:
 
     // Guards layout until constructor has fully initialized all UI components.
     bool uiLayoutReady { false };
+
+    juce::Label          lockOverlayLabel;  ///< Shown over the track area when a factory preset is locked
+    juce::TooltipWindow tooltipWindow { this, 600 };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DeathDealerDrumsAudioProcessorEditor)
 };

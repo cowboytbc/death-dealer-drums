@@ -38,7 +38,7 @@ public:
     static constexpr const char* PARAM_MASTER_VOLUME = "master_volume";
     static constexpr const char* PARAM_BLEED_AMOUNT   = "bleed_amount";
     static constexpr const char* PARAM_BLEED_SOLO     = "bleed_solo";
-    static constexpr const char* PARAM_HUMAN_ERROR    = "human_error";
+    static constexpr const char* PARAM_HUMAN_ERROR      = "human_error";
 
     //==========================================================================
     DeathDealerDrumsAudioProcessor();
