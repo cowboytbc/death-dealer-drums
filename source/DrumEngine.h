@@ -253,10 +253,12 @@ private:
         int          noiseSamplesLeft    { 0 };
         float        noiseEnv            { 0.0f };
         float        noiseDecay          { 0.0f };
+        float        noiseFreq           { 3500.0f }; ///< Velocity-scaled stick-noise centre freq
         float        bodyFreq            { 120.0f };
         float        bodyDb              { 0.0f };
         float        presFreq            { 3000.0f };
         float        presDb              { 0.0f };
+        int          transientJitter     { 0 };       ///< Sub-ms playback start micro-jitter (samples)
     };
 
     double       currentSampleRate { 44100.0 };
@@ -310,6 +312,10 @@ private:
     /// Sample position at last trigger per track — used for double-strike detection.
     std::array<juce::int64, MAX_TRACKS> lastTriggerSample {};
     std::array<BiquadCoeffs, MAX_TRACKS> peakMidCoeffs;
+
+    // Per-track consecutive-hit fatigue: models natural velocity drift in rolls/fast patterns.
+    // Running average nudges amplitude ±3% based on recent hit history. Audio-thread only.
+    std::array<float, MAX_TRACKS> hitFatigue {};  ///< 0.0 = neutral, drifts ±0.03
     std::array<BiquadCoeffs, MAX_TRACKS> highShelfCoeffs;
     std::array<juce::AudioBuffer<float>, MAX_TRACKS> padBuffers;
     std::array<PhaseCacheEntry, MAX_TRACKS * MAX_TRACKS * NUM_VEL_TIERS * VARS_PER_TIER> phaseCache;

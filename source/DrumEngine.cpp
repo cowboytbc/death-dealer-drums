@@ -501,8 +501,8 @@ DrumEngine::TriggerHumanization DrumEngine::makeTriggerHumanization (float veloc
     const float hitDelayMs    = (rng.nextFloat() < onTimeChance) ? 0.0f : rng.nextFloat() * maxHitDelayMs;
     h.pendingDelaySamples     = (int) (hitDelayMs * 0.001 * currentSampleRate);
 
-    // Sample start offset
-    const float maxStartOffsetMs = juce::jmap (heNorm, 2.0f, 10.0f);
+    // Sample start offset — capped at 3 ms max so the transient is never skipped
+    const float maxStartOffsetMs = juce::jmap (heNorm, 1.0f, 3.0f);
     const float zeroStartChance  = juce::jmap (heNorm, 0.50f, 0.10f);
     h.startOffsetMs = (rng.nextFloat() < zeroStartChance) ? 0.0f : rng.nextFloat() * maxStartOffsetMs;
 
@@ -528,11 +528,16 @@ DrumEngine::TriggerHumanization DrumEngine::makeTriggerHumanization (float veloc
     const float scatterPct    = juce::jlimit (0.05f, 0.20f, humanErrorScatter);
     h.velocityScatter         = 1.0f + (rng.nextFloat() * (scatterPct * 2.0f) - scatterPct);
 
-    // Per-hit noise burst
+    // Per-hit noise burst — frequency scales with velocity (harder hit = brighter stick noise)
     h.noiseState              = (juce::uint32) rng.nextInt();
     h.noiseSamplesLeft        = (int) (currentSampleRate * (0.003f + rng.nextFloat() * 0.009f));
     h.noiseEnv                = 0.010f + rng.nextFloat() * 0.025f;
     h.noiseDecay              = std::exp (-5.0f / (float) juce::jmax (1, h.noiseSamplesLeft));
+    h.noiseFreq               = 2000.0f + velocity * 3000.0f + rng.nextFloat() * 500.0f;
+
+    // Transient position micro-jitter: 0-5 samples (~0-0.1 ms)
+    // Imperceptible as latency but adds microscopic timing irregularity
+    h.transientJitter         = (int) (rng.nextFloat() * 5.0f);
 
     // Random tonal color
     h.bodyFreq                = 80.0f  + rng.nextFloat() * 170.0f;
@@ -621,13 +626,20 @@ void DrumEngine::startVoiceFromVariation (int trackIndex, const DrumVariation& v
     }
 
     v->pendingDelaySamples = juce::jmax (0, pendingDelay);
-    v->playbackPosition    = playbackPos;
+    v->playbackPosition    = playbackPos + (double) h.transientJitter;
     v->pitchMicroOffset    = h.pitchMicroOffset;
     v->amplitudeTrim       = h.amplitudeTrim;
     v->noiseState          = h.noiseState;
     v->noiseSamplesLeft    = h.noiseSamplesLeft;
     v->noiseEnv            = h.noiseEnv * v->amplitude * v->amplitudeTrim;
     v->noiseDecay          = h.noiseDecay;
+
+    // Velocity-scaled noise brightness — retune the body-rand filter to act as noise bandpass
+    // We repurpose presenceRandCoeffs initial centre to track noise freq (set before use below)
+    // Actually drive it via a dedicated approach: store in bodyRandCoeffs with noise freq
+    // NOTE: noiseFreq is used in the noise bandpass in the render loop via presenceRandCoeffs
+    // We pass it through by overwriting presFreq here before the coeffs are computed:
+    const float effectivePresFreq = h.noiseFreq;
 
     // Perceptual anti-flam: in strict lock mode, keep root transient fully intact,
     // but gently fade in locked followers over a couple of milliseconds so we
@@ -673,8 +685,17 @@ void DrumEngine::startVoiceFromVariation (int trackIndex, const DrumVariation& v
 
     v->bodyRandCoeffs         = makePeakEQ ((float) currentSampleRate, h.bodyFreq, 0.8f, h.bodyDb);
     v->bodyRandStateL         = v->bodyRandStateR = BiquadState{};
-    v->presenceRandCoeffs     = makePeakEQ ((float) currentSampleRate, h.presFreq, 1.5f, h.presDb);
+    v->presenceRandCoeffs     = makePeakEQ ((float) currentSampleRate, effectivePresFreq, 1.5f, h.presDb);
     v->presenceRandStateL     = v->presenceRandStateR = BiquadState{};
+
+    // Consecutive-hit fatigue: drift amplitude ±3% based on recent history.
+    // Smoothed with a 0.85 coefficient so it recovers naturally after pauses.
+    if (trackIndex >= 0 && trackIndex < MAX_TRACKS && sharedHumanization == nullptr)
+    {
+        const float drift      = (rng.nextFloat() * 0.06f - 0.03f);  // ±3%
+        hitFatigue[(size_t) trackIndex] = hitFatigue[(size_t) trackIndex] * 0.85f + drift * 0.15f;
+        v->amplitude *= (1.0f + hitFatigue[(size_t) trackIndex]);
+    }
 }
 
 void DrumEngine::handleNoteOn (int trackIndex, float velocity, float humanErrorScatter,

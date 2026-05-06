@@ -191,10 +191,33 @@ void DrumTrack::generateVariations (const juce::AudioBuffer<float>& source,
     // Tier gain offsets (dB): SOFT quieter, HARD louder
     static const double tierGainDb[NUM_VEL_TIERS] = { -6.0, 0.0, +3.0 };
 
+    // Per-slot transient micro-variation (dB) — applied only to the preserved attack
+    // region (first ~11 ms). Keeps sharpness intact; just nudges the punch slightly.
+    static const double transientTrimDb[VARS_PER_TIER] =
+    {  0.0, +1.2, -0.8, +0.6, -1.4, +1.0, -0.5, +1.5 };
+
     auto buildVariation = [&] (const Recipe& r, double extraGainDb,
-                                double transientMult, double hfExtra) -> juce::AudioBuffer<float>
+                                double transientMult, double hfExtra,
+                                float transientBlend) -> juce::AudioBuffer<float>
     {
         juce::AudioBuffer<float> buf = pitchShiftOLA (source, r.pitchSt);
+
+        // Restore original attack transient after OLA smearing.
+        // SOFT tier: skip (ghost notes should stay soft). MID/HARD: full blend.
+        if (transientBlend > 0.0f && r.pitchSt != 0.0)
+        {
+            const int blendLen = juce::jmin (buf.getNumSamples(), 512);
+            for (int ch = 0; ch < buf.getNumChannels(); ++ch)
+            {
+                const float* s = source.getReadPointer (ch < source.getNumChannels() ? ch : 0);
+                float*       d = buf.getWritePointer (ch);
+                for (int i = 0; i < blendLen; ++i)
+                {
+                    const float t = (float) i / (float) blendLen;
+                    d[i] = s[i] * transientBlend * (1.0f - t) + d[i] * t;
+                }
+            }
+        }
 
         if (r.hiFreq > 0.0 && std::abs (r.hiGain + hfExtra) > 0.01)
             applyHighShelf (buf, sampleRate, r.hiFreq, r.hiGain + hfExtra);
@@ -224,8 +247,8 @@ void DrumTrack::generateVariations (const juce::AudioBuffer<float>& source,
 
         applyGainDb (buf, r.gainDb + extraGainDb);
 
-        // 2 ms fade-in to prevent clicks
-        const int fadeLen = juce::jmin (buf.getNumSamples(), (int)(sampleRate * 0.002));
+        // Short fade-in (0.3 ms) to prevent DC-offset clicks without killing the transient
+        const int fadeLen = juce::jmin (buf.getNumSamples(), (int)(sampleRate * 0.0003));
         for (int ch = 0; ch < buf.getNumChannels(); ++ch)
         {
             float* d = buf.getWritePointer (ch);
@@ -240,13 +263,31 @@ void DrumTrack::generateVariations (const juce::AudioBuffer<float>& source,
         // SOFT: rounded transient (0.5×), darker (-2 dB HF)
         // MID:  neutral
         // HARD: sharper transient (1.5×), brighter (+2 dB HF)
-        const double transientMult = (tier == 0) ? 0.5 : (tier == 2) ? 1.5 : 1.0;
-        const double hfExtra       = (tier == 0) ? -2.0 : (tier == 2) ? 2.0 : 0.0;
+        const double transientMult  = (tier == 0) ? 0.5  : (tier == 2) ? 1.5  : 1.0;
+        const double hfExtra        = (tier == 0) ? -2.0 : (tier == 2) ? 2.0  : 0.0;
+        // Velocity-continuous transient blend: SOFT=0 (ghost notes stay soft),
+        // MID=0.6 (partial), HARD=1.0 (full sharp attack). Matches real drum physics
+        // where harder hits produce a sharper, more prominent stick crack.
+        const float  transientBlend = (tier == 0) ? 0.0f : (tier == 1) ? 0.6f : 1.0f;
 
         for (int slot = 0; slot < VARS_PER_TIER; ++slot)
         {
             const int idx = tier * VARS_PER_TIER + slot;
-            auto buf = buildVariation (R[slot], tierGainDb[tier], transientMult, hfExtra);
+            auto buf = buildVariation (R[slot], tierGainDb[tier], transientMult, hfExtra, transientBlend);
+
+            // Apply per-slot transient micro-variation to the preserved attack region only.
+            // Uniform scalar over first H samples — no shape change, no softening.
+            {
+                const float trimGain = (float) std::pow (10.0, transientTrimDb[slot] / 20.0);
+                const int   tLen     = juce::jmin (buf.getNumSamples(), 512);
+                for (int ch = 0; ch < buf.getNumChannels(); ++ch)
+                {
+                    float* d = buf.getWritePointer (ch);
+                    for (int s = 0; s < tLen; ++s)
+                        d[s] *= trimGain;
+                }
+            }
+
             variations[idx].buffer     = std::move (buf);
             variations[idx].sampleRate = sampleRate;
             variations[idx].valid      = true;
@@ -494,6 +535,8 @@ juce::AudioBuffer<float> DrumTrack::pitchShiftOLA (const juce::AudioBuffer<float
         return dst;
     }
 
+    // We'll blend the original source transient back in after OLA (see below)
+
     const double ratio = std::pow (2.0, semitones / 12.0);
     const int    G     = 1024;       // grain size (~23 ms @ 44.1 kHz)
     const int    H     = G / 2;      // synthesis hop — 50 % overlap
@@ -531,6 +574,10 @@ juce::AudioBuffer<float> DrumTrack::pitchShiftOLA (const juce::AudioBuffer<float
             analysisPos  += Ha;
         }
     }
+
+    // Preserve attack transient: blend original source over the first half-grain (H samples).
+    // Moved into buildVariation (tier-aware). When semitones==0 the copy path is used so
+    // the blend is a no-op; the caller applies it with the correct weight.
     return dst;
 }
 
