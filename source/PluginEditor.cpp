@@ -1534,6 +1534,7 @@ TrackCompPanel::TrackCompPanel (DeathDealerDrumsAudioProcessor& p, InfernoLookAn
 
 void TrackCompPanel::setTrack (int slotIndex)
 {
+    if (slotIndex == currentSlot) { repaint(); return; }  // Avoid spurious attachment rebuild (e.g. from onSampleLoaded)
     currentSlot = slotIndex;
     rebuildAttachments();
     syncPresetComboToTrack();
@@ -1803,6 +1804,7 @@ TrackTransPanel::TrackTransPanel (DeathDealerDrumsAudioProcessor& p, InfernoLook
 
 void TrackTransPanel::setTrack (int slotIndex)
 {
+    if (slotIndex == currentSlot) { repaint(); return; }  // Avoid spurious attachment rebuild (e.g. from onSampleLoaded)
     currentSlot = slotIndex;
     rebuildAttachments();
     repaint();
