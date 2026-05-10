@@ -1534,10 +1534,21 @@ TrackCompPanel::TrackCompPanel (DeathDealerDrumsAudioProcessor& p, InfernoLookAn
 
 void TrackCompPanel::setTrack (int slotIndex)
 {
-    if (slotIndex == currentSlot) { repaint(); return; }  // Avoid spurious attachment rebuild (e.g. from onSampleLoaded)
-    currentSlot = slotIndex;
-    rebuildAttachments();
-    syncPresetComboToTrack();
+    if (slotIndex != currentSlot)
+    {
+        currentSlot = slotIndex;
+        rebuildAttachments();
+        syncPresetComboToTrack();
+    }
+    // Always re-sync the enable button directly from the parameter atomic.
+    // This covers the case where the ButtonAttachment was created before
+    // setStateInformation finished restoring parameters (e.g. on plugin open).
+    if (currentSlot >= 0)
+    {
+        auto* raw = proc.getAPVTS().getRawParameterValue (
+            DeathDealerDrumsAudioProcessor::trackParamID (currentSlot, "trk_comp_on"));
+        if (raw) enableBtn.setToggleState (raw->load() > 0.5f, juce::dontSendNotification);
+    }
     repaint();
 }
 
@@ -1804,9 +1815,20 @@ TrackTransPanel::TrackTransPanel (DeathDealerDrumsAudioProcessor& p, InfernoLook
 
 void TrackTransPanel::setTrack (int slotIndex)
 {
-    if (slotIndex == currentSlot) { repaint(); return; }  // Avoid spurious attachment rebuild (e.g. from onSampleLoaded)
-    currentSlot = slotIndex;
-    rebuildAttachments();
+    if (slotIndex != currentSlot)
+    {
+        currentSlot = slotIndex;
+        rebuildAttachments();
+    }
+    // Always re-sync the enable button directly from the parameter atomic.
+    // This covers the case where the ButtonAttachment was created before
+    // setStateInformation finished restoring parameters (e.g. on plugin open).
+    if (currentSlot >= 0)
+    {
+        auto* raw = proc.getAPVTS().getRawParameterValue (
+            DeathDealerDrumsAudioProcessor::trackParamID (currentSlot, "trk_trans_on"));
+        if (raw) enableBtn.setToggleState (raw->load() > 0.5f, juce::dontSendNotification);
+    }
     repaint();
 }
 

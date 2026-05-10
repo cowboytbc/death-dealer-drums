@@ -688,12 +688,12 @@ void DrumEngine::startVoiceFromVariation (int trackIndex, const DrumVariation& v
     v->presenceRandCoeffs     = makePeakEQ ((float) currentSampleRate, effectivePresFreq, 1.5f, h.presDb);
     v->presenceRandStateL     = v->presenceRandStateR = BiquadState{};
 
-    // Consecutive-hit fatigue: drift amplitude ±3% based on recent history.
-    // Smoothed with a 0.85 coefficient so it recovers naturally after pauses.
+    // Consecutive-hit fatigue: drift amplitude ±1% based on recent history.
+    // Smoothed with a 0.92 coefficient so it recovers naturally after pauses.
     if (trackIndex >= 0 && trackIndex < MAX_TRACKS && sharedHumanization == nullptr)
     {
-        const float drift      = (rng.nextFloat() * 0.06f - 0.03f);  // ±3%
-        hitFatigue[(size_t) trackIndex] = hitFatigue[(size_t) trackIndex] * 0.85f + drift * 0.15f;
+        const float drift      = (rng.nextFloat() * 0.02f - 0.01f);  // ±1%
+        hitFatigue[(size_t) trackIndex] = hitFatigue[(size_t) trackIndex] * 0.92f + drift * 0.08f;
         v->amplitude *= (1.0f + hitFatigue[(size_t) trackIndex]);
     }
 }
