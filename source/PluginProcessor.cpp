@@ -555,7 +555,9 @@ void DeathDealerDrumsAudioProcessor::addTrack (const juce::String& name, int mid
             "volume", "pan", "tune", "decay", "attack",
             "eq_low", "eq_mid", "eq_high", "midi_note", "sample_start", "sample_end",
             "reverb_send", "comp_send", "sat_send",
-            "choke", "mute", "solo", "output", "output_mode", "phase", "slave_to"
+            "choke", "choke_trig_on", "choke_trig_slot", "choke_trig_delay",
+            "mute", "solo", "output", "output_mode", "phase",
+            "bleed_enable", "bleed_send", "eq8_on", "slave_to"
         };
         for (auto* pn : allParams)
         {
@@ -572,8 +574,11 @@ void DeathDealerDrumsAudioProcessor::addTrack (const juce::String& name, int mid
                     p->setValueNotifyingHost (p->getDefaultValue());
         }
         {
-            static const char* compPnames[] = { "trk_comp_on", "trk_comp_thr", "trk_comp_rat",
-                                                 "trk_comp_atk", "trk_comp_rel", "trk_comp_mkp" };
+            static const char* compPnames[] = {
+                "trk_comp_on", "trk_comp_thr", "trk_comp_rat",
+                "trk_comp_atk", "trk_comp_rel", "trk_comp_mkp",
+                "trk_trans_on", "trk_trans_atk", "trk_trans_sus"
+            };
             for (auto* pn : compPnames)
                 if (auto* p = apvts.getParameter (trackParamID (slot, pn)))
                     p->setValueNotifyingHost (p->getDefaultValue());

@@ -2,6 +2,7 @@
 #include <BinaryData.h>
 
 #include <cmath>
+#include <optional>
 
 namespace
 {
@@ -1489,7 +1490,8 @@ TrackCompPanel::TrackCompPanel (DeathDealerDrumsAudioProcessor& p, InfernoLookAn
     presetCombo.addItem ("CYMBAL",      8);
     presetCombo.addItem ("OVERHEAD",    9);
     presetCombo.addSeparator();
-    presetCombo.addItem ("CUSTOM",     10);
+    presetCombo.addItem ("INIT",       10);
+    presetCombo.addItem ("CUSTOM",     11);
     presetCombo.setSelectedId (10, juce::dontSendNotification);
     presetCombo.onChange = [this] { applyPreset (presetCombo.getSelectedId()); };
     presetCombo.setTooltip ("Load a compressor preset tuned for a specific drum type");
@@ -1578,7 +1580,7 @@ void TrackCompPanel::syncPresetComboToTrack()
 {
     if (currentSlot < 0)
     {
-        presetCombo.setSelectedId (10, juce::dontSendNotification);
+        presetCombo.setSelectedId (11, juce::dontSendNotification);
         return;
     }
 
@@ -1598,7 +1600,7 @@ void TrackCompPanel::syncPresetComboToTrack()
 
     if (!thr || !rat || !atk || !rel || !mkp)
     {
-        presetCombo.setSelectedId (10, juce::dontSendNotification);
+        presetCombo.setSelectedId (11, juce::dontSendNotification);
         return;
     }
 
@@ -1611,7 +1613,7 @@ void TrackCompPanel::syncPresetComboToTrack()
     constexpr float tol = 0.051f;
     auto near = [tol] (float x, float y) { return std::abs (x - y) <= tol; };
 
-    int matchedId = 10; // CUSTOM
+    int matchedId = 11; // CUSTOM
     for (int i = 0; i < 9; ++i)
     {
         const auto& ps = kCompPresets[i];
@@ -1620,6 +1622,30 @@ void TrackCompPanel::syncPresetComboToTrack()
         {
             matchedId = i + 1;
             break;
+        }
+    }
+
+    // If values are untouched defaults, show INIT instead of CUSTOM.
+    if (matchedId == 11)
+    {
+        auto def = [&] (const char* name) -> std::optional<float>
+        {
+            if (auto* p = av.getParameter (DeathDealerDrumsAudioProcessor::trackParamID (sl, name)))
+                return p->convertFrom0to1 (p->getDefaultValue());
+            return std::nullopt;
+        };
+
+        const auto dt = def ("trk_comp_thr");
+        const auto dr = def ("trk_comp_rat");
+        const auto da = def ("trk_comp_atk");
+        const auto dl = def ("trk_comp_rel");
+        const auto dm = def ("trk_comp_mkp");
+
+        if (dt && dr && da && dl && dm
+            && near (t, *dt) && near (r, *dr) && near (a, *da)
+            && near (l, *dl) && near (m, *dm))
+        {
+            matchedId = 10; // INIT
         }
     }
 
