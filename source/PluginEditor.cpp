@@ -1470,6 +1470,13 @@ TrackCompPanel::TrackCompPanel (DeathDealerDrumsAudioProcessor& p, InfernoLookAn
     enableBtn.setColour (juce::TextButton::textColourOnId,   juce::Colours::white);
     enableBtn.setClickingTogglesState (true);
     enableBtn.setTooltip ("Enable/disable per-track compressor");
+    enableBtn.onClick = [this]
+    {
+        if (suppressEnableWrite || currentSlot < 0) return;
+        auto& av = proc.getAPVTS();
+        if (auto* p = av.getParameter (DeathDealerDrumsAudioProcessor::trackParamID (currentSlot, "trk_comp_on")))
+            p->setValueNotifyingHost (enableBtn.getToggleState() ? 1.0f : 0.0f);
+    };
     addAndMakeVisible (enableBtn);
 
     // Preset combo
@@ -1549,7 +1556,12 @@ void TrackCompPanel::setTrack (int slotIndex)
     {
         auto* raw = proc.getAPVTS().getRawParameterValue (
             DeathDealerDrumsAudioProcessor::trackParamID (currentSlot, "trk_comp_on"));
-        if (raw) enableBtn.setToggleState (raw->load() > 0.5f, juce::dontSendNotification);
+        if (raw)
+        {
+            suppressEnableWrite = true;
+            enableBtn.setToggleState (raw->load() > 0.5f, juce::dontSendNotification);
+            suppressEnableWrite = false;
+        }
     }
     repaint();
 }
@@ -1574,6 +1586,18 @@ void TrackCompPanel::rebuildAttachments()
                     av, DeathDealerDrumsAudioProcessor::trackParamID (sl, "trk_comp_mkp"), mkpKnob);
     enableAtt = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment> (
                     av, DeathDealerDrumsAudioProcessor::trackParamID (sl, "trk_comp_on"), enableBtn);
+}
+
+void TrackCompPanel::setLockedForPreset (bool locked)
+{
+    // Keep ON available in all situations; lock deeper editing only.
+    enableBtn.setEnabled (true);
+    presetCombo.setEnabled (!locked);
+    thrKnob.setEnabled (!locked);
+    ratKnob.setEnabled (!locked);
+    atkKnob.setEnabled (!locked);
+    relKnob.setEnabled (!locked);
+    mkpKnob.setEnabled (!locked);
 }
 
 void TrackCompPanel::syncPresetComboToTrack()
@@ -1811,6 +1835,13 @@ TrackTransPanel::TrackTransPanel (DeathDealerDrumsAudioProcessor& p, InfernoLook
     enableBtn.setColour (juce::TextButton::textColourOffId,  InfernoLookAndFeel::dimText());
     enableBtn.setColour (juce::TextButton::textColourOnId,   juce::Colours::white);
     enableBtn.setTooltip ("Enable/disable per-track transient designer");
+    enableBtn.onClick = [this]
+    {
+        if (suppressEnableWrite || currentSlot < 0) return;
+        auto& av = proc.getAPVTS();
+        if (auto* p = av.getParameter (DeathDealerDrumsAudioProcessor::trackParamID (currentSlot, "trk_trans_on")))
+            p->setValueNotifyingHost (enableBtn.getToggleState() ? 1.0f : 0.0f);
+    };
     addAndMakeVisible (enableBtn);
 
     struct KnobSetup { juce::Slider& knob; juce::Label& label; const char* txt; };
@@ -1853,7 +1884,12 @@ void TrackTransPanel::setTrack (int slotIndex)
     {
         auto* raw = proc.getAPVTS().getRawParameterValue (
             DeathDealerDrumsAudioProcessor::trackParamID (currentSlot, "trk_trans_on"));
-        if (raw) enableBtn.setToggleState (raw->load() > 0.5f, juce::dontSendNotification);
+        if (raw)
+        {
+            suppressEnableWrite = true;
+            enableBtn.setToggleState (raw->load() > 0.5f, juce::dontSendNotification);
+            suppressEnableWrite = false;
+        }
     }
     repaint();
 }
@@ -1871,6 +1907,14 @@ void TrackTransPanel::rebuildAttachments()
                     av, DeathDealerDrumsAudioProcessor::trackParamID (sl, "trk_trans_sus"), susKnob);
     enableAtt = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment> (
                     av, DeathDealerDrumsAudioProcessor::trackParamID (sl, "trk_trans_on"), enableBtn);
+}
+
+void TrackTransPanel::setLockedForPreset (bool locked)
+{
+    // Keep ON available in all situations; lock deeper editing only.
+    enableBtn.setEnabled (true);
+    atkKnob.setEnabled (!locked);
+    susKnob.setEnabled (!locked);
 }
 
 void TrackTransPanel::paint (juce::Graphics& g)
@@ -2679,11 +2723,12 @@ void TrackDetailPanel::setLockedForPreset (bool locked)
     chokeTrigCombo .setEnabled (!locked);
     chokeTrigDelayKnob.setEnabled (!locked);
     eqTabBtn       .setEnabled (!locked);
-    compTabBtn     .setEnabled (!locked);
-    transTabBtn    .setEnabled (!locked);
+    // Keep COMP/TRANS tabs reachable even on locked presets so ON toggles are always controllable.
+    compTabBtn     .setEnabled (true);
+    transTabBtn    .setEnabled (true);
     eqPanel        .setEnabled (!locked);
-    compPanel      .setEnabled (!locked);
-    transPanel     .setEnabled (!locked);
+    compPanel.setLockedForPreset (locked);
+    transPanel.setLockedForPreset (locked);
     waveformDisplay.setEnabled (!locked);
     // Pad buttons and tier buttons always stay enabled
 }

@@ -122,6 +122,7 @@ public:
     TrackCompPanel (DeathDealerDrumsAudioProcessor& proc, InfernoLookAndFeel& laf);
 
     void setTrack    (int slotIndex);
+    void setLockedForPreset (bool locked);
     void updateMeter (DrumEngine* engine);  ///< Call from timer tick
     void paint   (juce::Graphics& g) override;
     void resized () override;
@@ -129,6 +130,7 @@ public:
 private:
     int   currentSlot { -1 };
     float grMeter     { 0.0f };  ///< UI-side smoothed GR value
+    bool  suppressEnableWrite { false };
 
     DeathDealerDrumsAudioProcessor& proc;
     InfernoLookAndFeel& laf;
@@ -159,11 +161,13 @@ public:
     TrackTransPanel (DeathDealerDrumsAudioProcessor& proc, InfernoLookAndFeel& laf);
 
     void setTrack (int slotIndex);
+    void setLockedForPreset (bool locked);
     void paint   (juce::Graphics& g) override;
     void resized () override;
 
 private:
     int  currentSlot { -1 };
+    bool suppressEnableWrite { false };
     DeathDealerDrumsAudioProcessor& proc;
     InfernoLookAndFeel& laf;
 
