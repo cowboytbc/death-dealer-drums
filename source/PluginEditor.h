@@ -130,7 +130,6 @@ public:
 private:
     int   currentSlot { -1 };
     float grMeter     { 0.0f };  ///< UI-side smoothed GR value
-    bool  suppressEnableWrite { false };
 
     DeathDealerDrumsAudioProcessor& proc;
     InfernoLookAndFeel& laf;
@@ -147,6 +146,7 @@ private:
     std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> enableAtt;
 
     void rebuildAttachments();
+    void syncEnableFromParam();
     void syncPresetComboToTrack();
     void applyPreset (int id);
 
@@ -167,7 +167,6 @@ public:
 
 private:
     int  currentSlot { -1 };
-    bool suppressEnableWrite { false };
     DeathDealerDrumsAudioProcessor& proc;
     InfernoLookAndFeel& laf;
 
@@ -180,6 +179,10 @@ private:
     std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> enableAtt;
 
     void rebuildAttachments();
+    void syncEnableFromParam();
+
+public:
+    void timerSync() { syncEnableFromParam(); }
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (TrackTransPanel)
 };
@@ -568,6 +571,7 @@ private:
 
     juce::Label          lockOverlayLabel;  ///< Shown over the track area when a factory preset is locked
     juce::TooltipWindow tooltipWindow { this, 600 };
+    bool presetLockedState { false };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (DeathDealerDrumsAudioProcessorEditor)
 };

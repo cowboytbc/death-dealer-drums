@@ -1470,13 +1470,6 @@ TrackCompPanel::TrackCompPanel (DeathDealerDrumsAudioProcessor& p, InfernoLookAn
     enableBtn.setColour (juce::TextButton::textColourOnId,   juce::Colours::white);
     enableBtn.setClickingTogglesState (true);
     enableBtn.setTooltip ("Enable/disable per-track compressor");
-    enableBtn.onClick = [this]
-    {
-        if (suppressEnableWrite || currentSlot < 0) return;
-        auto& av = proc.getAPVTS();
-        if (auto* p = av.getParameter (DeathDealerDrumsAudioProcessor::trackParamID (currentSlot, "trk_comp_on")))
-            p->setValueNotifyingHost (enableBtn.getToggleState() ? 1.0f : 0.0f);
-    };
     addAndMakeVisible (enableBtn);
 
     // Preset combo
@@ -1543,37 +1536,28 @@ TrackCompPanel::TrackCompPanel (DeathDealerDrumsAudioProcessor& p, InfernoLookAn
 
 void TrackCompPanel::setTrack (int slotIndex)
 {
-    if (slotIndex != currentSlot)
-    {
-        currentSlot = slotIndex;
-        rebuildAttachments();
-        syncPresetComboToTrack();
-    }
-    // Always re-sync the enable button directly from the parameter atomic.
-    // This covers the case where the ButtonAttachment was created before
-    // setStateInformation finished restoring parameters (e.g. on plugin open).
-    if (currentSlot >= 0)
-    {
-        auto* raw = proc.getAPVTS().getRawParameterValue (
-            DeathDealerDrumsAudioProcessor::trackParamID (currentSlot, "trk_comp_on"));
-        if (raw)
-        {
-            suppressEnableWrite = true;
-            enableBtn.setToggleState (raw->load() > 0.5f, juce::dontSendNotification);
-            suppressEnableWrite = false;
-        }
-    }
+    currentSlot = slotIndex;
+    rebuildAttachments();
+    syncPresetComboToTrack();
     repaint();
 }
 
 void TrackCompPanel::rebuildAttachments()
 {
+    // Reset in reverse-creation order to avoid any cross-listener side effects.
     thrAtt.reset(); ratAtt.reset(); atkAtt.reset(); relAtt.reset(); mkpAtt.reset();
     enableAtt.reset();
     if (currentSlot < 0) return;
 
     auto& av  = proc.getAPVTS();
     const int sl = currentSlot;
+
+    // Create the ButtonAttachment FIRST (matches working EQ panel pattern).
+    // Creating sliders before the button has been observed to leave the button
+    // attachment in a wedged state after DAW project state restore.
+    enableAtt = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment> (
+                    av, DeathDealerDrumsAudioProcessor::trackParamID (sl, "trk_comp_on"), enableBtn);
+
     thrAtt    = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment> (
                     av, DeathDealerDrumsAudioProcessor::trackParamID (sl, "trk_comp_thr"), thrKnob);
     ratAtt    = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment> (
@@ -1584,8 +1568,6 @@ void TrackCompPanel::rebuildAttachments()
                     av, DeathDealerDrumsAudioProcessor::trackParamID (sl, "trk_comp_rel"), relKnob);
     mkpAtt    = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment> (
                     av, DeathDealerDrumsAudioProcessor::trackParamID (sl, "trk_comp_mkp"), mkpKnob);
-    enableAtt = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment> (
-                    av, DeathDealerDrumsAudioProcessor::trackParamID (sl, "trk_comp_on"), enableBtn);
 }
 
 void TrackCompPanel::setLockedForPreset (bool locked)
@@ -1835,13 +1817,6 @@ TrackTransPanel::TrackTransPanel (DeathDealerDrumsAudioProcessor& p, InfernoLook
     enableBtn.setColour (juce::TextButton::textColourOffId,  InfernoLookAndFeel::dimText());
     enableBtn.setColour (juce::TextButton::textColourOnId,   juce::Colours::white);
     enableBtn.setTooltip ("Enable/disable per-track transient designer");
-    enableBtn.onClick = [this]
-    {
-        if (suppressEnableWrite || currentSlot < 0) return;
-        auto& av = proc.getAPVTS();
-        if (auto* p = av.getParameter (DeathDealerDrumsAudioProcessor::trackParamID (currentSlot, "trk_trans_on")))
-            p->setValueNotifyingHost (enableBtn.getToggleState() ? 1.0f : 0.0f);
-    };
     addAndMakeVisible (enableBtn);
 
     struct KnobSetup { juce::Slider& knob; juce::Label& label; const char* txt; };
@@ -1872,25 +1847,8 @@ TrackTransPanel::TrackTransPanel (DeathDealerDrumsAudioProcessor& p, InfernoLook
 
 void TrackTransPanel::setTrack (int slotIndex)
 {
-    if (slotIndex != currentSlot)
-    {
-        currentSlot = slotIndex;
-        rebuildAttachments();
-    }
-    // Always re-sync the enable button directly from the parameter atomic.
-    // This covers the case where the ButtonAttachment was created before
-    // setStateInformation finished restoring parameters (e.g. on plugin open).
-    if (currentSlot >= 0)
-    {
-        auto* raw = proc.getAPVTS().getRawParameterValue (
-            DeathDealerDrumsAudioProcessor::trackParamID (currentSlot, "trk_trans_on"));
-        if (raw)
-        {
-            suppressEnableWrite = true;
-            enableBtn.setToggleState (raw->load() > 0.5f, juce::dontSendNotification);
-            suppressEnableWrite = false;
-        }
-    }
+    currentSlot = slotIndex;
+    rebuildAttachments();
     repaint();
 }
 
@@ -1901,12 +1859,15 @@ void TrackTransPanel::rebuildAttachments()
 
     auto& av  = proc.getAPVTS();
     const int sl = currentSlot;
+
+    // Create the ButtonAttachment FIRST (matches working EQ panel pattern).
+    enableAtt = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment> (
+                    av, DeathDealerDrumsAudioProcessor::trackParamID (sl, "trk_trans_on"), enableBtn);
+
     atkAtt    = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment> (
                     av, DeathDealerDrumsAudioProcessor::trackParamID (sl, "trk_trans_atk"), atkKnob);
     susAtt    = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment> (
                     av, DeathDealerDrumsAudioProcessor::trackParamID (sl, "trk_trans_sus"), susKnob);
-    enableAtt = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment> (
-                    av, DeathDealerDrumsAudioProcessor::trackParamID (sl, "trk_trans_on"), enableBtn);
 }
 
 void TrackTransPanel::setLockedForPreset (bool locked)
@@ -2286,6 +2247,9 @@ void TrackDetailPanel::setTrack (int slotIndex)
 
     if (!hasTrack)
     {
+        eqPanel.setTrack (-1);
+        compPanel.setTrack (-1);
+        transPanel.setTrack (-1);
         waveformDisplay.loadFrom (nullptr);
         rebuildPads();
         repaint();
@@ -3557,12 +3521,13 @@ void DeathDealerDrumsAudioProcessorEditor::rebuildTrackList ()
             row->setBounds (0, i * TrackRow::ROW_H,
                             trackListContent.getWidth(), TrackRow::ROW_H);
 
-    // Clamp selected track
+    // Clamp selected track and always refresh the detail panel binding.
+    // This is critical after processor state restore: attachments may need to
+    // be rebound even when the selected index did not numerically change.
     if (selectedTrack >= n)
-    {
         selectedTrack = n - 1;
-        detailPanel.setTrack (selectedTrack);
-    }
+
+    detailPanel.setTrack (selectedTrack);
 }
 
 void DeathDealerDrumsAudioProcessorEditor::selectTrack (int slotIndex)
@@ -3677,6 +3642,8 @@ void DeathDealerDrumsAudioProcessorEditor::refreshPresetList()
 //==============================================================================
 void DeathDealerDrumsAudioProcessorEditor::setPresetLocked (bool locked)
 {
+    presetLockedState = locked;
+
     // Global knobs � master vol stays enabled even when locked
     humanErrorKnob  .setEnabled (!locked);
     bleedKnob       .setEnabled (!locked);
@@ -3736,6 +3703,22 @@ void DeathDealerDrumsAudioProcessorEditor::setPresetLocked (bool locked)
 //==============================================================================
 void DeathDealerDrumsAudioProcessorEditor::timerCallback ()
 {
+    // Standalone hosts may restore cached state shortly after editor creation.
+    // Keep preset UI/lock state in sync so COMP/TRANS ON toggles are never
+    // stuck until the user manually switches presets.
+    {
+        const auto activePreset = proc.currentPresetName;
+        const bool shouldLock = activePreset.equalsIgnoreCase ("SHORT BASS DROPS")
+                             || activePreset.equalsIgnoreCase ("MEDIUM BASS DROPS")
+                             || activePreset.equalsIgnoreCase ("LONG BASS DROPS");
+
+        if (shouldLock != presetLockedState)
+            setPresetLocked (shouldLock);
+
+        if (activePreset.isNotEmpty() && !activePreset.equalsIgnoreCase (presetCombo.getText()))
+            refreshPresetList();
+    }
+
     auto* engine = proc.getEngine();
     for (auto& row : trackRows)
     {

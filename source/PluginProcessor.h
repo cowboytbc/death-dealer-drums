@@ -136,6 +136,12 @@ private:
     std::array<int, MAX_TRACKS> demoLaneToCurrentSlot {}; // lane -> current track slot, -1 when removed
     int demoLaneCount { 0 };
     juce::String activePresetFilePath; // full path of currently loaded/saved preset, empty for built-in DEFAULT
+
+    // In standalone, JUCE's wrapper auto-restores the previous session's state after
+    // construction. We want standalone to always start fresh with DEFAULT (like normal
+    // software), so this flag tells the next setStateInformation() call to be ignored.
+    bool skipNextStandaloneStateRestore { false };
+
     void captureDemoLaneMapping();
     void updateDemoLaneMappingAfterTrackRemoval (int removedSlot) noexcept;
 

@@ -274,6 +274,14 @@ DeathDealerDrumsAudioProcessor::DeathDealerDrumsAudioProcessor()
         }
     }
 
+    // In standalone mode, JUCE's StandaloneFilterApp auto-restores the previous
+    // session's plugin state AFTER construction. That cached state has been known to
+    // leave the UI in a wedged state where per-track COMP/TRANS ON toggles do not
+    // respond. Always start clean from DEFAULT in standalone, matching the behavior
+    // of normal commercial standalone software.
+    if (wrapperType == wrapperType_Standalone)
+        skipNextStandaloneStateRestore = true;
+
     // Parse embedded DEMO.mid into demoSequence
     {
         juce::MemoryInputStream mis (BinaryData::DEMO_mid,
@@ -809,6 +817,13 @@ void DeathDealerDrumsAudioProcessor::getStateInformation (juce::MemoryBlock& des
 
 void DeathDealerDrumsAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
+    // Skip the standalone wrapper's auto-restore on launch (see constructor comment).
+    if (skipNextStandaloneStateRestore)
+    {
+        skipNextStandaloneStateRestore = false;
+        return;
+    }
+
     // A previous preset load may still have async sample decode jobs running.
     // Wait for them before replacing the track list to avoid destroying
     // DrumTrack objects while worker code is still inside them.
