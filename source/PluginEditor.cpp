@@ -1470,6 +1470,16 @@ TrackCompPanel::TrackCompPanel (DeathDealerDrumsAudioProcessor& p, InfernoLookAn
     enableBtn.setColour (juce::TextButton::textColourOnId,   juce::Colours::white);
     enableBtn.setClickingTogglesState (true);
     enableBtn.setTooltip ("Enable/disable per-track compressor");
+    // Manual click handler — does NOT rely on ButtonAttachment so it stays
+    // responsive even after DAW project state restore (where attachments
+    // have been observed to wedge for this specific param).
+    enableBtn.onClick = [this]
+    {
+        if (currentSlot < 0) return;
+        auto& av = proc.getAPVTS();
+        if (auto* p = av.getParameter (DeathDealerDrumsAudioProcessor::trackParamID (currentSlot, "trk_comp_on")))
+            p->setValueNotifyingHost (enableBtn.getToggleState() ? 1.0f : 0.0f);
+    };
     addAndMakeVisible (enableBtn);
 
     // Preset combo
@@ -1546,17 +1556,17 @@ void TrackCompPanel::rebuildAttachments()
 {
     // Reset in reverse-creation order to avoid any cross-listener side effects.
     thrAtt.reset(); ratAtt.reset(); atkAtt.reset(); relAtt.reset(); mkpAtt.reset();
-    enableAtt.reset();
     if (currentSlot < 0) return;
 
     auto& av  = proc.getAPVTS();
     const int sl = currentSlot;
 
-    // Create the ButtonAttachment FIRST (matches working EQ panel pattern).
-    // Creating sliders before the button has been observed to leave the button
-    // attachment in a wedged state after DAW project state restore.
-    enableAtt = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment> (
-                    av, DeathDealerDrumsAudioProcessor::trackParamID (sl, "trk_comp_on"), enableBtn);
+    // NOTE: trk_comp_on is intentionally NOT wired via ButtonAttachment.
+    // The attachment has been observed to wedge after DAW project state restore,
+    // leaving the ON button visually unresponsive. Instead we use enableBtn.onClick
+    // (in the constructor) for user clicks and syncEnableFromParam() for
+    // reflecting external param changes (preset load, host automation, etc).
+    syncEnableFromParam();
 
     thrAtt    = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment> (
                     av, DeathDealerDrumsAudioProcessor::trackParamID (sl, "trk_comp_thr"), thrKnob);
@@ -1568,6 +1578,23 @@ void TrackCompPanel::rebuildAttachments()
                     av, DeathDealerDrumsAudioProcessor::trackParamID (sl, "trk_comp_rel"), relKnob);
     mkpAtt    = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment> (
                     av, DeathDealerDrumsAudioProcessor::trackParamID (sl, "trk_comp_mkp"), mkpKnob);
+}
+
+void TrackCompPanel::syncEnableFromParam()
+{
+    if (currentSlot < 0)
+    {
+        if (enableBtn.getToggleState())
+            enableBtn.setToggleState (false, juce::dontSendNotification);
+        return;
+    }
+    if (auto* raw = proc.getAPVTS().getRawParameterValue (
+            DeathDealerDrumsAudioProcessor::trackParamID (currentSlot, "trk_comp_on")))
+    {
+        const bool shouldBeOn = raw->load() > 0.5f;
+        if (enableBtn.getToggleState() != shouldBeOn)
+            enableBtn.setToggleState (shouldBeOn, juce::dontSendNotification);
+    }
 }
 
 void TrackCompPanel::setLockedForPreset (bool locked)
@@ -1817,6 +1844,14 @@ TrackTransPanel::TrackTransPanel (DeathDealerDrumsAudioProcessor& p, InfernoLook
     enableBtn.setColour (juce::TextButton::textColourOffId,  InfernoLookAndFeel::dimText());
     enableBtn.setColour (juce::TextButton::textColourOnId,   juce::Colours::white);
     enableBtn.setTooltip ("Enable/disable per-track transient designer");
+    // Manual click handler — see TrackCompPanel ctor for rationale.
+    enableBtn.onClick = [this]
+    {
+        if (currentSlot < 0) return;
+        auto& av = proc.getAPVTS();
+        if (auto* p = av.getParameter (DeathDealerDrumsAudioProcessor::trackParamID (currentSlot, "trk_trans_on")))
+            p->setValueNotifyingHost (enableBtn.getToggleState() ? 1.0f : 0.0f);
+    };
     addAndMakeVisible (enableBtn);
 
     struct KnobSetup { juce::Slider& knob; juce::Label& label; const char* txt; };
@@ -1854,20 +1889,37 @@ void TrackTransPanel::setTrack (int slotIndex)
 
 void TrackTransPanel::rebuildAttachments()
 {
-    atkAtt.reset(); susAtt.reset(); enableAtt.reset();
+    atkAtt.reset(); susAtt.reset();
     if (currentSlot < 0) return;
 
     auto& av  = proc.getAPVTS();
     const int sl = currentSlot;
 
-    // Create the ButtonAttachment FIRST (matches working EQ panel pattern).
-    enableAtt = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment> (
-                    av, DeathDealerDrumsAudioProcessor::trackParamID (sl, "trk_trans_on"), enableBtn);
+    // NOTE: trk_trans_on is intentionally NOT wired via ButtonAttachment.
+    // See TrackCompPanel::rebuildAttachments for rationale.
+    syncEnableFromParam();
 
     atkAtt    = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment> (
                     av, DeathDealerDrumsAudioProcessor::trackParamID (sl, "trk_trans_atk"), atkKnob);
     susAtt    = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment> (
                     av, DeathDealerDrumsAudioProcessor::trackParamID (sl, "trk_trans_sus"), susKnob);
+}
+
+void TrackTransPanel::syncEnableFromParam()
+{
+    if (currentSlot < 0)
+    {
+        if (enableBtn.getToggleState())
+            enableBtn.setToggleState (false, juce::dontSendNotification);
+        return;
+    }
+    if (auto* raw = proc.getAPVTS().getRawParameterValue (
+            DeathDealerDrumsAudioProcessor::trackParamID (currentSlot, "trk_trans_on")))
+    {
+        const bool shouldBeOn = raw->load() > 0.5f;
+        if (enableBtn.getToggleState() != shouldBeOn)
+            enableBtn.setToggleState (shouldBeOn, juce::dontSendNotification);
+    }
 }
 
 void TrackTransPanel::setLockedForPreset (bool locked)
@@ -2315,6 +2367,13 @@ void TrackDetailPanel::timerUpdate (DrumEngine* engine, float sampleRate)
     syncWaveTrimFromParams();
     eqPanel.timerTick  (engine, sampleRate);
     compPanel.updateMeter (engine);
+
+    // Keep the COMP/TRANS ON buttons in sync with their APVTS params.
+    // These two buttons do NOT use ButtonAttachment (which has been observed to
+    // wedge after host state restore), so we explicitly sync them each tick to
+    // reflect external param changes (project load, preset load, automation).
+    compPanel.timerSync();
+    transPanel.timerSync();
 
     // Trigger feedback: read last-hit tier + slot from the engine, flash pad + switch tier tab
     if (engine && currentSlot >= 0 && currentSlot < DrumEngine::MAX_TRACKS)

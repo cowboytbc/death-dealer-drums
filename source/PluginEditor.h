@@ -143,12 +143,14 @@ private:
 
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>
         thrAtt, ratAtt, atkAtt, relAtt, mkpAtt;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> enableAtt;
 
     void rebuildAttachments();
     void syncEnableFromParam();
     void syncPresetComboToTrack();
     void applyPreset (int id);
+
+public:
+    void timerSync() { syncEnableFromParam(); }
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (TrackCompPanel)
 };
@@ -176,7 +178,6 @@ private:
     juce::Label  atkLabel, susLabel;
 
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> atkAtt, susAtt;
-    std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> enableAtt;
 
     void rebuildAttachments();
     void syncEnableFromParam();
